@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wang.haogui.yuanda.mapper.AnswerMapper">
+  <resultMap id="BaseResultMap" type="wang.haogui.yuanda.model.Answer">
+    <id column="answer_id" jdbcType="INTEGER" property="answerId" />
+    <result column="agree_number" jdbcType="INTEGER" property="agreeNumber" />
+    <result column="disagree_number" jdbcType="INTEGER" property="disagreeNumber" />
+    <result column="check_status" jdbcType="TINYINT" property="checkStatus" />
+    <result column="comment_number" jdbcType="INTEGER" property="commentNumber" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="click_number" jdbcType="INTEGER" property="clickNumber" />
+    <result column="is_no_name" jdbcType="TINYINT" property="isNoName" />
+    <result column="auther_name" jdbcType="VARCHAR" property="autherName" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="auther_id" jdbcType="INTEGER" property="autherId" />
+    <result column="check_admin_id" jdbcType="INTEGER" property="checkAdminId" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="wang.haogui.yuanda.model.Answer">
+    <result column="answer_content" jdbcType="LONGVARCHAR" property="answerContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    answer_id, agree_number, disagree_number, check_status, comment_number, create_time, 
+    update_time, click_number, is_no_name, auther_name, is_deleted, remark2, remark, 
+    auther_id, check_admin_id, check_time
+  </sql>
+  <sql id="Blob_Column_List">
+    answer_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="wang.haogui.yuanda.model.AnswerExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="wang.haogui.yuanda.model.AnswerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from answer
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from answer
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="wang.haogui.yuanda.model.AnswerExample">
+    delete from answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="wang.haogui.yuanda.model.Answer">
+    <selectKey keyProperty="answerId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into answer (agree_number, disagree_number, check_status, 
+      comment_number, create_time, update_time, 
+      click_number, is_no_name, auther_name, 
+      is_deleted, remark2, remark, 
+      auther_id, check_admin_id, check_time, 
+      answer_content)
+    values (#{agreeNumber,jdbcType=INTEGER}, #{disagreeNumber,jdbcType=INTEGER}, #{checkStatus,jdbcType=TINYINT}, 
+      #{commentNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{clickNumber,jdbcType=INTEGER}, #{isNoName,jdbcType=TINYINT}, #{autherName,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=TINYINT}, #{remark2,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{autherId,jdbcType=INTEGER}, #{checkAdminId,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, 
+      #{answerContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Answer">
+    <selectKey keyProperty="answerId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into answer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="agreeNumber != null">
+        agree_number,
+      </if>
+      <if test="disagreeNumber != null">
+        disagree_number,
+      </if>
+      <if test="checkStatus != null">
+        check_status,
+      </if>
+      <if test="commentNumber != null">
+        comment_number,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="clickNumber != null">
+        click_number,
+      </if>
+      <if test="isNoName != null">
+        is_no_name,
+      </if>
+      <if test="autherName != null">
+        auther_name,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="remark2 != null">
+        remark2,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="autherId != null">
+        auther_id,
+      </if>
+      <if test="checkAdminId != null">
+        check_admin_id,
+      </if>
+      <if test="checkTime != null">
+        check_time,
+      </if>
+      <if test="answerContent != null">
+        answer_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="agreeNumber != null">
+        #{agreeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="disagreeNumber != null">
+        #{disagreeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="checkStatus != null">
+        #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="commentNumber != null">
+        #{commentNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clickNumber != null">
+        #{clickNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isNoName != null">
+        #{isNoName,jdbcType=TINYINT},
+      </if>
+      <if test="autherName != null">
+        #{autherName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="remark2 != null">
+        #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="autherId != null">
+        #{autherId,jdbcType=INTEGER},
+      </if>
+      <if test="checkAdminId != null">
+        #{checkAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answerContent != null">
+        #{answerContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="wang.haogui.yuanda.model.AnswerExample" resultType="java.lang.Long">
+    select count(*) from answer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update answer
+    <set>
+      <if test="record.answerId != null">
+        answer_id = #{record.answerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.agreeNumber != null">
+        agree_number = #{record.agreeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.disagreeNumber != null">
+        disagree_number = #{record.disagreeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkStatus != null">
+        check_status = #{record.checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.commentNumber != null">
+        comment_number = #{record.commentNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.clickNumber != null">
+        click_number = #{record.clickNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.isNoName != null">
+        is_no_name = #{record.isNoName,jdbcType=TINYINT},
+      </if>
+      <if test="record.autherName != null">
+        auther_name = #{record.autherName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="record.remark2 != null">
+        remark2 = #{record.remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.autherId != null">
+        auther_id = #{record.autherId,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkAdminId != null">
+        check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkTime != null">
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.answerContent != null">
+        answer_content = #{record.answerContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update answer
+    set answer_id = #{record.answerId,jdbcType=INTEGER},
+      agree_number = #{record.agreeNumber,jdbcType=INTEGER},
+      disagree_number = #{record.disagreeNumber,jdbcType=INTEGER},
+      check_status = #{record.checkStatus,jdbcType=TINYINT},
+      comment_number = #{record.commentNumber,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      click_number = #{record.clickNumber,jdbcType=INTEGER},
+      is_no_name = #{record.isNoName,jdbcType=TINYINT},
+      auther_name = #{record.autherName,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      auther_id = #{record.autherId,jdbcType=INTEGER},
+      check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      answer_content = #{record.answerContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update answer
+    set answer_id = #{record.answerId,jdbcType=INTEGER},
+      agree_number = #{record.agreeNumber,jdbcType=INTEGER},
+      disagree_number = #{record.disagreeNumber,jdbcType=INTEGER},
+      check_status = #{record.checkStatus,jdbcType=TINYINT},
+      comment_number = #{record.commentNumber,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      click_number = #{record.clickNumber,jdbcType=INTEGER},
+      is_no_name = #{record.isNoName,jdbcType=TINYINT},
+      auther_name = #{record.autherName,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      auther_id = #{record.autherId,jdbcType=INTEGER},
+      check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="wang.haogui.yuanda.model.Answer">
+    update answer
+    <set>
+      <if test="agreeNumber != null">
+        agree_number = #{agreeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="disagreeNumber != null">
+        disagree_number = #{disagreeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="checkStatus != null">
+        check_status = #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="commentNumber != null">
+        comment_number = #{commentNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="clickNumber != null">
+        click_number = #{clickNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isNoName != null">
+        is_no_name = #{isNoName,jdbcType=TINYINT},
+      </if>
+      <if test="autherName != null">
+        auther_name = #{autherName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="remark2 != null">
+        remark2 = #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="autherId != null">
+        auther_id = #{autherId,jdbcType=INTEGER},
+      </if>
+      <if test="checkAdminId != null">
+        check_admin_id = #{checkAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="checkTime != null">
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="answerContent != null">
+        answer_content = #{answerContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="wang.haogui.yuanda.model.Answer">
+    update answer
+    set agree_number = #{agreeNumber,jdbcType=INTEGER},
+      disagree_number = #{disagreeNumber,jdbcType=INTEGER},
+      check_status = #{checkStatus,jdbcType=TINYINT},
+      comment_number = #{commentNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      click_number = #{clickNumber,jdbcType=INTEGER},
+      is_no_name = #{isNoName,jdbcType=TINYINT},
+      auther_name = #{autherName,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      auther_id = #{autherId,jdbcType=INTEGER},
+      check_admin_id = #{checkAdminId,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      answer_content = #{answerContent,jdbcType=LONGVARCHAR}
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="wang.haogui.yuanda.model.Answer">
+    update answer
+    set agree_number = #{agreeNumber,jdbcType=INTEGER},
+      disagree_number = #{disagreeNumber,jdbcType=INTEGER},
+      check_status = #{checkStatus,jdbcType=TINYINT},
+      comment_number = #{commentNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      click_number = #{clickNumber,jdbcType=INTEGER},
+      is_no_name = #{isNoName,jdbcType=TINYINT},
+      auther_name = #{autherName,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      auther_id = #{autherId,jdbcType=INTEGER},
+      check_admin_id = #{checkAdminId,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP}
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </update>
+</mapper>

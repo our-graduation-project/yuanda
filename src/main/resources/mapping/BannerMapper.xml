@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wang.haogui.yuanda.mapper.BannerMapper">
+  <resultMap id="BaseResultMap" type="wang.haogui.yuanda.model.Banner">
+    <id column="banner_id" jdbcType="INTEGER" property="bannerId" />
+    <result column="banner_pic" jdbcType="VARCHAR" property="bannerPic" />
+    <result column="banner_content" jdbcType="VARCHAR" property="bannerContent" />
+    <result column="banner_title" jdbcType="VARCHAR" property="bannerTitle" />
+    <result column="banner_status" jdbcType="BIT" property="bannerStatus" />
+    <result column="banner_create_time" jdbcType="TIMESTAMP" property="bannerCreateTime" />
+    <result column="banner_failure_time" jdbcType="TIMESTAMP" property="bannerFailureTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    banner_id, banner_pic, banner_content, banner_title, banner_status, banner_create_time, 
+    banner_failure_time
+  </sql>
+  <select id="selectByExample" parameterType="wang.haogui.yuanda.model.BannerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from banner
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from banner
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="wang.haogui.yuanda.model.BannerExample">
+    delete from banner
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="wang.haogui.yuanda.model.Banner">
+    <selectKey keyProperty="bannerId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into banner (banner_pic, banner_content, banner_title, 
+      banner_status, banner_create_time, banner_failure_time
+      )
+    values (#{bannerPic,jdbcType=VARCHAR}, #{bannerContent,jdbcType=VARCHAR}, #{bannerTitle,jdbcType=VARCHAR}, 
+      #{bannerStatus,jdbcType=BIT}, #{bannerCreateTime,jdbcType=TIMESTAMP}, #{bannerFailureTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Banner">
+    <selectKey keyProperty="bannerId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into banner
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="bannerPic != null">
+        banner_pic,
+      </if>
+      <if test="bannerContent != null">
+        banner_content,
+      </if>
+      <if test="bannerTitle != null">
+        banner_title,
+      </if>
+      <if test="bannerStatus != null">
+        banner_status,
+      </if>
+      <if test="bannerCreateTime != null">
+        banner_create_time,
+      </if>
+      <if test="bannerFailureTime != null">
+        banner_failure_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="bannerPic != null">
+        #{bannerPic,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerContent != null">
+        #{bannerContent,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerTitle != null">
+        #{bannerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerStatus != null">
+        #{bannerStatus,jdbcType=BIT},
+      </if>
+      <if test="bannerCreateTime != null">
+        #{bannerCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bannerFailureTime != null">
+        #{bannerFailureTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="wang.haogui.yuanda.model.BannerExample" resultType="java.lang.Long">
+    select count(*) from banner
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update banner
+    <set>
+      <if test="record.bannerId != null">
+        banner_id = #{record.bannerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.bannerPic != null">
+        banner_pic = #{record.bannerPic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bannerContent != null">
+        banner_content = #{record.bannerContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bannerTitle != null">
+        banner_title = #{record.bannerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bannerStatus != null">
+        banner_status = #{record.bannerStatus,jdbcType=BIT},
+      </if>
+      <if test="record.bannerCreateTime != null">
+        banner_create_time = #{record.bannerCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bannerFailureTime != null">
+        banner_failure_time = #{record.bannerFailureTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update banner
+    set banner_id = #{record.bannerId,jdbcType=INTEGER},
+      banner_pic = #{record.bannerPic,jdbcType=VARCHAR},
+      banner_content = #{record.bannerContent,jdbcType=VARCHAR},
+      banner_title = #{record.bannerTitle,jdbcType=VARCHAR},
+      banner_status = #{record.bannerStatus,jdbcType=BIT},
+      banner_create_time = #{record.bannerCreateTime,jdbcType=TIMESTAMP},
+      banner_failure_time = #{record.bannerFailureTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="wang.haogui.yuanda.model.Banner">
+    update banner
+    <set>
+      <if test="bannerPic != null">
+        banner_pic = #{bannerPic,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerContent != null">
+        banner_content = #{bannerContent,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerTitle != null">
+        banner_title = #{bannerTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bannerStatus != null">
+        banner_status = #{bannerStatus,jdbcType=BIT},
+      </if>
+      <if test="bannerCreateTime != null">
+        banner_create_time = #{bannerCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bannerFailureTime != null">
+        banner_failure_time = #{bannerFailureTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="wang.haogui.yuanda.model.Banner">
+    update banner
+    set banner_pic = #{bannerPic,jdbcType=VARCHAR},
+      banner_content = #{bannerContent,jdbcType=VARCHAR},
+      banner_title = #{bannerTitle,jdbcType=VARCHAR},
+      banner_status = #{bannerStatus,jdbcType=BIT},
+      banner_create_time = #{bannerCreateTime,jdbcType=TIMESTAMP},
+      banner_failure_time = #{bannerFailureTime,jdbcType=TIMESTAMP}
+    where banner_id = #{bannerId,jdbcType=INTEGER}
+  </update>
+</mapper>

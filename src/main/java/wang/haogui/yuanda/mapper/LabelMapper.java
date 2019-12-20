@@ -1,0 +1,31 @@
+package wang.haogui.yuanda.mapper;
+
+import org.apache.ibatis.annotations.Param;
+import wang.haogui.yuanda.model.Label;
+import wang.haogui.yuanda.model.LabelExample;
+
+import java.util.List;
+
+public interface LabelMapper {
+    long countByExample(LabelExample example);
+
+    int deleteByExample(LabelExample example);
+
+    int deleteByPrimaryKey(Integer labelId);
+
+    int insert(Label record);
+
+    int insertSelective(Label record);
+
+    List<Label> selectByExample(LabelExample example);
+
+    Label selectByPrimaryKey(Integer labelId);
+
+    int updateByExampleSelective(@Param("record") Label record, @Param("example") LabelExample example);
+
+    int updateByExample(@Param("record") Label record, @Param("example") LabelExample example);
+
+    int updateByPrimaryKeySelective(Label record);
+
+    int updateByPrimaryKey(Label record);
+}

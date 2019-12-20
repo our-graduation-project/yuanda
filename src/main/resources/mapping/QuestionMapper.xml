@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wang.haogui.yuanda.mapper.QuestionMapper">
+  <resultMap id="BaseResultMap" type="wang.haogui.yuanda.model.Question">
+    <id column="question_id" jdbcType="INTEGER" property="questionId" />
+    <result column="question_title" jdbcType="VARCHAR" property="questionTitle" />
+    <result column="question_descript" jdbcType="VARCHAR" property="questionDescript" />
+    <result column="answer_number" jdbcType="INTEGER" property="answerNumber" />
+    <result column="follow_number" jdbcType="INTEGER" property="followNumber" />
+    <result column="hot" jdbcType="INTEGER" property="hot" />
+    <result column="check_status" jdbcType="TINYINT" property="checkStatus" />
+    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="click_number" jdbcType="INTEGER" property="clickNumber" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="author_id" jdbcType="INTEGER" property="authorId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    question_id, question_title, question_descript, answer_number, follow_number, hot, 
+    check_status, is_deleted, remark, remark2, author, click_number, create_time, author_id
+  </sql>
+  <select id="selectByExample" parameterType="wang.haogui.yuanda.model.QuestionExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from question
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from question
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from question
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="wang.haogui.yuanda.model.QuestionExample">
+    delete from question
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="wang.haogui.yuanda.model.Question">
+    <selectKey keyProperty="questionId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into question (question_title, question_descript, 
+      answer_number, follow_number, hot, 
+      check_status, is_deleted, remark, 
+      remark2, author, click_number, 
+      create_time, author_id)
+    values (#{questionTitle,jdbcType=VARCHAR}, #{questionDescript,jdbcType=VARCHAR}, 
+      #{answerNumber,jdbcType=INTEGER}, #{followNumber,jdbcType=INTEGER}, #{hot,jdbcType=INTEGER}, 
+      #{checkStatus,jdbcType=TINYINT}, #{isDeleted,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
+      #{remark2,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{clickNumber,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{authorId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Question">
+    <selectKey keyProperty="questionId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="questionTitle != null">
+        question_title,
+      </if>
+      <if test="questionDescript != null">
+        question_descript,
+      </if>
+      <if test="answerNumber != null">
+        answer_number,
+      </if>
+      <if test="followNumber != null">
+        follow_number,
+      </if>
+      <if test="hot != null">
+        hot,
+      </if>
+      <if test="checkStatus != null">
+        check_status,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="remark2 != null">
+        remark2,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="clickNumber != null">
+        click_number,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="authorId != null">
+        author_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="questionTitle != null">
+        #{questionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="questionDescript != null">
+        #{questionDescript,jdbcType=VARCHAR},
+      </if>
+      <if test="answerNumber != null">
+        #{answerNumber,jdbcType=INTEGER},
+      </if>
+      <if test="followNumber != null">
+        #{followNumber,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null">
+        #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="checkStatus != null">
+        #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null">
+        #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNumber != null">
+        #{clickNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorId != null">
+        #{authorId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="wang.haogui.yuanda.model.QuestionExample" resultType="java.lang.Long">
+    select count(*) from question
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update question
+    <set>
+      <if test="record.questionId != null">
+        question_id = #{record.questionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.questionTitle != null">
+        question_title = #{record.questionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.questionDescript != null">
+        question_descript = #{record.questionDescript,jdbcType=VARCHAR},
+      </if>
+      <if test="record.answerNumber != null">
+        answer_number = #{record.answerNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.followNumber != null">
+        follow_number = #{record.followNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.hot != null">
+        hot = #{record.hot,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkStatus != null">
+        check_status = #{record.checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark2 != null">
+        remark2 = #{record.remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clickNumber != null">
+        click_number = #{record.clickNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.authorId != null">
+        author_id = #{record.authorId,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update question
+    set question_id = #{record.questionId,jdbcType=INTEGER},
+      question_title = #{record.questionTitle,jdbcType=VARCHAR},
+      question_descript = #{record.questionDescript,jdbcType=VARCHAR},
+      answer_number = #{record.answerNumber,jdbcType=INTEGER},
+      follow_number = #{record.followNumber,jdbcType=INTEGER},
+      hot = #{record.hot,jdbcType=INTEGER},
+      check_status = #{record.checkStatus,jdbcType=TINYINT},
+      is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      click_number = #{record.clickNumber,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      author_id = #{record.authorId,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="wang.haogui.yuanda.model.Question">
+    update question
+    <set>
+      <if test="questionTitle != null">
+        question_title = #{questionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="questionDescript != null">
+        question_descript = #{questionDescript,jdbcType=VARCHAR},
+      </if>
+      <if test="answerNumber != null">
+        answer_number = #{answerNumber,jdbcType=INTEGER},
+      </if>
+      <if test="followNumber != null">
+        follow_number = #{followNumber,jdbcType=INTEGER},
+      </if>
+      <if test="hot != null">
+        hot = #{hot,jdbcType=INTEGER},
+      </if>
+      <if test="checkStatus != null">
+        check_status = #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null">
+        remark2 = #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="clickNumber != null">
+        click_number = #{clickNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorId != null">
+        author_id = #{authorId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="wang.haogui.yuanda.model.Question">
+    update question
+    set question_title = #{questionTitle,jdbcType=VARCHAR},
+      question_descript = #{questionDescript,jdbcType=VARCHAR},
+      answer_number = #{answerNumber,jdbcType=INTEGER},
+      follow_number = #{followNumber,jdbcType=INTEGER},
+      hot = #{hot,jdbcType=INTEGER},
+      check_status = #{checkStatus,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      remark = #{remark,jdbcType=VARCHAR},
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      click_number = #{clickNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      author_id = #{authorId,jdbcType=INTEGER}
+    where question_id = #{questionId,jdbcType=INTEGER}
+  </update>
+</mapper>

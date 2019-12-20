@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wang.haogui.yuanda.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="wang.haogui.yuanda.model.Article">
+    <id column="article_id" jdbcType="INTEGER" property="articleId" />
+    <id column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="check_status" jdbcType="TINYINT" property="checkStatus" />
+    <result column="click_number" jdbcType="INTEGER" property="clickNumber" />
+    <result column="hot_number" jdbcType="INTEGER" property="hotNumber" />
+    <result column="agreement_number" jdbcType="INTEGER" property="agreementNumber" />
+    <result column="disagreement_number" jdbcType="INTEGER" property="disagreementNumber" />
+    <result column="comment_number" jdbcType="INTEGER" property="commentNumber" />
+    <result column="recommend_number" jdbcType="INTEGER" property="recommendNumber" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+    <result column="check_admin_id" jdbcType="INTEGER" property="checkAdminId" />
+    <result column="picture_src" jdbcType="VARCHAR" property="pictureSrc" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="wang.haogui.yuanda.model.Article">
+    <result column="article_content" jdbcType="LONGVARCHAR" property="articleContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    article_id, check_time, article_title, create_time, update_time, author, check_status, 
+    click_number, hot_number, agreement_number, disagreement_number, comment_number, 
+    recommend_number, remark, remark2, check_admin_id, picture_src
+  </sql>
+  <sql id="Blob_Column_List">
+    article_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="wang.haogui.yuanda.model.ArticleExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="wang.haogui.yuanda.model.ArticleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where article_id = #{articleId,jdbcType=INTEGER}
+      and check_time = #{checkTime,jdbcType=TIMESTAMP}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from article
+    where article_id = #{articleId,jdbcType=INTEGER}
+      and check_time = #{checkTime,jdbcType=TIMESTAMP}
+  </delete>
+  <delete id="deleteByExample" parameterType="wang.haogui.yuanda.model.ArticleExample">
+    delete from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="wang.haogui.yuanda.model.Article">
+    <selectKey keyProperty="articleId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into article (check_time, article_title, create_time, 
+      update_time, author, check_status, 
+      click_number, hot_number, agreement_number, 
+      disagreement_number, comment_number, recommend_number, 
+      remark, remark2, check_admin_id, 
+      picture_src, article_content)
+    values (#{checkTime,jdbcType=TIMESTAMP}, #{articleTitle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{author,jdbcType=VARCHAR}, #{checkStatus,jdbcType=TINYINT}, 
+      #{clickNumber,jdbcType=INTEGER}, #{hotNumber,jdbcType=INTEGER}, #{agreementNumber,jdbcType=INTEGER}, 
+      #{disagreementNumber,jdbcType=INTEGER}, #{commentNumber,jdbcType=INTEGER}, #{recommendNumber,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{checkAdminId,jdbcType=INTEGER}, 
+      #{pictureSrc,jdbcType=VARCHAR}, #{articleContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Article">
+    <selectKey keyProperty="articleId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="checkTime != null">
+        check_time,
+      </if>
+      <if test="articleTitle != null">
+        article_title,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="checkStatus != null">
+        check_status,
+      </if>
+      <if test="clickNumber != null">
+        click_number,
+      </if>
+      <if test="hotNumber != null">
+        hot_number,
+      </if>
+      <if test="agreementNumber != null">
+        agreement_number,
+      </if>
+      <if test="disagreementNumber != null">
+        disagreement_number,
+      </if>
+      <if test="commentNumber != null">
+        comment_number,
+      </if>
+      <if test="recommendNumber != null">
+        recommend_number,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="remark2 != null">
+        remark2,
+      </if>
+      <if test="checkAdminId != null">
+        check_admin_id,
+      </if>
+      <if test="pictureSrc != null">
+        picture_src,
+      </if>
+      <if test="articleContent != null">
+        article_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="articleTitle != null">
+        #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStatus != null">
+        #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="clickNumber != null">
+        #{clickNumber,jdbcType=INTEGER},
+      </if>
+      <if test="hotNumber != null">
+        #{hotNumber,jdbcType=INTEGER},
+      </if>
+      <if test="agreementNumber != null">
+        #{agreementNumber,jdbcType=INTEGER},
+      </if>
+      <if test="disagreementNumber != null">
+        #{disagreementNumber,jdbcType=INTEGER},
+      </if>
+      <if test="commentNumber != null">
+        #{commentNumber,jdbcType=INTEGER},
+      </if>
+      <if test="recommendNumber != null">
+        #{recommendNumber,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null">
+        #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="checkAdminId != null">
+        #{checkAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureSrc != null">
+        #{pictureSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="articleContent != null">
+        #{articleContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="wang.haogui.yuanda.model.ArticleExample" resultType="java.lang.Long">
+    select count(*) from article
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update article
+    <set>
+      <if test="record.articleId != null">
+        article_id = #{record.articleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkTime != null">
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.articleTitle != null">
+        article_title = #{record.articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkStatus != null">
+        check_status = #{record.checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.clickNumber != null">
+        click_number = #{record.clickNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.hotNumber != null">
+        hot_number = #{record.hotNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.agreementNumber != null">
+        agreement_number = #{record.agreementNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.disagreementNumber != null">
+        disagreement_number = #{record.disagreementNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentNumber != null">
+        comment_number = #{record.commentNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommendNumber != null">
+        recommend_number = #{record.recommendNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark2 != null">
+        remark2 = #{record.remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkAdminId != null">
+        check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.pictureSrc != null">
+        picture_src = #{record.pictureSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.articleContent != null">
+        article_content = #{record.articleContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update article
+    set article_id = #{record.articleId,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      article_title = #{record.articleTitle,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      author = #{record.author,jdbcType=VARCHAR},
+      check_status = #{record.checkStatus,jdbcType=TINYINT},
+      click_number = #{record.clickNumber,jdbcType=INTEGER},
+      hot_number = #{record.hotNumber,jdbcType=INTEGER},
+      agreement_number = #{record.agreementNumber,jdbcType=INTEGER},
+      disagreement_number = #{record.disagreementNumber,jdbcType=INTEGER},
+      comment_number = #{record.commentNumber,jdbcType=INTEGER},
+      recommend_number = #{record.recommendNumber,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
+      picture_src = #{record.pictureSrc,jdbcType=VARCHAR},
+      article_content = #{record.articleContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update article
+    set article_id = #{record.articleId,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      article_title = #{record.articleTitle,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      author = #{record.author,jdbcType=VARCHAR},
+      check_status = #{record.checkStatus,jdbcType=TINYINT},
+      click_number = #{record.clickNumber,jdbcType=INTEGER},
+      hot_number = #{record.hotNumber,jdbcType=INTEGER},
+      agreement_number = #{record.agreementNumber,jdbcType=INTEGER},
+      disagreement_number = #{record.disagreementNumber,jdbcType=INTEGER},
+      comment_number = #{record.commentNumber,jdbcType=INTEGER},
+      recommend_number = #{record.recommendNumber,jdbcType=INTEGER},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
+      picture_src = #{record.pictureSrc,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="wang.haogui.yuanda.model.Article">
+    update article
+    <set>
+      <if test="articleTitle != null">
+        article_title = #{articleTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStatus != null">
+        check_status = #{checkStatus,jdbcType=TINYINT},
+      </if>
+      <if test="clickNumber != null">
+        click_number = #{clickNumber,jdbcType=INTEGER},
+      </if>
+      <if test="hotNumber != null">
+        hot_number = #{hotNumber,jdbcType=INTEGER},
+      </if>
+      <if test="agreementNumber != null">
+        agreement_number = #{agreementNumber,jdbcType=INTEGER},
+      </if>
+      <if test="disagreementNumber != null">
+        disagreement_number = #{disagreementNumber,jdbcType=INTEGER},
+      </if>
+      <if test="commentNumber != null">
+        comment_number = #{commentNumber,jdbcType=INTEGER},
+      </if>
+      <if test="recommendNumber != null">
+        recommend_number = #{recommendNumber,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null">
+        remark2 = #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="checkAdminId != null">
+        check_admin_id = #{checkAdminId,jdbcType=INTEGER},
+      </if>
+      <if test="pictureSrc != null">
+        picture_src = #{pictureSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="articleContent != null">
+        article_content = #{articleContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where article_id = #{articleId,jdbcType=INTEGER}
+      and check_time = #{checkTime,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="wang.haogui.yuanda.model.Article">
+    update article
+    set article_title = #{articleTitle,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      author = #{author,jdbcType=VARCHAR},
+      check_status = #{checkStatus,jdbcType=TINYINT},
+      click_number = #{clickNumber,jdbcType=INTEGER},
+      hot_number = #{hotNumber,jdbcType=INTEGER},
+      agreement_number = #{agreementNumber,jdbcType=INTEGER},
+      disagreement_number = #{disagreementNumber,jdbcType=INTEGER},
+      comment_number = #{commentNumber,jdbcType=INTEGER},
+      recommend_number = #{recommendNumber,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      check_admin_id = #{checkAdminId,jdbcType=INTEGER},
+      picture_src = #{pictureSrc,jdbcType=VARCHAR},
+      article_content = #{articleContent,jdbcType=LONGVARCHAR}
+    where article_id = #{articleId,jdbcType=INTEGER}
+      and check_time = #{checkTime,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="wang.haogui.yuanda.model.Article">
+    update article
+    set article_title = #{articleTitle,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      author = #{author,jdbcType=VARCHAR},
+      check_status = #{checkStatus,jdbcType=TINYINT},
+      click_number = #{clickNumber,jdbcType=INTEGER},
+      hot_number = #{hotNumber,jdbcType=INTEGER},
+      agreement_number = #{agreementNumber,jdbcType=INTEGER},
+      disagreement_number = #{disagreementNumber,jdbcType=INTEGER},
+      comment_number = #{commentNumber,jdbcType=INTEGER},
+      recommend_number = #{recommendNumber,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      check_admin_id = #{checkAdminId,jdbcType=INTEGER},
+      picture_src = #{pictureSrc,jdbcType=VARCHAR}
+    where article_id = #{articleId,jdbcType=INTEGER}
+      and check_time = #{checkTime,jdbcType=TIMESTAMP}
+  </update>
+</mapper>
