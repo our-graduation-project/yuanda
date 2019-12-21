@@ -1,0 +1,88 @@
+2019-12-21 09:56:29.218 - INFO  [  restartedMain] o.s.b.StartupInfoLogger        : Starting YuandaApplication on computer with PID 15440 (started by lenovo in F:\ideaworkSpace\毕业设计\whg\yuanda)
+2019-12-21 09:56:29.263 - INFO  [  restartedMain] o.s.b.SpringApplication        : No active profile set, falling back to default profiles: default
+2019-12-21 09:56:29.329 - INFO  [  restartedMain] o.s.b.l.DeferredLog            : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2019-12-21 09:56:29.330 - INFO  [  restartedMain] o.s.b.l.DeferredLog            : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2019-12-21 09:56:31.883 - WARN  [  restartedMain] o.m.s.m.ClassPathMapperScanner : No MyBatis mapper was found in '[wang.haogui.yuanda]' package. Please check your configuration.
+2019-12-21 09:56:32.304 - INFO  [  restartedMain] epositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-12-21 09:56:32.311 - INFO  [  restartedMain] epositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2019-12-21 09:56:32.357 - INFO  [  restartedMain] epositoryConfigurationDelegate : Finished Spring Data repository scanning in 16ms. Found 0 Redis repository interfaces.
+2019-12-21 09:56:33.144 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:33.367 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration$DataSourceTransactionManagerConfiguration' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration$DataSourceTransactionManagerConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:33.372 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure$$EnhancerBySpringCGLIB$$5a86383e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:33.376 - INFO  [  restartedMain] a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2019-12-21 09:56:33.510 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:33.528 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'com.alibaba.druid.spring.boot.autoconfigure.stat.DruidFilterConfiguration' of type [com.alibaba.druid.spring.boot.autoconfigure.stat.DruidFilterConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:33.568 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'statFilter' of type [com.alibaba.druid.filter.stat.StatFilter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:33.966 - INFO  [  restartedMain] c.a.d.p.DruidDataSource        : {dataSource-1} inited
+2019-12-21 09:56:33.966 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceWrapper] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:34.051 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:34.062 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration' of type [org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:34.067 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties' of type [org.springframework.boot.autoconfigure.transaction.TransactionProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:34.069 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'platformTransactionManagerCustomizers' of type [org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:34.074 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'transactionManager' of type [org.springframework.jdbc.datasource.DataSourceTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:34.080 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'transactionAdviceConfig' of type [wang.haogui.yuanda.confign.TransactionAdviceConfig$$EnhancerBySpringCGLIB$$ef58c47d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:34.084 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'txAdvice' of type [org.springframework.transaction.interceptor.TransactionInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:34.085 - INFO  [  restartedMain] egate$BeanPostProcessorChecker : Bean 'txAdviceAdvisor' of type [org.springframework.aop.support.DefaultPointcutAdvisor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-12-21 09:56:34.636 - INFO  [  restartedMain] o.s.b.w.e.t.TomcatWebServer    : Tomcat initialized with port(s): 8080 (http)
+2019-12-21 09:56:34.652 - INFO  [  restartedMain] o.a.j.l.DirectJDKLog           : Initializing ProtocolHandler ["http-nio-8080"]
+2019-12-21 09:56:34.653 - INFO  [  restartedMain] o.a.j.l.DirectJDKLog           : Starting service [Tomcat]
+2019-12-21 09:56:34.653 - INFO  [  restartedMain] o.a.j.l.DirectJDKLog           : Starting Servlet engine: [Apache Tomcat/9.0.29]
+2019-12-21 09:56:34.784 - INFO  [  restartedMain] o.a.j.l.DirectJDKLog           : Initializing Spring embedded WebApplicationContext
+2019-12-21 09:56:34.785 - INFO  [  restartedMain] letWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5455 ms
+2019-12-21 09:56:38.199 - INFO  [  restartedMain] c.ExecutorConfigurationSupport : Initializing ExecutorService 'applicationTaskExecutor'
+2019-12-21 09:56:38.296 - INFO  [  restartedMain] .w.s.WelcomePageHandlerMapping : Adding welcome page: class path resource [static/index.html]
+2019-12-21 09:56:38.445 - WARN  [  restartedMain] tTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2019-12-21 09:56:38.449 - WARN  [  restartedMain] o.t.t.TemplateMode             : [THYMELEAF][restartedMain] Template Mode 'HTML5' is deprecated. Using Template Mode 'HTML' instead.
+2019-12-21 09:56:39.880 - INFO  [  restartedMain] c.ExecutorConfigurationSupport : Initializing ExecutorService 'taskScheduler'
+2019-12-21 09:56:41.306 - INFO  [  restartedMain] b.d.a.OptionalLiveReloadServer : LiveReload server is running on port 35729
+2019-12-21 09:56:41.321 - INFO  [  restartedMain] .b.a.e.w.EndpointLinksResolver : Exposing 2 endpoint(s) beneath base path '/actuator'
+2019-12-21 09:56:41.471 - INFO  [  restartedMain] .r.c.AbstractConnectionFactory : Attempting to connect to: [localhost:5672]
+2019-12-21 09:56:41.759 - INFO  [  restartedMain] .r.c.AbstractConnectionFactory : Created new connection: rabbitConnectionFactory#74d89d1f:0/SimpleConnection@783c14e9 [delegate=amqp://guest@127.0.0.1:5672/, localPort= 7887]
+2019-12-21 09:56:41.960 - INFO  [  restartedMain] o.a.j.l.DirectJDKLog           : Starting ProtocolHandler ["http-nio-8080"]
+2019-12-21 09:56:42.011 - INFO  [  restartedMain] o.s.b.w.e.t.TomcatWebServer    : Tomcat started on port(s): 8080 (http) with context path '/yuanda'
+2019-12-21 09:56:42.014 - INFO  [  restartedMain] o.s.b.StartupInfoLogger        : Started YuandaApplication in 14.024 seconds (JVM running for 19.775)
+2019-12-21 09:56:43.225 - INFO  [2)-192.168.44.1] o.a.j.l.DirectJDKLog           : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-12-21 09:56:43.225 - INFO  [2)-192.168.44.1] o.s.w.s.FrameworkServlet       : Initializing Servlet 'dispatcherServlet'
+2019-12-21 09:56:43.242 - INFO  [2)-192.168.44.1] o.s.w.s.FrameworkServlet       : Completed initialization in 17 ms
+2019-12-21 09:56:44.109 - INFO  [oundedElastic-1] i.l.c.EpollProvider            : Starting without optional epoll library
+2019-12-21 09:56:44.111 - INFO  [oundedElastic-1] i.l.c.KqueueProvider           : Starting without optional kqueue library
+2019-12-21 09:56:47.442 - WARN  [oundedElastic-1] bstractReactiveHealthIndicator : Redis health check failed
+org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis; nested exception is io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getNativeConnection(LettuceConnectionFactory.java:1199) ~[spring-data-redis-2.2.3.RELEASE.jar:2.2.3.RELEASE]
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getConnection(LettuceConnectionFactory.java:1178) ~[spring-data-redis-2.2.3.RELEASE.jar:2.2.3.RELEASE]
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getSharedReactiveConnection(LettuceConnectionFactory.java:952) ~[spring-data-redis-2.2.3.RELEASE.jar:2.2.3.RELEASE]
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:429) ~[spring-data-redis-2.2.3.RELEASE.jar:2.2.3.RELEASE]
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory.getReactiveConnection(LettuceConnectionFactory.java:94) ~[spring-data-redis-2.2.3.RELEASE.jar:2.2.3.RELEASE]
+	at reactor.core.publisher.MonoSupplier.call(MonoSupplier.java:85) ~[reactor-core-3.3.1.RELEASE.jar:3.3.1.RELEASE]
+	at reactor.core.publisher.FluxSubscribeOnCallable$CallableSubscribeOnSubscription.run(FluxSubscribeOnCallable.java:225) [reactor-core-3.3.1.RELEASE.jar:3.3.1.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:68) [reactor-core-3.3.1.RELEASE.jar:3.3.1.RELEASE]
+	at reactor.core.scheduler.SchedulerTask.call(SchedulerTask.java:28) [reactor-core-3.3.1.RELEASE.jar:3.3.1.RELEASE]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:264) [?:?]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128) [?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628) [?:?]
+	at java.lang.Thread.run(Thread.java:834) [?:?]
+Caused by: io.lettuce.core.RedisConnectionException: Unable to connect to localhost:6379
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:78) ~[lettuce-core-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at io.lettuce.core.RedisConnectionException.create(RedisConnectionException.java:56) ~[lettuce-core-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at io.lettuce.core.AbstractRedisClient.getConnection(AbstractRedisClient.java:234) ~[lettuce-core-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at io.lettuce.core.RedisClient.connect(RedisClient.java:207) ~[lettuce-core-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.lambda$getConnection$1(StandaloneConnectionProvider.java:115) ~[spring-data-redis-2.2.3.RELEASE.jar:2.2.3.RELEASE]
+	at java.util.Optional.orElseGet(Optional.java:369) ~[?:?]
+	at org.springframework.data.redis.connection.lettuce.StandaloneConnectionProvider.getConnection(StandaloneConnectionProvider.java:115) ~[spring-data-redis-2.2.3.RELEASE.jar:2.2.3.RELEASE]
+	at org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory$SharedConnection.getNativeConnection(LettuceConnectionFactory.java:1197) ~[spring-data-redis-2.2.3.RELEASE.jar:2.2.3.RELEASE]
+	... 13 more
+Caused by: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: localhost/127.0.0.1:6379
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method) ~[?:?]
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:779) ~[?:?]
+	at io.netty.channel.socket.nio.NioSocketChannel.doFinishConnect(NioSocketChannel.java:330) ~[netty-transport-4.1.43.Final.jar:4.1.43.Final]
+	at io.netty.channel.nio.AbstractNioChannel$AbstractNioUnsafe.finishConnect(AbstractNioChannel.java:334) ~[netty-transport-4.1.43.Final.jar:4.1.43.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:688) ~[netty-transport-4.1.43.Final.jar:4.1.43.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:635) ~[netty-transport-4.1.43.Final.jar:4.1.43.Final]
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:552) ~[netty-transport-4.1.43.Final.jar:4.1.43.Final]
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:514) ~[netty-transport-4.1.43.Final.jar:4.1.43.Final]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$6.run(SingleThreadEventExecutor.java:1050) ~[netty-common-4.1.43.Final.jar:4.1.43.Final]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[netty-common-4.1.43.Final.jar:4.1.43.Final]
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30) ~[netty-common-4.1.43.Final.jar:4.1.43.Final]
+	... 1 more

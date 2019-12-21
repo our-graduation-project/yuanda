@@ -18,6 +18,8 @@
     <result column="auther_id" jdbcType="INTEGER" property="autherId" />
     <result column="check_admin_id" jdbcType="INTEGER" property="checkAdminId" />
     <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="question_id" jdbcType="INTEGER" property="questionId" />
+    <result column="question_titile" jdbcType="VARCHAR" property="questionTitile" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="wang.haogui.yuanda.model.Answer">
     <result column="answer_content" jdbcType="LONGVARCHAR" property="answerContent" />
@@ -83,7 +85,7 @@
   <sql id="Base_Column_List">
     answer_id, agree_number, disagree_number, check_status, comment_number, create_time, 
     update_time, click_number, is_no_name, auther_name, is_deleted, remark2, remark, 
-    auther_id, check_admin_id, check_time
+    auther_id, check_admin_id, check_time, question_id, question_titile
   </sql>
   <sql id="Blob_Column_List">
     answer_content
@@ -145,13 +147,15 @@
       click_number, is_no_name, auther_name, 
       is_deleted, remark2, remark, 
       auther_id, check_admin_id, check_time, 
-      answer_content)
+      question_id, question_titile, answer_content
+      )
     values (#{agreeNumber,jdbcType=INTEGER}, #{disagreeNumber,jdbcType=INTEGER}, #{checkStatus,jdbcType=TINYINT}, 
       #{commentNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{clickNumber,jdbcType=INTEGER}, #{isNoName,jdbcType=TINYINT}, #{autherName,jdbcType=VARCHAR}, 
       #{isDeleted,jdbcType=TINYINT}, #{remark2,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{autherId,jdbcType=INTEGER}, #{checkAdminId,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, 
-      #{answerContent,jdbcType=LONGVARCHAR})
+      #{questionId,jdbcType=INTEGER}, #{questionTitile,jdbcType=VARCHAR}, #{answerContent,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Answer">
     <selectKey keyProperty="answerId" order="AFTER" resultType="java.lang.Integer">
@@ -204,6 +208,12 @@
       <if test="checkTime != null">
         check_time,
       </if>
+      <if test="questionId != null">
+        question_id,
+      </if>
+      <if test="questionTitile != null">
+        question_titile,
+      </if>
       <if test="answerContent != null">
         answer_content,
       </if>
@@ -253,6 +263,12 @@
       </if>
       <if test="checkTime != null">
         #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="questionId != null">
+        #{questionId,jdbcType=INTEGER},
+      </if>
+      <if test="questionTitile != null">
+        #{questionTitile,jdbcType=VARCHAR},
       </if>
       <if test="answerContent != null">
         #{answerContent,jdbcType=LONGVARCHAR},
@@ -316,6 +332,12 @@
       <if test="record.checkTime != null">
         check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.questionId != null">
+        question_id = #{record.questionId,jdbcType=INTEGER},
+      </if>
+      <if test="record.questionTitile != null">
+        question_titile = #{record.questionTitile,jdbcType=VARCHAR},
+      </if>
       <if test="record.answerContent != null">
         answer_content = #{record.answerContent,jdbcType=LONGVARCHAR},
       </if>
@@ -342,6 +364,8 @@
       auther_id = #{record.autherId,jdbcType=INTEGER},
       check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
       check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      question_id = #{record.questionId,jdbcType=INTEGER},
+      question_titile = #{record.questionTitile,jdbcType=VARCHAR},
       answer_content = #{record.answerContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -364,7 +388,9 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       auther_id = #{record.autherId,jdbcType=INTEGER},
       check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
-      check_time = #{record.checkTime,jdbcType=TIMESTAMP}
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      question_id = #{record.questionId,jdbcType=INTEGER},
+      question_titile = #{record.questionTitile,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -417,6 +443,12 @@
       <if test="checkTime != null">
         check_time = #{checkTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="questionId != null">
+        question_id = #{questionId,jdbcType=INTEGER},
+      </if>
+      <if test="questionTitile != null">
+        question_titile = #{questionTitile,jdbcType=VARCHAR},
+      </if>
       <if test="answerContent != null">
         answer_content = #{answerContent,jdbcType=LONGVARCHAR},
       </if>
@@ -440,6 +472,8 @@
       auther_id = #{autherId,jdbcType=INTEGER},
       check_admin_id = #{checkAdminId,jdbcType=INTEGER},
       check_time = #{checkTime,jdbcType=TIMESTAMP},
+      question_id = #{questionId,jdbcType=INTEGER},
+      question_titile = #{questionTitile,jdbcType=VARCHAR},
       answer_content = #{answerContent,jdbcType=LONGVARCHAR}
     where answer_id = #{answerId,jdbcType=INTEGER}
   </update>
@@ -459,7 +493,9 @@
       remark = #{remark,jdbcType=VARCHAR},
       auther_id = #{autherId,jdbcType=INTEGER},
       check_admin_id = #{checkAdminId,jdbcType=INTEGER},
-      check_time = #{checkTime,jdbcType=TIMESTAMP}
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
+      question_id = #{questionId,jdbcType=INTEGER},
+      question_titile = #{questionTitile,jdbcType=VARCHAR}
     where answer_id = #{answerId,jdbcType=INTEGER}
   </update>
 </mapper>

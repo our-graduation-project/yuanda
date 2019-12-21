@@ -54,6 +54,12 @@ public class Answer implements Serializable {
     @ApiModelProperty(value = "审核时间")
     private Date checkTime;
 
+    @ApiModelProperty(value = "问题的id")
+    private Integer questionId;
+
+    @ApiModelProperty(value = "问题标题")
+    private String questionTitile;
+
     @ApiModelProperty(value = "回答内容")
     private String answerContent;
 
@@ -187,6 +193,22 @@ public class Answer implements Serializable {
         this.checkTime = checkTime;
     }
 
+    public Integer getQuestionId() {
+        return questionId;
+    }
+
+    public void setQuestionId(Integer questionId) {
+        this.questionId = questionId;
+    }
+
+    public String getQuestionTitile() {
+        return questionTitile;
+    }
+
+    public void setQuestionTitile(String questionTitile) {
+        this.questionTitile = questionTitile;
+    }
+
     public String getAnswerContent() {
         return answerContent;
     }
@@ -217,6 +239,8 @@ public class Answer implements Serializable {
         sb.append(", autherId=").append(autherId);
         sb.append(", checkAdminId=").append(checkAdminId);
         sb.append(", checkTime=").append(checkTime);
+        sb.append(", questionId=").append(questionId);
+        sb.append(", questionTitile=").append(questionTitile);
         sb.append(", answerContent=").append(answerContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
