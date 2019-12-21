@@ -21,6 +21,9 @@ public class LabelConnection implements Serializable {
 
     private String remark2;
 
+    @ApiModelProperty(value = " 0表示存在，1表示删除")
+    private Boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -71,6 +74,14 @@ public class LabelConnection implements Serializable {
         this.remark2 = remark2;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -83,6 +94,7 @@ public class LabelConnection implements Serializable {
         sb.append(", connectType=").append(connectType);
         sb.append(", remark=").append(remark);
         sb.append(", remark2=").append(remark2);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

@@ -375,66 +375,6 @@ public class BannerExample {
             return (Criteria) this;
         }
 
-        public Criteria andBannerStatusIsNull() {
-            addCriterion("banner_status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusIsNotNull() {
-            addCriterion("banner_status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusEqualTo(Boolean value) {
-            addCriterion("banner_status =", value, "bannerStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusNotEqualTo(Boolean value) {
-            addCriterion("banner_status <>", value, "bannerStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusGreaterThan(Boolean value) {
-            addCriterion("banner_status >", value, "bannerStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("banner_status >=", value, "bannerStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusLessThan(Boolean value) {
-            addCriterion("banner_status <", value, "bannerStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusLessThanOrEqualTo(Boolean value) {
-            addCriterion("banner_status <=", value, "bannerStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusIn(List<Boolean> values) {
-            addCriterion("banner_status in", values, "bannerStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusNotIn(List<Boolean> values) {
-            addCriterion("banner_status not in", values, "bannerStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusBetween(Boolean value1, Boolean value2) {
-            addCriterion("banner_status between", value1, value2, "bannerStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andBannerStatusNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("banner_status not between", value1, value2, "bannerStatus");
-            return (Criteria) this;
-        }
-
         public Criteria andBannerCreateTimeIsNull() {
             addCriterion("banner_create_time is null");
             return (Criteria) this;
@@ -552,6 +492,66 @@ public class BannerExample {
 
         public Criteria andBannerFailureTimeNotBetween(Date value1, Date value2) {
             addCriterion("banner_failure_time not between", value1, value2, "bannerFailureTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
     }

@@ -8,7 +8,6 @@
     <result column="user_age" jdbcType="INTEGER" property="userAge" />
     <result column="user_brithday" jdbcType="TIMESTAMP" property="userBrithday" />
     <result column="user_sex" jdbcType="INTEGER" property="userSex" />
-    <result column="user_status" jdbcType="INTEGER" property="userStatus" />
     <result column="user_picture" jdbcType="VARCHAR" property="userPicture" />
     <result column="user_background" jdbcType="VARCHAR" property="userBackground" />
     <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
@@ -23,6 +22,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
     <result column="unread_message_number" jdbcType="INTEGER" property="unreadMessageNumber" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -83,9 +83,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, user_name, user_password, user_age, user_brithday, user_sex, user_status, 
-    user_picture, user_background, nick_name, email, telphone, user_integral, last_time, 
-    user_descript, article_number, answer_number, question_number, remark, remark2, unread_message_number
+    user_id, user_name, user_password, user_age, user_brithday, user_sex, user_picture, 
+    user_background, nick_name, email, telphone, user_integral, last_time, user_descript, 
+    article_number, answer_number, question_number, remark, remark2, unread_message_number, 
+    is_deleted
   </sql>
   <select id="selectByExample" parameterType="wang.haogui.yuanda.model.UsersExample" resultMap="BaseResultMap">
     select
@@ -122,19 +123,19 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into users (user_name, user_password, user_age, 
-      user_brithday, user_sex, user_status, 
-      user_picture, user_background, nick_name, 
-      email, telphone, user_integral, 
-      last_time, user_descript, article_number, 
-      answer_number, question_number, remark, 
-      remark2, unread_message_number)
+      user_brithday, user_sex, user_picture, 
+      user_background, nick_name, email, 
+      telphone, user_integral, last_time, 
+      user_descript, article_number, answer_number, 
+      question_number, remark, remark2, 
+      unread_message_number, is_deleted)
     values (#{userName,jdbcType=VARCHAR}, #{userPassword,jdbcType=VARCHAR}, #{userAge,jdbcType=INTEGER}, 
-      #{userBrithday,jdbcType=TIMESTAMP}, #{userSex,jdbcType=INTEGER}, #{userStatus,jdbcType=INTEGER}, 
-      #{userPicture,jdbcType=VARCHAR}, #{userBackground,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{telphone,jdbcType=VARCHAR}, #{userIntegral,jdbcType=INTEGER}, 
-      #{lastTime,jdbcType=DATE}, #{userDescript,jdbcType=VARCHAR}, #{articleNumber,jdbcType=INTEGER}, 
-      #{answerNumber,jdbcType=INTEGER}, #{questionNumber,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{remark2,jdbcType=VARCHAR}, #{unreadMessageNumber,jdbcType=INTEGER})
+      #{userBrithday,jdbcType=TIMESTAMP}, #{userSex,jdbcType=INTEGER}, #{userPicture,jdbcType=VARCHAR}, 
+      #{userBackground,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{telphone,jdbcType=VARCHAR}, #{userIntegral,jdbcType=INTEGER}, #{lastTime,jdbcType=DATE}, 
+      #{userDescript,jdbcType=VARCHAR}, #{articleNumber,jdbcType=INTEGER}, #{answerNumber,jdbcType=INTEGER}, 
+      #{questionNumber,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, 
+      #{unreadMessageNumber,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Users">
     <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
@@ -156,9 +157,6 @@
       </if>
       <if test="userSex != null">
         user_sex,
-      </if>
-      <if test="userStatus != null">
-        user_status,
       </if>
       <if test="userPicture != null">
         user_picture,
@@ -202,6 +200,9 @@
       <if test="unreadMessageNumber != null">
         unread_message_number,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userName != null">
@@ -218,9 +219,6 @@
       </if>
       <if test="userSex != null">
         #{userSex,jdbcType=INTEGER},
-      </if>
-      <if test="userStatus != null">
-        #{userStatus,jdbcType=INTEGER},
       </if>
       <if test="userPicture != null">
         #{userPicture,jdbcType=VARCHAR},
@@ -264,6 +262,9 @@
       <if test="unreadMessageNumber != null">
         #{unreadMessageNumber,jdbcType=INTEGER},
       </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="wang.haogui.yuanda.model.UsersExample" resultType="java.lang.Long">
@@ -292,9 +293,6 @@
       </if>
       <if test="record.userSex != null">
         user_sex = #{record.userSex,jdbcType=INTEGER},
-      </if>
-      <if test="record.userStatus != null">
-        user_status = #{record.userStatus,jdbcType=INTEGER},
       </if>
       <if test="record.userPicture != null">
         user_picture = #{record.userPicture,jdbcType=VARCHAR},
@@ -338,6 +336,9 @@
       <if test="record.unreadMessageNumber != null">
         unread_message_number = #{record.unreadMessageNumber,jdbcType=INTEGER},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -351,7 +352,6 @@
       user_age = #{record.userAge,jdbcType=INTEGER},
       user_brithday = #{record.userBrithday,jdbcType=TIMESTAMP},
       user_sex = #{record.userSex,jdbcType=INTEGER},
-      user_status = #{record.userStatus,jdbcType=INTEGER},
       user_picture = #{record.userPicture,jdbcType=VARCHAR},
       user_background = #{record.userBackground,jdbcType=VARCHAR},
       nick_name = #{record.nickName,jdbcType=VARCHAR},
@@ -365,7 +365,8 @@
       question_number = #{record.questionNumber,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       remark2 = #{record.remark2,jdbcType=VARCHAR},
-      unread_message_number = #{record.unreadMessageNumber,jdbcType=INTEGER}
+      unread_message_number = #{record.unreadMessageNumber,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -387,9 +388,6 @@
       </if>
       <if test="userSex != null">
         user_sex = #{userSex,jdbcType=INTEGER},
-      </if>
-      <if test="userStatus != null">
-        user_status = #{userStatus,jdbcType=INTEGER},
       </if>
       <if test="userPicture != null">
         user_picture = #{userPicture,jdbcType=VARCHAR},
@@ -433,6 +431,9 @@
       <if test="unreadMessageNumber != null">
         unread_message_number = #{unreadMessageNumber,jdbcType=INTEGER},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -443,7 +444,6 @@
       user_age = #{userAge,jdbcType=INTEGER},
       user_brithday = #{userBrithday,jdbcType=TIMESTAMP},
       user_sex = #{userSex,jdbcType=INTEGER},
-      user_status = #{userStatus,jdbcType=INTEGER},
       user_picture = #{userPicture,jdbcType=VARCHAR},
       user_background = #{userBackground,jdbcType=VARCHAR},
       nick_name = #{nickName,jdbcType=VARCHAR},
@@ -457,7 +457,8 @@
       question_number = #{questionNumber,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       remark2 = #{remark2,jdbcType=VARCHAR},
-      unread_message_number = #{unreadMessageNumber,jdbcType=INTEGER}
+      unread_message_number = #{unreadMessageNumber,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>

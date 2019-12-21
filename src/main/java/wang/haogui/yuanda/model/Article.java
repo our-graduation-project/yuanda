@@ -57,6 +57,9 @@ public class Article implements Serializable {
     @ApiModelProperty(value = "图片路径")
     private String pictureSrc;
 
+    @ApiModelProperty(value = " 是否删除")
+    private Boolean isDeleted;
+
     @ApiModelProperty(value = "文章内容")
     private String articleContent;
 
@@ -198,6 +201,14 @@ public class Article implements Serializable {
         this.pictureSrc = pictureSrc;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     public String getArticleContent() {
         return articleContent;
     }
@@ -229,6 +240,7 @@ public class Article implements Serializable {
         sb.append(", remark2=").append(remark2);
         sb.append(", checkAdminId=").append(checkAdminId);
         sb.append(", pictureSrc=").append(pictureSrc);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", articleContent=").append(articleContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

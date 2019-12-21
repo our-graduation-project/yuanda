@@ -114,52 +114,52 @@ public class FavoritesExample {
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdEqualTo(Byte value) {
+        public Criteria andFavoritesIdEqualTo(Integer value) {
             addCriterion("favorites_id =", value, "favoritesId");
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdNotEqualTo(Byte value) {
+        public Criteria andFavoritesIdNotEqualTo(Integer value) {
             addCriterion("favorites_id <>", value, "favoritesId");
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdGreaterThan(Byte value) {
+        public Criteria andFavoritesIdGreaterThan(Integer value) {
             addCriterion("favorites_id >", value, "favoritesId");
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdGreaterThanOrEqualTo(Byte value) {
+        public Criteria andFavoritesIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("favorites_id >=", value, "favoritesId");
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdLessThan(Byte value) {
+        public Criteria andFavoritesIdLessThan(Integer value) {
             addCriterion("favorites_id <", value, "favoritesId");
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdLessThanOrEqualTo(Byte value) {
+        public Criteria andFavoritesIdLessThanOrEqualTo(Integer value) {
             addCriterion("favorites_id <=", value, "favoritesId");
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdIn(List<Byte> values) {
+        public Criteria andFavoritesIdIn(List<Integer> values) {
             addCriterion("favorites_id in", values, "favoritesId");
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdNotIn(List<Byte> values) {
+        public Criteria andFavoritesIdNotIn(List<Integer> values) {
             addCriterion("favorites_id not in", values, "favoritesId");
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdBetween(Byte value1, Byte value2) {
+        public Criteria andFavoritesIdBetween(Integer value1, Integer value2) {
             addCriterion("favorites_id between", value1, value2, "favoritesId");
             return (Criteria) this;
         }
 
-        public Criteria andFavoritesIdNotBetween(Byte value1, Byte value2) {
+        public Criteria andFavoritesIdNotBetween(Integer value1, Integer value2) {
             addCriterion("favorites_id not between", value1, value2, "favoritesId");
             return (Criteria) this;
         }
@@ -491,6 +491,66 @@ public class FavoritesExample {
 
         public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
             addCriterion("user_id not between", value1, value2, "userId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNull() {
+            addCriterion("is_deleted is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIsNotNull() {
+            addCriterion("is_deleted is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedEqualTo(Boolean value) {
+            addCriterion("is_deleted =", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
+            addCriterion("is_deleted <>", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
+            addCriterion("is_deleted >", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted >=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThan(Boolean value) {
+            addCriterion("is_deleted <", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_deleted <=", value, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedIn(List<Boolean> values) {
+            addCriterion("is_deleted in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
+            addCriterion("is_deleted not in", values, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted between", value1, value2, "isDeleted");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
     }

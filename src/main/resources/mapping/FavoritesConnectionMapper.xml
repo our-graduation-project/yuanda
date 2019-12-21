@@ -10,6 +10,7 @@
     <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, favorites_id, connection_id, type, content_title, author, remark, remark2
+    id, favorites_id, connection_id, type, content_title, author, remark, remark2, is_deleted
   </sql>
   <select id="selectByExample" parameterType="wang.haogui.yuanda.model.FavoritesConnectionExample" resultMap="BaseResultMap">
     select
@@ -108,10 +109,10 @@
     </selectKey>
     insert into favorites_connection (favorites_id, connection_id, type, 
       content_title, author, remark, 
-      remark2)
+      remark2, is_deleted)
     values (#{favoritesId,jdbcType=INTEGER}, #{connectionId,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, 
       #{contentTitle,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{remark2,jdbcType=VARCHAR})
+      #{remark2,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.FavoritesConnection">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -140,6 +141,9 @@
       <if test="remark2 != null">
         remark2,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="favoritesId != null">
@@ -162,6 +166,9 @@
       </if>
       <if test="remark2 != null">
         #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -198,6 +205,9 @@
       <if test="record.remark2 != null">
         remark2 = #{record.remark2,jdbcType=VARCHAR},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +222,8 @@
       content_title = #{record.contentTitle,jdbcType=VARCHAR},
       author = #{record.author,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      remark2 = #{record.remark2,jdbcType=VARCHAR}
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +252,9 @@
       <if test="remark2 != null">
         remark2 = #{remark2,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -252,7 +266,8 @@
       content_title = #{contentTitle,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      remark2 = #{remark2,jdbcType=VARCHAR}
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -29,6 +29,9 @@ public class Admin implements Serializable {
     @ApiModelProperty(value = "管理员电话号码")
     private String phone;
 
+    @ApiModelProperty(value = "0表示没有删除，1表示删除")
+    private Byte isDeleted;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getAdminId() {
@@ -95,6 +98,14 @@ public class Admin implements Serializable {
         this.phone = phone;
     }
 
+    public Byte getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Byte isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -109,6 +120,7 @@ public class Admin implements Serializable {
         sb.append(", right=").append(right);
         sb.append(", sex=").append(sex);
         sb.append(", phone=").append(phone);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
