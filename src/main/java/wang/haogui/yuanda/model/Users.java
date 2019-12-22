@@ -69,6 +69,22 @@ public class Users implements Serializable {
     @ApiModelProperty(value = " 0表示存在，1表示删除")
     private Boolean isDeleted;
 
+    public Users() {
+    }
+
+    public Users(Integer userId, String userName, String userPassword, Integer userSex, Boolean isDeleted) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userSex = userSex;
+        this.isDeleted = isDeleted;
+    }
+
+    public Users(String userPassword, String email) {
+        this.userPassword = userPassword;
+        this.email = email;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getUserId() {

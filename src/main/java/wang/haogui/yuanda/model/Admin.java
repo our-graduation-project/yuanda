@@ -32,6 +32,28 @@ public class Admin implements Serializable {
     @ApiModelProperty(value = "0表示没有删除，1表示删除")
     private Byte isDeleted;
 
+    public Admin() {
+    }
+
+    public Admin(Integer adminId, String email, String adminPassword, Byte isDeleted) {
+        this.adminId = adminId;
+        this.email = email;
+        this.adminPassword = adminPassword;
+        this.isDeleted = isDeleted;
+    }
+
+
+
+    public Admin(Integer adminId, Byte right) {
+        this.adminId = adminId;
+        this.right = right;
+    }
+
+    public Admin(String email, String adminPassword) {
+        this.email = email;
+        this.adminPassword = adminPassword;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getAdminId() {

@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    admin_id, admin_name, email, nickname, admin_password, right, sex, phone, is_deleted
+    admin_id, admin_name, email, nickname, admin_password, `right`, sex, phone, is_deleted
   </sql>
   <select id="selectByExample" parameterType="wang.haogui.yuanda.model.AdminExample" resultMap="BaseResultMap">
     select
@@ -108,7 +108,7 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into admin (admin_name, email, nickname, 
-      admin_password, right, sex, 
+      admin_password, `right`, sex,
       phone, is_deleted)
     values (#{adminName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
       #{adminPassword,jdbcType=VARCHAR}, #{right,jdbcType=TINYINT}, #{sex,jdbcType=BIT}, 
@@ -133,7 +133,7 @@
         admin_password,
       </if>
       <if test="right != null">
-        right,
+        `right`,
       </if>
       <if test="sex != null">
         sex,
@@ -197,7 +197,7 @@
         admin_password = #{record.adminPassword,jdbcType=VARCHAR},
       </if>
       <if test="record.right != null">
-        right = #{record.right,jdbcType=TINYINT},
+        `right` = #{record.right,jdbcType=TINYINT},
       </if>
       <if test="record.sex != null">
         sex = #{record.sex,jdbcType=BIT},
@@ -220,7 +220,7 @@
       email = #{record.email,jdbcType=VARCHAR},
       nickname = #{record.nickname,jdbcType=VARCHAR},
       admin_password = #{record.adminPassword,jdbcType=VARCHAR},
-      right = #{record.right,jdbcType=TINYINT},
+     `right` = #{record.right,jdbcType=TINYINT},
       sex = #{record.sex,jdbcType=BIT},
       phone = #{record.phone,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=TINYINT}
@@ -244,7 +244,7 @@
         admin_password = #{adminPassword,jdbcType=VARCHAR},
       </if>
       <if test="right != null">
-        right = #{right,jdbcType=TINYINT},
+        `right` = #{right,jdbcType=TINYINT},
       </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=BIT},
@@ -264,7 +264,7 @@
       email = #{email,jdbcType=VARCHAR},
       nickname = #{nickname,jdbcType=VARCHAR},
       admin_password = #{adminPassword,jdbcType=VARCHAR},
-      right = #{right,jdbcType=TINYINT},
+      `right` = #{right,jdbcType=TINYINT},
       sex = #{sex,jdbcType=BIT},
       phone = #{phone,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=TINYINT}
