@@ -43,6 +43,12 @@ public class Admin implements Serializable {
     }
 
 
+    public Admin(String email, String adminPassword, Byte right, Boolean isDeleted) {
+        this.email = email;
+        this.adminPassword = adminPassword;
+        this.right = right;
+        this.isDeleted = isDeleted;
+    }
 
     public Admin(Integer adminId, Byte right) {
         this.adminId = adminId;

@@ -9,6 +9,7 @@ import wang.haogui.yuanda.mapper.UsersMapper;
 import wang.haogui.yuanda.model.Users;
 import wang.haogui.yuanda.model.UsersExample;
 import wang.haogui.yuanda.service.UsersService;
+import wang.haogui.yuanda.utils.LogUtils;
 
 import java.util.List;
 
@@ -45,6 +46,23 @@ public class UsersServiceImpl implements UsersService {
     }
 
     /**
+     * 批量增加用户
+     * @param users
+     * @return
+     */
+    @Override
+    public boolean addBatchUsers(List<Users> users) {
+        int i =0;
+        i=usersMapper.addBatchUsers(users);
+        if (i==users.size()){
+            return true;
+        }else {
+            LogUtils.getDBLogger().info("数据库回答批量增加失败");
+            throw new RuntimeException("数据库回答批量增加失败");
+        }
+    }
+
+    /**
      * 修改用户
      * @param users
      * @return
@@ -57,7 +75,7 @@ public class UsersServiceImpl implements UsersService {
 
 
     /**
-     * 根据ID修改状态
+     * 删除用户
      * @param userId
      * @param isDeleted
      * @return
@@ -129,7 +147,8 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public PageInfo<Users> searchUsersById(int page, int limit, Integer userId, String order, OrderEnum orderEnum) {
         UsersExample usersExample = new UsersExample();
-        usersExample.or().andUserIdEqualTo(userId);
+        //根据用户ID查询存在的用户
+        usersExample.or().andUserIdEqualTo(userId).andIsDeletedEqualTo(false);
         if (order != null) {
             String str=null;
             str = "`" + order + "` ";
@@ -158,6 +177,23 @@ public class UsersServiceImpl implements UsersService {
     public PageInfo<Users> searchUsersByName(int page, int limit, String userName) {
         UsersExample usersExample=new UsersExample();
         usersExample.or().andUserNameEqualTo(userName);
+        PageHelper.startPage(page, limit);
+        List<Users> users = usersMapper.selectByExample(usersExample);
+        PageInfo pageInfo=new PageInfo(users,3);
+        return pageInfo;
+    }
+
+    /**
+     * 根据邮箱查询用户
+     * @param page
+     * @param limit
+     * @param email
+     * @return
+     */
+    @Override
+    public PageInfo<Users> searchUsersByEmail(int page, int limit, String email) {
+        UsersExample usersExample=new UsersExample();
+        usersExample.or().andEmailEqualTo(email);
         PageHelper.startPage(page, limit);
         List<Users> users = usersMapper.selectByExample(usersExample);
         PageInfo pageInfo=new PageInfo(users,3);

@@ -270,4 +270,22 @@
       is_deleted = #{isDeleted,jdbcType=BIT}
     where admin_id = #{adminId,jdbcType=INTEGER}
   </update>
+
+
+  <!--  自己写的批量增加-->
+
+  <insert id="addBatchAdmin" parameterType="java.util.List">
+    insert into `admin` (admin_name, email, nickname,admin_password, `right`, sex,
+    phone, is_deleted) values
+    <foreach collection="list" separator="," item="admin">
+      (#{admin.adminName,jdbcType=VARCHAR},
+      #{admin.email,jdbcType=VARCHAR},
+      #{admin.nickname,jdbcType=VARCHAR},
+      #{admin.adminPassword,jdbcType=VARCHAR},
+      #{admin.right,jdbcType=TINYINT},
+      #{admin.sex,jdbcType=BIT},
+      #{admin.phone,jdbcType=VARCHAR},
+      #{admin.isDeleted,jdbcType=BIT})
+    </foreach>
+  </insert>
 </mapper>
