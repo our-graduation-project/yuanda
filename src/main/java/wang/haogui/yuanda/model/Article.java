@@ -19,7 +19,7 @@ public class Article implements Serializable {
     private Date updateTime;
 
     @ApiModelProperty(value = "作者")
-    private String authorId;
+    private Integer authorId;
 
     @ApiModelProperty(value = "是否审核，0表示未审核，1表示审核通过,2表示审核未通过")
     private Byte checkStatus;
@@ -97,11 +97,11 @@ public class Article implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getAuthorId() {
+    public Integer getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(String authorId) {
+    public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
     }
 

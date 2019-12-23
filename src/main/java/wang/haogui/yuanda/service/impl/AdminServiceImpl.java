@@ -79,7 +79,7 @@ public class AdminServiceImpl implements AdminService {
      * @return
      */
     @Override
-    public int updateisDeleted(Integer adminId, Byte isDeleted) {
+    public int updateisDeleted(Integer adminId, Boolean isDeleted) {
         int i=0;
         Admin admin=searchAdminByAdminId(adminId);
         if (admin!=null){
@@ -150,7 +150,6 @@ public class AdminServiceImpl implements AdminService {
             String str = null;
             str = "`" + order + "` ";
             if (orderEnum != null) {
-
                 str += orderEnum.getName();
             } else {
                 str += OrderEnum.DESC.getName();

@@ -40,7 +40,7 @@ public interface AdminService {
      * @param isDeleted
      * @return
      */
-    int updateisDeleted(Integer adminId,Byte isDeleted);
+    int updateisDeleted(Integer adminId,Boolean isDeleted);
 
     /**
      * 通过邮箱修改密码
