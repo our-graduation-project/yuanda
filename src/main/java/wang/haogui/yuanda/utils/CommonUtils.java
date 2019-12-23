@@ -14,7 +14,7 @@ public class CommonUtils {
      * @param orderEnum 枚举类（升序还是降序）
      * @return 拼接的字符串
      */
-    public String orderStr(String order, OrderEnum orderEnum){
+    public static String orderStr(String order, OrderEnum orderEnum){
         String str = null;
         str="`"+order+"` ";
         if(orderEnum !=null){
