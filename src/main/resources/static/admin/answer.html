@@ -35,6 +35,7 @@
             right: -10px!important;
         }
 
+
     </style>
 </head>
 
@@ -51,9 +52,9 @@
                     <li >
                         <a href="user.html" class="dropdown-toggle"  aria-haspopup="true" aria-expanded="false">
                             <i class="menu-icon fa fa-cogs">
-                        </i>用户模块</a>
+                            </i>用户模块</a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="admin.html" class="dropdown-toggle"  aria-haspopup="true" aria-expanded="false">
                             <i class="menu-icon fa fa-table"></i>审核员管理
                         </a>
@@ -69,14 +70,16 @@
                     <li>
                         <a href="question.html"> <i class="menu-icon ti-email"></i>问题管理</a>
                     </li>
+
                     <li>
                         <a href="answer.html"> <i class="menu-icon fa fa-area-chart"></i>回答管理</a>
                     </li>
+
                     <li >
                         <a href="comment.html" class="dropdown-toggle" > <i class="menu-icon fa fa-bar-chart"></i>评论管理</a>
                     </li>
 
-                    <li class="active">
+                    <li >
                         <a href="banner.html" class="dropdown-toggle"> <i class="menu-icon fa fa-area-chart"></i>广告管理</a>
                     </li>
 
@@ -194,16 +197,18 @@
         <!-- /#header -->
 
         <!-- Content -->
+
+
         <div class="content" >
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <a  class="btn btn-outline-primary btn-sm" onclick="modelAppear()"><i class="fa fa-star"></i>&nbsp; 增加</a>
-                            <a  class="btn btn-outline-danger btn-sm"><i class="fa fa-lightbulb-o"></i>&nbsp;删除</a>
-                            <a  class="btn btn-outline-success btn-sm"><i class="fa fa-magic"></i>&nbsp; 修改</a>
-                            <a  class="btn btn-outline-warning btn-sm"><i class="fa fa-map-marker"></i>&nbsp; 审核</a>
-                            <a  class="btn btn-outline-secondary btn-sm"><i class="fa fa-rss"></i>&nbsp;查看</a>
+                            <a class="btn btn-outline-primary btn-sm"><i class="fa fa-star"></i>&nbsp; 增加</a>
+                            <a class="btn btn-outline-secondary btn-sm"><i class="fa fa-lightbulb-o"></i>&nbsp;删除</a>
+                            <a class="btn btn-outline-success btn-sm"><i class="fa fa-magic"></i>&nbsp; 修改</a>
+                            <a class="btn btn-outline-danger btn-sm"><i class="fa fa-rss"></i>&nbsp;Danger</a>
+                            <a class="btn btn-outline-warning btn-sm"><i class="fa fa-map-marker"></i>&nbsp; 审核</a>
                         </div>
                         <div class="card-body">
                             <table id="jqGrid" class="table table-bordered">
@@ -214,27 +219,6 @@
                 </div>
             </div>
         </div>
-
-
-            <!-- Modal - Calendar - Add New Event -->
-            <div class="modal fade none-border" id="event-modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title"><strong>Add New Event</strong></h4>
-                        </div>
-                        <div class="modal-body"></div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
-                            <button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /#event-modal -->
-
 
         <!-- /.content -->
         <div class="clearfix"></div>
@@ -260,14 +244,15 @@
     <script src="../plugins/sweetalert/sweetalert.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../mydist/js/banner.js"></script>
+    <script src="../mydist/js/answer.js"></script>
     <!-- JqGrid依赖jquery，因此需要先引入jquery.min.js文件 -->
     <script src="../plugins/jqgrid-5.3.0/grid.locale-cn.js"></script>
     <script src="../plugins/jqgrid-5.3.0/jquery.jqGrid.min.js"></script>
-
     <!--Local Stuff-->
+
     <script>
 
     </script>
+
 </body>
 </html>
