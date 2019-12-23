@@ -37,7 +37,7 @@ class AdminServiceImplTest {
         admin.setAdminName("张三");
         admin.setEmail("1761432189@qq.com");
         admin.setAdminPassword("456");
-        admin.setIsDeleted(isDeleted);
+        admin.setIsDeleted(true);
         admin.setRight(right);
         int i = adminService.addAdmin(admin);
         System.out.println("-------"+i);
@@ -46,7 +46,7 @@ class AdminServiceImplTest {
     @Test
     void updateUser() {
         Byte isDeleted=1;
-        boolean b = adminService.updateUser(new Admin(1, "1111111@qq.com", "789", isDeleted));
+        boolean b = adminService.updateUser(new Admin(1, "1111111@qq.com", "789", false));
         System.out.println(b);
     }
 
@@ -59,7 +59,7 @@ class AdminServiceImplTest {
     @Test
     void updateisDeleted() {
         Byte isDeleted=0;
-        System.out.println(adminService.updateisDeleted(1,isDeleted));
+        System.out.println(adminService.updateisDeleted(1,true));
     }
 
     @Test

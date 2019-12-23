@@ -165,66 +165,6 @@ public class ArticleExample {
             return (Criteria) this;
         }
 
-        public Criteria andCheckTimeIsNull() {
-            addCriterion("check_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeIsNotNull() {
-            addCriterion("check_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeEqualTo(Date value) {
-            addCriterion("check_time =", value, "checkTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeNotEqualTo(Date value) {
-            addCriterion("check_time <>", value, "checkTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeGreaterThan(Date value) {
-            addCriterion("check_time >", value, "checkTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("check_time >=", value, "checkTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeLessThan(Date value) {
-            addCriterion("check_time <", value, "checkTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeLessThanOrEqualTo(Date value) {
-            addCriterion("check_time <=", value, "checkTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeIn(List<Date> values) {
-            addCriterion("check_time in", values, "checkTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeNotIn(List<Date> values) {
-            addCriterion("check_time not in", values, "checkTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeBetween(Date value1, Date value2) {
-            addCriterion("check_time between", value1, value2, "checkTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCheckTimeNotBetween(Date value1, Date value2) {
-            addCriterion("check_time not between", value1, value2, "checkTime");
-            return (Criteria) this;
-        }
-
         public Criteria andArticleTitleIsNull() {
             addCriterion("article_title is null");
             return (Criteria) this;
@@ -425,62 +365,52 @@ public class ArticleExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdEqualTo(String value) {
+        public Criteria andAuthorIdEqualTo(Integer value) {
             addCriterion("author_id =", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdNotEqualTo(String value) {
+        public Criteria andAuthorIdNotEqualTo(Integer value) {
             addCriterion("author_id <>", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdGreaterThan(String value) {
+        public Criteria andAuthorIdGreaterThan(Integer value) {
             addCriterion("author_id >", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdGreaterThanOrEqualTo(String value) {
+        public Criteria andAuthorIdGreaterThanOrEqualTo(Integer value) {
             addCriterion("author_id >=", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdLessThan(String value) {
+        public Criteria andAuthorIdLessThan(Integer value) {
             addCriterion("author_id <", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdLessThanOrEqualTo(String value) {
+        public Criteria andAuthorIdLessThanOrEqualTo(Integer value) {
             addCriterion("author_id <=", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdLike(String value) {
-            addCriterion("author_id like", value, "authorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuthorIdNotLike(String value) {
-            addCriterion("author_id not like", value, "authorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuthorIdIn(List<String> values) {
+        public Criteria andAuthorIdIn(List<Integer> values) {
             addCriterion("author_id in", values, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdNotIn(List<String> values) {
+        public Criteria andAuthorIdNotIn(List<Integer> values) {
             addCriterion("author_id not in", values, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdBetween(String value1, String value2) {
+        public Criteria andAuthorIdBetween(Integer value1, Integer value2) {
             addCriterion("author_id between", value1, value2, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIdNotBetween(String value1, String value2) {
+        public Criteria andAuthorIdNotBetween(Integer value1, Integer value2) {
             addCriterion("author_id not between", value1, value2, "authorId");
             return (Criteria) this;
         }
@@ -962,6 +892,66 @@ public class ArticleExample {
 
         public Criteria andCheckAdminIdNotBetween(Integer value1, Integer value2) {
             addCriterion("check_admin_id not between", value1, value2, "checkAdminId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeIsNull() {
+            addCriterion("check_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeIsNotNull() {
+            addCriterion("check_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeEqualTo(Date value) {
+            addCriterion("check_time =", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeNotEqualTo(Date value) {
+            addCriterion("check_time <>", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeGreaterThan(Date value) {
+            addCriterion("check_time >", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("check_time >=", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeLessThan(Date value) {
+            addCriterion("check_time <", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeLessThanOrEqualTo(Date value) {
+            addCriterion("check_time <=", value, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeIn(List<Date> values) {
+            addCriterion("check_time in", values, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeNotIn(List<Date> values) {
+            addCriterion("check_time not in", values, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeBetween(Date value1, Date value2) {
+            addCriterion("check_time between", value1, value2, "checkTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCheckTimeNotBetween(Date value1, Date value2) {
+            addCriterion("check_time not between", value1, value2, "checkTime");
             return (Criteria) this;
         }
 

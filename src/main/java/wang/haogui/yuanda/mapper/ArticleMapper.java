@@ -1,11 +1,13 @@
 package wang.haogui.yuanda.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.Article;
 import wang.haogui.yuanda.model.ArticleExample;
 
 import java.util.List;
 
+@Mapper
 public interface ArticleMapper {
     long countByExample(ArticleExample example);
 

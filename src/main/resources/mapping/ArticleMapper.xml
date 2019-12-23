@@ -6,7 +6,7 @@
     <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="author_id" jdbcType="VARCHAR" property="authorId" />
+    <result column="author_id" jdbcType="INTEGER" property="authorId" />
     <result column="check_status" jdbcType="TINYINT" property="checkStatus" />
     <result column="click_number" jdbcType="INTEGER" property="clickNumber" />
     <result column="hot_number" jdbcType="INTEGER" property="hotNumber" />
@@ -150,7 +150,7 @@
       author_name, author_picture, article_content
       )
     values (#{articleTitle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{authorId,jdbcType=VARCHAR}, #{checkStatus,jdbcType=TINYINT}, #{clickNumber,jdbcType=INTEGER}, 
+      #{authorId,jdbcType=INTEGER}, #{checkStatus,jdbcType=TINYINT}, #{clickNumber,jdbcType=INTEGER}, 
       #{hotNumber,jdbcType=INTEGER}, #{agreementNumber,jdbcType=INTEGER}, #{disagreementNumber,jdbcType=INTEGER}, 
       #{commentNumber,jdbcType=INTEGER}, #{recommendNumber,jdbcType=INTEGER}, #{checkAdminId,jdbcType=INTEGER}, 
       #{checkTime,jdbcType=TIMESTAMP}, #{pictureSrc,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
@@ -229,7 +229,7 @@
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="authorId != null">
-        #{authorId,jdbcType=VARCHAR},
+        #{authorId,jdbcType=INTEGER},
       </if>
       <if test="checkStatus != null">
         #{checkStatus,jdbcType=TINYINT},
@@ -297,7 +297,7 @@
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.authorId != null">
-        author_id = #{record.authorId,jdbcType=VARCHAR},
+        author_id = #{record.authorId,jdbcType=INTEGER},
       </if>
       <if test="record.checkStatus != null">
         check_status = #{record.checkStatus,jdbcType=TINYINT},
@@ -352,7 +352,7 @@
       article_title = #{record.articleTitle,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      author_id = #{record.authorId,jdbcType=VARCHAR},
+      author_id = #{record.authorId,jdbcType=INTEGER},
       check_status = #{record.checkStatus,jdbcType=TINYINT},
       click_number = #{record.clickNumber,jdbcType=INTEGER},
       hot_number = #{record.hotNumber,jdbcType=INTEGER},
@@ -377,7 +377,7 @@
       article_title = #{record.articleTitle,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      author_id = #{record.authorId,jdbcType=VARCHAR},
+      author_id = #{record.authorId,jdbcType=INTEGER},
       check_status = #{record.checkStatus,jdbcType=TINYINT},
       click_number = #{record.clickNumber,jdbcType=INTEGER},
       hot_number = #{record.hotNumber,jdbcType=INTEGER},
@@ -408,7 +408,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="authorId != null">
-        author_id = #{authorId,jdbcType=VARCHAR},
+        author_id = #{authorId,jdbcType=INTEGER},
       </if>
       <if test="checkStatus != null">
         check_status = #{checkStatus,jdbcType=TINYINT},
@@ -460,7 +460,7 @@
     set article_title = #{articleTitle,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      author_id = #{authorId,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=INTEGER},
       check_status = #{checkStatus,jdbcType=TINYINT},
       click_number = #{clickNumber,jdbcType=INTEGER},
       hot_number = #{hotNumber,jdbcType=INTEGER},
@@ -482,7 +482,7 @@
     set article_title = #{articleTitle,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      author_id = #{authorId,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=INTEGER},
       check_status = #{checkStatus,jdbcType=TINYINT},
       click_number = #{clickNumber,jdbcType=INTEGER},
       hot_number = #{hotNumber,jdbcType=INTEGER},
