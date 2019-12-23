@@ -37,5 +37,7 @@ public interface AnswerMapper {
 
     int updateByPrimaryKey(Answer record);
 
+    int updateForCommentNumber(Integer commentTargetId);
+
     int addBatchAnswer(List<Answer> answers);
 }

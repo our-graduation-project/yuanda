@@ -1,6 +1,7 @@
 package wang.haogui.yuanda.service;
 
 import com.github.pagehelper.PageInfo;
+import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Comment;
 
 /**
@@ -34,23 +35,33 @@ public interface CommentService {
 
     /**
      * 查询评论通过文章id
-     *
+     * order为排序的字段名 若为null 则不需要排序
+     * OrderEnum,为排序的枚举
      * @param articleId
      */
-    PageInfo selectCommentByArticle(int articleId);
+    PageInfo selectCommentByArticle(int articleId, int page, int limit, String order, OrderEnum orderEnum);
 
     /**
      * 查询评论通过文章id
-     *
+     *  order为排序的字段名 若为null 则不需要排序
+     *  OrderEnum,为排序的枚举
      * @param answerId
      */
-    PageInfo selectCommentByAnswer(int answerId);
+    PageInfo selectCommentByAnswer(int answerId, int page, int limit, String order, OrderEnum orderEnum);
 
     /**
      * 查询评论通过文章id
+     *  order为排序的字段名 若为null 则不需要排序
+     *  OrderEnum,为排序的枚举
+     * @param commentId
+     */
+    PageInfo selectCommentByCommentId(int commentId, int page, int limit, String order, OrderEnum orderEnum);
+
+    /**
+     *  删除某一条评论 然后级联删除它下面的所有子评论
      *
      * @param commentId
      */
-    PageInfo selectCommentByComment(int commentId);
+    boolean delComment(int commentId);
 
 }

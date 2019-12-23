@@ -36,4 +36,12 @@ public interface FavoritesService {
     List<Favorites> selectFavoritesByUserId(int userId);
 
 
+    /**
+     * 修改一个收藏夹的信息
+     * @param favorites
+     * @return
+     */
+    boolean editFavorites(Favorites favorites);
+
+
 }
