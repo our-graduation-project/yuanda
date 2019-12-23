@@ -11,17 +11,17 @@ $(function () {
 
     $("#jqGrid").jqGrid({
         //请求后台 JSON 数据的 URL
-        url: 'user/list.do',
+        url: '/yuanda/admin/selectQuestionList',
         //后台返回的数据格式
         datatype: "json",
         //列表信息，包括表头、宽度、是否显示、渲染参数等属性
         colModel: [
-            {label: 'id', name: 'id', index: 'id', width: 50, hidden: true, key: true},
-            {label: '问题标题', name: 'userName', index: 'userName', sortable: false, width: 80},
-            {label: '提出人', name: 'createTime', index: 'createTime', sortable: false, width: 80},
-            {label:  '发布时间', name: 'userToken',index: 'userToken',sortable: false, width: 80},
-            {label:  '是否通过审核', name: 'userToken',index: 'userToken',sortable: false, width: 80},
-            {label:  '热度', name: 'userToken',index: 'userToken',sortable: false, width: 80},
+            {label: 'id', name: 'questionId', index: 'questionId', width: 50, hidden: true, key: true},
+            {label: '问题标题', name: 'questionTitle', index: 'questionTitle', sortable: false, width: 80}
+            // {label: '提出人', name: 'createTime', index: 'createTime', sortable: false, width: 80},
+            // {label:  '发布时间', name: 'userToken',index: 'userToken',sortable: false, width: 80},
+            // {label:  '是否通过审核', name: 'userToken',index: 'userToken',sortable: false, width: 80},
+            // {label:  '热度', name: 'userToken',index: 'userToken',sortable: false, width: 80},
         ],
         //表格高度，可自行调节
         height: 485,
@@ -48,9 +48,9 @@ $(function () {
         //jsonReader 对象定义了如何对后端返回的 JSON 数据进行解析，
         jsonReader: {
             root: "data.list",           //数据列表模型
-            page: "data.currPage",       //数据页码
-            total: "data.totalPage",     //数据总页码
-            records: "data.totalCount",  //数据总记录数
+            page: "data.pageNum",       //数据页码
+            total: "data.pages",     //数据总页码
+            records: "data.total",  //数据总记录数
         },
         // 向后台请求的参数
         prmNames: {
@@ -66,3 +66,7 @@ $(function () {
     });
 
 });
+
+function f() {
+    
+}

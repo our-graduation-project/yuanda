@@ -1,11 +1,12 @@
 package wang.haogui.yuanda.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.FavoritesConnection;
 import wang.haogui.yuanda.model.FavoritesConnectionExample;
 
 import java.util.List;
-
+@Mapper
 public interface FavoritesConnectionMapper {
     long countByExample(FavoritesConnectionExample example);
 

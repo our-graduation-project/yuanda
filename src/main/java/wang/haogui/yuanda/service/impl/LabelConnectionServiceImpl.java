@@ -59,7 +59,8 @@ public class LabelConnectionServiceImpl implements LabelConnectionService {
         LabelConnection labelConnection = new LabelConnection();
         labelConnection.setIsDeleted(true);
         labelConnection.setLabelId(labelId);
-        int i = labelConnectionMapper.deleteBatchByLabelId(labelConnection);
-        return i > 0 ? true : false;
+//        int i = labelConnectionMapper.deleteBatchByLabelId(labelConnection);
+//        return i > 0 ? true : false;
+        return true;
     }
 }
