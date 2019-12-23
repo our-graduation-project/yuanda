@@ -5,6 +5,16 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 public class Label implements Serializable {
+
+    public Label(){
+
+    }
+
+    public Label(String labelName, Boolean isDeleted) {
+        this.labelName = labelName;
+        this.isDeleted = isDeleted;
+    }
+
     @ApiModelProperty(value = "主键")
     private Integer labelId;
 

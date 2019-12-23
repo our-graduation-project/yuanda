@@ -1,11 +1,13 @@
 package wang.haogui.yuanda.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.Label;
 import wang.haogui.yuanda.model.LabelExample;
 
 import java.util.List;
 
+@Mapper
 public interface LabelMapper {
     long countByExample(LabelExample example);
 
