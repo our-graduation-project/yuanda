@@ -24,9 +24,6 @@ public class Users implements Serializable {
     @ApiModelProperty(value = "0表示男，1表示女")
     private Integer userSex;
 
-    @ApiModelProperty(value = "0表示存在，1表示删除")
-    private Integer userStatus;
-
     @ApiModelProperty(value = "头像图片路径")
     private String userPicture;
 
@@ -68,6 +65,25 @@ public class Users implements Serializable {
 
     @ApiModelProperty(value = "用未读消息的数量")
     private Integer unreadMessageNumber;
+
+    @ApiModelProperty(value = " 0表示存在，1表示删除")
+    private Boolean isDeleted;
+
+    public Users() {
+    }
+
+    public Users(Integer userId, String userName, String userPassword, Integer userSex, Boolean isDeleted) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userSex = userSex;
+        this.isDeleted = isDeleted;
+    }
+
+    public Users(String userPassword, String email) {
+        this.userPassword = userPassword;
+        this.email = email;
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -117,14 +133,6 @@ public class Users implements Serializable {
 
     public void setUserSex(Integer userSex) {
         this.userSex = userSex;
-    }
-
-    public Integer getUserStatus() {
-        return userStatus;
-    }
-
-    public void setUserStatus(Integer userStatus) {
-        this.userStatus = userStatus;
     }
 
     public String getUserPicture() {
@@ -239,6 +247,14 @@ public class Users implements Serializable {
         this.unreadMessageNumber = unreadMessageNumber;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -251,7 +267,6 @@ public class Users implements Serializable {
         sb.append(", userAge=").append(userAge);
         sb.append(", userBrithday=").append(userBrithday);
         sb.append(", userSex=").append(userSex);
-        sb.append(", userStatus=").append(userStatus);
         sb.append(", userPicture=").append(userPicture);
         sb.append(", userBackground=").append(userBackground);
         sb.append(", nickName=").append(nickName);
@@ -266,6 +281,7 @@ public class Users implements Serializable {
         sb.append(", remark=").append(remark);
         sb.append(", remark2=").append(remark2);
         sb.append(", unreadMessageNumber=").append(unreadMessageNumber);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

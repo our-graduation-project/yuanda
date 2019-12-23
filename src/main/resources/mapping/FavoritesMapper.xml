@@ -2,12 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="wang.haogui.yuanda.mapper.FavoritesMapper">
   <resultMap id="BaseResultMap" type="wang.haogui.yuanda.model.Favorites">
-    <id column="favorites_id" jdbcType="TINYINT" property="favoritesId" />
+    <id column="favorites_id" jdbcType="INTEGER" property="favoritesId" />
     <result column="favorites_name" jdbcType="VARCHAR" property="favoritesName" />
     <result column="favorites_number" jdbcType="INTEGER" property="favoritesNumber" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    favorites_id, favorites_name, favorites_number, remark, remark2, user_id
+    favorites_id, favorites_name, favorites_number, remark, remark2, user_id, is_deleted
   </sql>
   <select id="selectByExample" parameterType="wang.haogui.yuanda.model.FavoritesExample" resultMap="BaseResultMap">
     select
@@ -84,15 +85,15 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Byte" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from favorites
-    where favorites_id = #{favoritesId,jdbcType=TINYINT}
+    where favorites_id = #{favoritesId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Byte">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from favorites
-    where favorites_id = #{favoritesId,jdbcType=TINYINT}
+    where favorites_id = #{favoritesId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="wang.haogui.yuanda.model.FavoritesExample">
     delete from favorites
@@ -101,16 +102,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="wang.haogui.yuanda.model.Favorites">
-    <selectKey keyProperty="favoritesId" order="AFTER" resultType="java.lang.Byte">
+    <selectKey keyProperty="favoritesId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into favorites (favorites_name, favorites_number, remark, 
-      remark2, user_id)
+      remark2, user_id, is_deleted
+      )
     values (#{favoritesName,jdbcType=VARCHAR}, #{favoritesNumber,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{remark2,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER})
+      #{remark2,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Favorites">
-    <selectKey keyProperty="favoritesId" order="AFTER" resultType="java.lang.Byte">
+    <selectKey keyProperty="favoritesId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into favorites
@@ -130,6 +133,9 @@
       <if test="userId != null">
         user_id,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="favoritesName != null">
@@ -147,6 +153,9 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="wang.haogui.yuanda.model.FavoritesExample" resultType="java.lang.Long">
@@ -159,7 +168,7 @@
     update favorites
     <set>
       <if test="record.favoritesId != null">
-        favorites_id = #{record.favoritesId,jdbcType=TINYINT},
+        favorites_id = #{record.favoritesId,jdbcType=INTEGER},
       </if>
       <if test="record.favoritesName != null">
         favorites_name = #{record.favoritesName,jdbcType=VARCHAR},
@@ -176,6 +185,9 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -183,12 +195,13 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update favorites
-    set favorites_id = #{record.favoritesId,jdbcType=TINYINT},
+    set favorites_id = #{record.favoritesId,jdbcType=INTEGER},
       favorites_name = #{record.favoritesName,jdbcType=VARCHAR},
       favorites_number = #{record.favoritesNumber,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
       remark2 = #{record.remark2,jdbcType=VARCHAR},
-      user_id = #{record.userId,jdbcType=INTEGER}
+      user_id = #{record.userId,jdbcType=INTEGER},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,8 +224,11 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
-    where favorites_id = #{favoritesId,jdbcType=TINYINT}
+    where favorites_id = #{favoritesId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="wang.haogui.yuanda.model.Favorites">
     update favorites
@@ -220,7 +236,8 @@
       favorites_number = #{favoritesNumber,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
       remark2 = #{remark2,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=INTEGER}
-    where favorites_id = #{favoritesId,jdbcType=TINYINT}
+      user_id = #{userId,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT}
+    where favorites_id = #{favoritesId,jdbcType=INTEGER}
   </update>
 </mapper>

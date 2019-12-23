@@ -12,6 +12,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
     <result column="comment_type" jdbcType="TINYINT" property="commentType" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     comment_id, comment_content, comment_number, comment_target_id, comment_resource_id, 
-    comment_resource_name, comment_resource_picture, remark, remark2, comment_type
+    comment_resource_name, comment_resource_picture, remark, remark2, comment_type, is_deleted
   </sql>
   <select id="selectByExample" parameterType="wang.haogui.yuanda.model.CommentExample" resultMap="BaseResultMap">
     select
@@ -112,11 +113,11 @@
     insert into comment (comment_content, comment_number, comment_target_id, 
       comment_resource_id, comment_resource_name, 
       comment_resource_picture, remark, remark2, 
-      comment_type)
+      comment_type, is_deleted)
     values (#{commentContent,jdbcType=VARCHAR}, #{commentNumber,jdbcType=INTEGER}, #{commentTargetId,jdbcType=INTEGER}, 
       #{commentResourceId,jdbcType=INTEGER}, #{commentResourceName,jdbcType=VARCHAR}, 
       #{commentResourcePicture,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, 
-      #{commentType,jdbcType=TINYINT})
+      #{commentType,jdbcType=TINYINT}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Comment">
     <selectKey keyProperty="commentId" order="AFTER" resultType="java.lang.Integer">
@@ -151,6 +152,9 @@
       <if test="commentType != null">
         comment_type,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="commentContent != null">
@@ -179,6 +183,9 @@
       </if>
       <if test="commentType != null">
         #{commentType,jdbcType=TINYINT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -221,6 +228,9 @@
       <if test="record.commentType != null">
         comment_type = #{record.commentType,jdbcType=TINYINT},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,7 +247,8 @@
       comment_resource_picture = #{record.commentResourcePicture,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       remark2 = #{record.remark2,jdbcType=VARCHAR},
-      comment_type = #{record.commentType,jdbcType=TINYINT}
+      comment_type = #{record.commentType,jdbcType=TINYINT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -272,6 +283,9 @@
       <if test="commentType != null">
         comment_type = #{commentType,jdbcType=TINYINT},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
@@ -285,7 +299,8 @@
       comment_resource_picture = #{commentResourcePicture,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       remark2 = #{remark2,jdbcType=VARCHAR},
-      comment_type = #{commentType,jdbcType=TINYINT}
+      comment_type = #{commentType,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Favorites implements Serializable {
     @ApiModelProperty(value = "收藏夹id")
-    private Byte favoritesId;
+    private Integer favoritesId;
 
     @ApiModelProperty(value = "收藏夹名")
     private String favoritesName;
@@ -23,13 +23,16 @@ public class Favorites implements Serializable {
     @ApiModelProperty(value = "拥有者id")
     private Integer userId;
 
+    @ApiModelProperty(value = "0表示存在，1表示删除")
+    private Boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
 
-    public Byte getFavoritesId() {
+    public Integer getFavoritesId() {
         return favoritesId;
     }
 
-    public void setFavoritesId(Byte favoritesId) {
+    public void setFavoritesId(Integer favoritesId) {
         this.favoritesId = favoritesId;
     }
 
@@ -73,6 +76,14 @@ public class Favorites implements Serializable {
         this.userId = userId;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -85,6 +96,7 @@ public class Favorites implements Serializable {
         sb.append(", remark=").append(remark);
         sb.append(", remark2=").append(remark2);
         sb.append(", userId=").append(userId);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

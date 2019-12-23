@@ -35,6 +35,9 @@ public class Comment implements Serializable {
     @ApiModelProperty(value = "评论对象的类型0表示文章，1表示回答，2表示评论")
     private Byte commentType;
 
+    @ApiModelProperty(value = " 0表示存在，1表示删除")
+    private Boolean isDeleted;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getCommentId() {
@@ -117,6 +120,14 @@ public class Comment implements Serializable {
         this.commentType = commentType;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -133,6 +144,7 @@ public class Comment implements Serializable {
         sb.append(", remark=").append(remark);
         sb.append(", remark2=").append(remark2);
         sb.append(", commentType=").append(commentType);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

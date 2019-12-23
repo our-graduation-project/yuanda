@@ -8,6 +8,7 @@
     <result column="connect_type" jdbcType="BIT" property="connectType" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, label_id, connect_id, connect_type, remark, remark2
+    id, label_id, connect_id, connect_type, remark, remark2, is_deleted
   </sql>
   <select id="selectByExample" parameterType="wang.haogui.yuanda.model.LabelConnectionExample" resultMap="BaseResultMap">
     select
@@ -105,9 +106,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into label_connection (label_id, connect_id, connect_type, 
-      remark, remark2)
+      remark, remark2, is_deleted
+      )
     values (#{labelId,jdbcType=INTEGER}, #{connectId,jdbcType=INTEGER}, #{connectType,jdbcType=BIT}, 
-      #{remark,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.LabelConnection">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -130,6 +133,9 @@
       <if test="remark2 != null">
         remark2,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="labelId != null">
@@ -146,6 +152,9 @@
       </if>
       <if test="remark2 != null">
         #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -176,6 +185,9 @@
       <if test="record.remark2 != null">
         remark2 = #{record.remark2,jdbcType=VARCHAR},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -188,7 +200,8 @@
       connect_id = #{record.connectId,jdbcType=INTEGER},
       connect_type = #{record.connectType,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
-      remark2 = #{record.remark2,jdbcType=VARCHAR}
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,6 +224,9 @@
       <if test="remark2 != null">
         remark2 = #{remark2,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -220,7 +236,8 @@
       connect_id = #{connectId,jdbcType=INTEGER},
       connect_type = #{connectType,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
-      remark2 = #{remark2,jdbcType=VARCHAR}
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

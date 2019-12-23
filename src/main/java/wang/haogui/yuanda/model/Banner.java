@@ -18,14 +18,14 @@ public class Banner implements Serializable {
     @ApiModelProperty(value = "广告标题")
     private String bannerTitle;
 
-    @ApiModelProperty(value = "广告状态0表示存在，1为删除")
-    private Boolean bannerStatus;
-
     @ApiModelProperty(value = "生效时间")
     private Date bannerCreateTime;
 
     @ApiModelProperty(value = "失效时间")
     private Date bannerFailureTime;
+
+    @ApiModelProperty(value = "0表示存在，1表示删除")
+    private Boolean isDeleted;
 
     private static final long serialVersionUID = 1L;
 
@@ -61,14 +61,6 @@ public class Banner implements Serializable {
         this.bannerTitle = bannerTitle;
     }
 
-    public Boolean getBannerStatus() {
-        return bannerStatus;
-    }
-
-    public void setBannerStatus(Boolean bannerStatus) {
-        this.bannerStatus = bannerStatus;
-    }
-
     public Date getBannerCreateTime() {
         return bannerCreateTime;
     }
@@ -85,6 +77,14 @@ public class Banner implements Serializable {
         this.bannerFailureTime = bannerFailureTime;
     }
 
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -95,9 +95,9 @@ public class Banner implements Serializable {
         sb.append(", bannerPic=").append(bannerPic);
         sb.append(", bannerContent=").append(bannerContent);
         sb.append(", bannerTitle=").append(bannerTitle);
-        sb.append(", bannerStatus=").append(bannerStatus);
         sb.append(", bannerCreateTime=").append(bannerCreateTime);
         sb.append(", bannerFailureTime=").append(bannerFailureTime);
+        sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

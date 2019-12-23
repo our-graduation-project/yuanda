@@ -10,6 +10,7 @@
     <result column="is_read" jdbcType="TINYINT" property="isRead" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +72,7 @@
   </sql>
   <sql id="Base_Column_List">
     message_id, message_content, message_resource_id, message_target, message_type, is_read, 
-    remark, remark2
+    remark, remark2, is_deleted
   </sql>
   <select id="selectByExample" parameterType="wang.haogui.yuanda.model.MessageExample" resultMap="BaseResultMap">
     select
@@ -109,10 +110,12 @@
     </selectKey>
     insert into message (message_content, message_resource_id, 
       message_target, message_type, is_read, 
-      remark, remark2)
+      remark, remark2, is_deleted
+      )
     values (#{messageContent,jdbcType=VARCHAR}, #{messageResourceId,jdbcType=INTEGER}, 
       #{messageTarget,jdbcType=INTEGER}, #{messageType,jdbcType=TINYINT}, #{isRead,jdbcType=TINYINT}, 
-      #{remark,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR})
+      #{remark,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Message">
     <selectKey keyProperty="messageId" order="AFTER" resultType="java.lang.Integer">
@@ -141,6 +144,9 @@
       <if test="remark2 != null">
         remark2,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="messageContent != null">
@@ -163,6 +169,9 @@
       </if>
       <if test="remark2 != null">
         #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -199,6 +208,9 @@
       <if test="record.remark2 != null">
         remark2 = #{record.remark2,jdbcType=VARCHAR},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -213,7 +225,8 @@
       message_type = #{record.messageType,jdbcType=TINYINT},
       is_read = #{record.isRead,jdbcType=TINYINT},
       remark = #{record.remark,jdbcType=VARCHAR},
-      remark2 = #{record.remark2,jdbcType=VARCHAR}
+      remark2 = #{record.remark2,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,6 +255,9 @@
       <if test="remark2 != null">
         remark2 = #{remark2,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
     </set>
     where message_id = #{messageId,jdbcType=INTEGER}
   </update>
@@ -253,7 +269,8 @@
       message_type = #{messageType,jdbcType=TINYINT},
       is_read = #{isRead,jdbcType=TINYINT},
       remark = #{remark,jdbcType=VARCHAR},
-      remark2 = #{remark2,jdbcType=VARCHAR}
+      remark2 = #{remark2,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where message_id = #{messageId,jdbcType=INTEGER}
   </update>
 </mapper>

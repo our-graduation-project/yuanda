@@ -6,9 +6,9 @@
     <result column="banner_pic" jdbcType="VARCHAR" property="bannerPic" />
     <result column="banner_content" jdbcType="VARCHAR" property="bannerContent" />
     <result column="banner_title" jdbcType="VARCHAR" property="bannerTitle" />
-    <result column="banner_status" jdbcType="BIT" property="bannerStatus" />
     <result column="banner_create_time" jdbcType="TIMESTAMP" property="bannerCreateTime" />
     <result column="banner_failure_time" jdbcType="TIMESTAMP" property="bannerFailureTime" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,8 +69,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    banner_id, banner_pic, banner_content, banner_title, banner_status, banner_create_time, 
-    banner_failure_time
+    banner_id, banner_pic, banner_content, banner_title, banner_create_time, banner_failure_time, 
+    is_deleted
   </sql>
   <select id="selectByExample" parameterType="wang.haogui.yuanda.model.BannerExample" resultMap="BaseResultMap">
     select
@@ -107,11 +107,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into banner (banner_pic, banner_content, banner_title, 
-      banner_status, banner_create_time, banner_failure_time
-      )
+      banner_create_time, banner_failure_time, 
+      is_deleted)
     values (#{bannerPic,jdbcType=VARCHAR}, #{bannerContent,jdbcType=VARCHAR}, #{bannerTitle,jdbcType=VARCHAR}, 
-      #{bannerStatus,jdbcType=BIT}, #{bannerCreateTime,jdbcType=TIMESTAMP}, #{bannerFailureTime,jdbcType=TIMESTAMP}
-      )
+      #{bannerCreateTime,jdbcType=TIMESTAMP}, #{bannerFailureTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Banner">
     <selectKey keyProperty="bannerId" order="AFTER" resultType="java.lang.Integer">
@@ -128,14 +128,14 @@
       <if test="bannerTitle != null">
         banner_title,
       </if>
-      <if test="bannerStatus != null">
-        banner_status,
-      </if>
       <if test="bannerCreateTime != null">
         banner_create_time,
       </if>
       <if test="bannerFailureTime != null">
         banner_failure_time,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -148,14 +148,14 @@
       <if test="bannerTitle != null">
         #{bannerTitle,jdbcType=VARCHAR},
       </if>
-      <if test="bannerStatus != null">
-        #{bannerStatus,jdbcType=BIT},
-      </if>
       <if test="bannerCreateTime != null">
         #{bannerCreateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="bannerFailureTime != null">
         #{bannerFailureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -180,14 +180,14 @@
       <if test="record.bannerTitle != null">
         banner_title = #{record.bannerTitle,jdbcType=VARCHAR},
       </if>
-      <if test="record.bannerStatus != null">
-        banner_status = #{record.bannerStatus,jdbcType=BIT},
-      </if>
       <if test="record.bannerCreateTime != null">
         banner_create_time = #{record.bannerCreateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.bannerFailureTime != null">
         banner_failure_time = #{record.bannerFailureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -200,9 +200,9 @@
       banner_pic = #{record.bannerPic,jdbcType=VARCHAR},
       banner_content = #{record.bannerContent,jdbcType=VARCHAR},
       banner_title = #{record.bannerTitle,jdbcType=VARCHAR},
-      banner_status = #{record.bannerStatus,jdbcType=BIT},
       banner_create_time = #{record.bannerCreateTime,jdbcType=TIMESTAMP},
-      banner_failure_time = #{record.bannerFailureTime,jdbcType=TIMESTAMP}
+      banner_failure_time = #{record.bannerFailureTime,jdbcType=TIMESTAMP},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -219,14 +219,14 @@
       <if test="bannerTitle != null">
         banner_title = #{bannerTitle,jdbcType=VARCHAR},
       </if>
-      <if test="bannerStatus != null">
-        banner_status = #{bannerStatus,jdbcType=BIT},
-      </if>
       <if test="bannerCreateTime != null">
         banner_create_time = #{bannerCreateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="bannerFailureTime != null">
         banner_failure_time = #{bannerFailureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
     </set>
     where banner_id = #{bannerId,jdbcType=INTEGER}
@@ -236,9 +236,9 @@
     set banner_pic = #{bannerPic,jdbcType=VARCHAR},
       banner_content = #{bannerContent,jdbcType=VARCHAR},
       banner_title = #{bannerTitle,jdbcType=VARCHAR},
-      banner_status = #{bannerStatus,jdbcType=BIT},
       banner_create_time = #{bannerCreateTime,jdbcType=TIMESTAMP},
-      banner_failure_time = #{bannerFailureTime,jdbcType=TIMESTAMP}
+      banner_failure_time = #{bannerFailureTime,jdbcType=TIMESTAMP},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where banner_id = #{bannerId,jdbcType=INTEGER}
   </update>
 </mapper>

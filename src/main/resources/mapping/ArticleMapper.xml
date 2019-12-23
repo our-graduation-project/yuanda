@@ -19,6 +19,7 @@
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
     <result column="check_admin_id" jdbcType="INTEGER" property="checkAdminId" />
     <result column="picture_src" jdbcType="VARCHAR" property="pictureSrc" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="wang.haogui.yuanda.model.Article">
     <result column="article_content" jdbcType="LONGVARCHAR" property="articleContent" />
@@ -84,7 +85,7 @@
   <sql id="Base_Column_List">
     article_id, check_time, article_title, create_time, update_time, author, check_status, 
     click_number, hot_number, agreement_number, disagreement_number, comment_number, 
-    recommend_number, remark, remark2, check_admin_id, picture_src
+    recommend_number, remark, remark2, check_admin_id, picture_src, is_deleted
   </sql>
   <sql id="Blob_Column_List">
     article_content
@@ -148,13 +149,15 @@
       click_number, hot_number, agreement_number, 
       disagreement_number, comment_number, recommend_number, 
       remark, remark2, check_admin_id, 
-      picture_src, article_content)
+      picture_src, is_deleted, article_content
+      )
     values (#{checkTime,jdbcType=TIMESTAMP}, #{articleTitle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{author,jdbcType=VARCHAR}, #{checkStatus,jdbcType=TINYINT}, 
       #{clickNumber,jdbcType=INTEGER}, #{hotNumber,jdbcType=INTEGER}, #{agreementNumber,jdbcType=INTEGER}, 
       #{disagreementNumber,jdbcType=INTEGER}, #{commentNumber,jdbcType=INTEGER}, #{recommendNumber,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR}, #{checkAdminId,jdbcType=INTEGER}, 
-      #{pictureSrc,jdbcType=VARCHAR}, #{articleContent,jdbcType=LONGVARCHAR})
+      #{pictureSrc,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, #{articleContent,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Article">
     <selectKey keyProperty="articleId" order="AFTER" resultType="java.lang.Integer">
@@ -210,6 +213,9 @@
       <if test="pictureSrc != null">
         picture_src,
       </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
       <if test="articleContent != null">
         article_content,
       </if>
@@ -262,6 +268,9 @@
       </if>
       <if test="pictureSrc != null">
         #{pictureSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
       </if>
       <if test="articleContent != null">
         #{articleContent,jdbcType=LONGVARCHAR},
@@ -328,6 +337,9 @@
       <if test="record.pictureSrc != null">
         picture_src = #{record.pictureSrc,jdbcType=VARCHAR},
       </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
       <if test="record.articleContent != null">
         article_content = #{record.articleContent,jdbcType=LONGVARCHAR},
       </if>
@@ -355,6 +367,7 @@
       remark2 = #{record.remark2,jdbcType=VARCHAR},
       check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
       picture_src = #{record.pictureSrc,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       article_content = #{record.articleContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -378,7 +391,8 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       remark2 = #{record.remark2,jdbcType=VARCHAR},
       check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
-      picture_src = #{record.pictureSrc,jdbcType=VARCHAR}
+      picture_src = #{record.pictureSrc,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -431,6 +445,9 @@
       <if test="pictureSrc != null">
         picture_src = #{pictureSrc,jdbcType=VARCHAR},
       </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
       <if test="articleContent != null">
         article_content = #{articleContent,jdbcType=LONGVARCHAR},
       </if>
@@ -455,6 +472,7 @@
       remark2 = #{remark2,jdbcType=VARCHAR},
       check_admin_id = #{checkAdminId,jdbcType=INTEGER},
       picture_src = #{pictureSrc,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
       article_content = #{articleContent,jdbcType=LONGVARCHAR}
     where article_id = #{articleId,jdbcType=INTEGER}
       and check_time = #{checkTime,jdbcType=TIMESTAMP}
@@ -475,7 +493,8 @@
       remark = #{remark,jdbcType=VARCHAR},
       remark2 = #{remark2,jdbcType=VARCHAR},
       check_admin_id = #{checkAdminId,jdbcType=INTEGER},
-      picture_src = #{pictureSrc,jdbcType=VARCHAR}
+      picture_src = #{pictureSrc,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where article_id = #{articleId,jdbcType=INTEGER}
       and check_time = #{checkTime,jdbcType=TIMESTAMP}
   </update>
