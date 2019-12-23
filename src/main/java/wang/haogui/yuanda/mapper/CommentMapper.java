@@ -1,11 +1,13 @@
 package wang.haogui.yuanda.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.Comment;
 import wang.haogui.yuanda.model.CommentExample;
 
 import java.util.List;
 
+@Mapper
 public interface CommentMapper {
     long countByExample(CommentExample example);
 
@@ -28,4 +30,8 @@ public interface CommentMapper {
     int updateByPrimaryKeySelective(Comment record);
 
     int updateByPrimaryKey(Comment record);
+
+    int updateBatchForComment(List<Comment> comments);
+
+    int updateForCommentNumber(Integer commentId);
 }

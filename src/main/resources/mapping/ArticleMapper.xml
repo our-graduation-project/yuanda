@@ -498,4 +498,9 @@
       author_picture = #{authorPicture,jdbcType=VARCHAR}
     where article_id = #{articleId,jdbcType=INTEGER}
   </update>
+  <update id="updateForCommentNumber" parameterType="java.lang.Integer">
+    update article
+    set comment_number = comment_number - 1
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
 </mapper>

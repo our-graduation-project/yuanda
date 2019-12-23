@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.mapper.QuestionMapper;
 import wang.haogui.yuanda.model.Question;
@@ -13,6 +14,7 @@ import wang.haogui.yuanda.utils.CommonUtils;
 import wang.haogui.yuanda.utils.LogUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -275,6 +277,29 @@ public class QuestionServiceImpl implements QuestionService {
             return false;
         }
 
+
+    }
+
+    /**
+     * 批量审核
+     *
+     * @param questionIds 需要审核的问题的Id
+     * @return 返回是否成功
+     */
+    @Override
+    public boolean updateCheckStatus(List<Integer> questionIds,CheckEnum checkEnum) {
+        int i = 0;
+        if(checkEnum == CheckEnum.CHECKPASS){
+            i = questionMapper.updateCheckStatusPass(questionIds);
+        }else {
+            i = questionMapper.updateCheckStatusFail(questionIds);
+        }
+        if(i == questionIds.size()){
+            return true;
+        }else {
+            LogUtils.getDBLogger().info("数据库问题批量修改失败");
+            throw new RuntimeException("数据库问题批量修改失败");
+        }
 
     }
 

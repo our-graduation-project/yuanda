@@ -36,4 +36,6 @@ public interface ArticleMapper {
     int updateByPrimaryKeyWithBLOBs(Article record);
 
     int updateByPrimaryKey(Article record);
+
+    int updateForCommentNumber(Integer articleId);
 }

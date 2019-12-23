@@ -515,6 +515,11 @@
       author_picture = #{authorPicture,jdbcType=VARCHAR}
     where answer_id = #{answerId,jdbcType=INTEGER}
   </update>
+  <update id="updateForCommentNumber" parameterType="java.lang.Integer">
+    update answer
+    set comment_number = comment_number - 1
+    where answer_id = #{answerId,jdbcType=INTEGER}
+  </update>
 
 
 
@@ -545,6 +550,28 @@
     </foreach>
   </insert>
 
+  <!--审核通过-->
+  <update id="updateCheckStatusPass" parameterType="java.util.List">
+    UPDATE answer
+    SET check_status = 1
+    WHERE answer_id IN (
+    <foreach collection="list" separator="," item="answerId">
+      #{answerId}
+    </foreach>
+    )
+  </update>
+
+
+  <!--审核未通过-->
+  <update id="updateCheckStatusFail" parameterType="java.util.List">
+    UPDATE answer
+    SET check_status = 2
+    WHERE answer_id IN (
+    <foreach collection="list" separator="," item="answerId">
+      #{answerId}
+    </foreach>
+    )
+  </update>
 
 
 </mapper>
