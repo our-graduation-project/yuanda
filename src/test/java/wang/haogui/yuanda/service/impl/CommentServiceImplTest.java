@@ -50,7 +50,7 @@ class CommentServiceImplTest {
         comment.setCommentResourceName("zzz");
         comment.setCommentTargetId(1);
         comment.setCommentType((byte) 1);
-        boolean b = commentService.addCommentForArticle(comment);
+        boolean b = commentService.addCommentForAnswer(comment);
         System.out.println(b);
     }
 
@@ -62,10 +62,10 @@ class CommentServiceImplTest {
         comment.setCommentResourcePicture("1");
         comment.setCommentNumber(0);
         comment.setIsDeleted(false);
-        comment.setCommentResourceName("zzz");
+        comment.setCommentResourceName("zzzz");
         comment.setCommentTargetId(1);
         comment.setCommentType((byte) 2);
-        boolean b = commentService.addCommentForArticle(comment);
+        boolean b = commentService.addCommentForComment(comment);
         System.out.println(b);
     }
 

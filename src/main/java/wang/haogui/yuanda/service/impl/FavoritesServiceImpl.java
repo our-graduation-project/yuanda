@@ -7,6 +7,7 @@ import wang.haogui.yuanda.mapper.FavoritesMapper;
 import wang.haogui.yuanda.model.Favorites;
 import wang.haogui.yuanda.model.FavoritesExample;
 import wang.haogui.yuanda.service.FavoritesService;
+import wang.haogui.yuanda.utils.LogUtils;
 
 import java.util.List;
 
@@ -32,8 +33,12 @@ public class FavoritesServiceImpl implements FavoritesService {
     public boolean addFavorites(Favorites favorites) {
 
         int insert = favoritesMapper.insert(favorites);
+        if(insert <= 0){
+            LogUtils.getDBLogger().info("新建收藏夹失败");
+            throw new RuntimeException("新建收藏夹失败！");
+        }
 
-        return insert > 0;
+        return true;
     }
 
     /**
@@ -48,7 +53,11 @@ public class FavoritesServiceImpl implements FavoritesService {
         favorites.setIsDeleted(true);
         favorites.setFavoritesId(favoritesId);
         int i = favoritesMapper.updateByPrimaryKeySelective(favorites);
-        return i > 0;
+        if(i <= 0){
+            LogUtils.getDBLogger().info("删除收藏夹失败");
+            throw new RuntimeException("删除收藏夹失败！");
+        }
+        return true;
     }
 
     /**
@@ -75,6 +84,11 @@ public class FavoritesServiceImpl implements FavoritesService {
     @Override
     public boolean editFavorites(Favorites favorites) {
         int i = favoritesMapper.updateByPrimaryKey(favorites);
-        return i > 0;
+        if(i <= 0){
+            LogUtils.getDBLogger().info("修改收藏夹失败");
+            throw new RuntimeException("修改收藏夹失败！");
+        }
+
+        return true;
     }
 }

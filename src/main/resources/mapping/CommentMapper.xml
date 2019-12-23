@@ -313,9 +313,16 @@
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">#{item.commentId}
         </foreach>
    </update>
-   <update id="updateForCommentNumber" parameterType="java.lang.Integer">
+   <update id="updateForCommentNumber" parameterType="wang.haogui.yuanda.model.Comment">
     update comment
-    set comment_number = comment_number - 1
+    <set>
+        <if test="commentNumber == 1">
+            comment_number = comment_number + 1
+        </if>
+        <if test="commentNumber == -1">
+            comment_number = comment_number - 1
+        </if>
+    </set>
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
 </mapper>

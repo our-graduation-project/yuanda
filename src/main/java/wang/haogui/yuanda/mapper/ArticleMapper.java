@@ -37,5 +37,5 @@ public interface ArticleMapper {
 
     int updateByPrimaryKey(Article record);
 
-    int updateForCommentNumber(Integer articleId);
+    int updateForCommentNumber(Article record);
 }
