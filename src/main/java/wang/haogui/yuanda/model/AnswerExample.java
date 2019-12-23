@@ -725,52 +725,52 @@ public class AnswerExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedEqualTo(Byte value) {
+        public Criteria andIsDeletedEqualTo(Boolean value) {
             addCriterion("is_deleted =", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotEqualTo(Byte value) {
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
             addCriterion("is_deleted <>", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThan(Byte value) {
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
             addCriterion("is_deleted >", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_deleted >=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThan(Byte value) {
+        public Criteria andIsDeletedLessThan(Boolean value) {
             addCriterion("is_deleted <", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThanOrEqualTo(Byte value) {
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
             addCriterion("is_deleted <=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedIn(List<Byte> values) {
+        public Criteria andIsDeletedIn(List<Boolean> values) {
             addCriterion("is_deleted in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotIn(List<Byte> values) {
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
             addCriterion("is_deleted not in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
@@ -915,63 +915,63 @@ public class AnswerExample {
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdIsNull() {
-            addCriterion("auther_id is null");
+        public Criteria andAuthorIdIsNull() {
+            addCriterion("author_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdIsNotNull() {
-            addCriterion("auther_id is not null");
+        public Criteria andAuthorIdIsNotNull() {
+            addCriterion("author_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdEqualTo(Integer value) {
-            addCriterion("auther_id =", value, "autherId");
+        public Criteria andAuthorIdEqualTo(Integer value) {
+            addCriterion("author_id =", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdNotEqualTo(Integer value) {
-            addCriterion("auther_id <>", value, "autherId");
+        public Criteria andAuthorIdNotEqualTo(Integer value) {
+            addCriterion("author_id <>", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdGreaterThan(Integer value) {
-            addCriterion("auther_id >", value, "autherId");
+        public Criteria andAuthorIdGreaterThan(Integer value) {
+            addCriterion("author_id >", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("auther_id >=", value, "autherId");
+        public Criteria andAuthorIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("author_id >=", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdLessThan(Integer value) {
-            addCriterion("auther_id <", value, "autherId");
+        public Criteria andAuthorIdLessThan(Integer value) {
+            addCriterion("author_id <", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdLessThanOrEqualTo(Integer value) {
-            addCriterion("auther_id <=", value, "autherId");
+        public Criteria andAuthorIdLessThanOrEqualTo(Integer value) {
+            addCriterion("author_id <=", value, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdIn(List<Integer> values) {
-            addCriterion("auther_id in", values, "autherId");
+        public Criteria andAuthorIdIn(List<Integer> values) {
+            addCriterion("author_id in", values, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdNotIn(List<Integer> values) {
-            addCriterion("auther_id not in", values, "autherId");
+        public Criteria andAuthorIdNotIn(List<Integer> values) {
+            addCriterion("author_id not in", values, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdBetween(Integer value1, Integer value2) {
-            addCriterion("auther_id between", value1, value2, "autherId");
+        public Criteria andAuthorIdBetween(Integer value1, Integer value2) {
+            addCriterion("author_id between", value1, value2, "authorId");
             return (Criteria) this;
         }
 
-        public Criteria andAutherIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("auther_id not between", value1, value2, "autherId");
+        public Criteria andAuthorIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("author_id not between", value1, value2, "authorId");
             return (Criteria) this;
         }
 
@@ -1222,6 +1222,76 @@ public class AnswerExample {
 
         public Criteria andQuestionTitileNotBetween(String value1, String value2) {
             addCriterion("question_titile not between", value1, value2, "questionTitile");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureIsNull() {
+            addCriterion("author_picture is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureIsNotNull() {
+            addCriterion("author_picture is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureEqualTo(String value) {
+            addCriterion("author_picture =", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureNotEqualTo(String value) {
+            addCriterion("author_picture <>", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureGreaterThan(String value) {
+            addCriterion("author_picture >", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureGreaterThanOrEqualTo(String value) {
+            addCriterion("author_picture >=", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureLessThan(String value) {
+            addCriterion("author_picture <", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureLessThanOrEqualTo(String value) {
+            addCriterion("author_picture <=", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureLike(String value) {
+            addCriterion("author_picture like", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureNotLike(String value) {
+            addCriterion("author_picture not like", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureIn(List<String> values) {
+            addCriterion("author_picture in", values, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureNotIn(List<String> values) {
+            addCriterion("author_picture not in", values, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureBetween(String value1, String value2) {
+            addCriterion("author_picture between", value1, value2, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureNotBetween(String value1, String value2) {
+            addCriterion("author_picture not between", value1, value2, "authorPicture");
             return (Criteria) this;
         }
     }

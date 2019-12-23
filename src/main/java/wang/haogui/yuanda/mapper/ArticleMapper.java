@@ -4,7 +4,6 @@ import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.Article;
 import wang.haogui.yuanda.model.ArticleExample;
 
-import java.util.Date;
 import java.util.List;
 
 public interface ArticleMapper {
@@ -12,7 +11,7 @@ public interface ArticleMapper {
 
     int deleteByExample(ArticleExample example);
 
-    int deleteByPrimaryKey(@Param("articleId") Integer articleId, @Param("checkTime") Date checkTime);
+    int deleteByPrimaryKey(Integer articleId);
 
     int insert(Article record);
 
@@ -22,7 +21,7 @@ public interface ArticleMapper {
 
     List<Article> selectByExample(ArticleExample example);
 
-    Article selectByPrimaryKey(@Param("articleId") Integer articleId, @Param("checkTime") Date checkTime);
+    Article selectByPrimaryKey(Integer articleId);
 
     int updateByExampleSelective(@Param("record") Article record, @Param("example") ArticleExample example);
 

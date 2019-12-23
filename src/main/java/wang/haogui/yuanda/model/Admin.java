@@ -30,7 +30,7 @@ public class Admin implements Serializable {
     private String phone;
 
     @ApiModelProperty(value = "0表示没有删除，1表示删除")
-    private Byte isDeleted;
+    private Boolean isDeleted;
 
     public Admin() {
     }
@@ -120,11 +120,11 @@ public class Admin implements Serializable {
         this.phone = phone;
     }
 
-    public Byte getIsDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Byte isDeleted) {
+    public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
 

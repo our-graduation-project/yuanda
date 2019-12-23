@@ -644,52 +644,52 @@ public class AdminExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedEqualTo(Byte value) {
+        public Criteria andIsDeletedEqualTo(Boolean value) {
             addCriterion("is_deleted =", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotEqualTo(Byte value) {
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
             addCriterion("is_deleted <>", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThan(Byte value) {
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
             addCriterion("is_deleted >", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_deleted >=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThan(Byte value) {
+        public Criteria andIsDeletedLessThan(Boolean value) {
             addCriterion("is_deleted <", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThanOrEqualTo(Byte value) {
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
             addCriterion("is_deleted <=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedIn(List<Byte> values) {
+        public Criteria andIsDeletedIn(List<Boolean> values) {
             addCriterion("is_deleted in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotIn(List<Byte> values) {
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
             addCriterion("is_deleted not in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }

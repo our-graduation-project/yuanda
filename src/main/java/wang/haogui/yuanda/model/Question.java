@@ -27,8 +27,8 @@ public class Question implements Serializable {
     @ApiModelProperty(value = "是否通过审核，0表示未通过审核，1表示通过审核,2表示未通过审核")
     private Byte checkStatus;
 
-    @ApiModelProperty(value = "是否删除，0表示未删除")
-    private Byte isDeleted;
+    @ApiModelProperty(value = "是否删除，0表示未删除,1表示删除")
+    private Boolean isDeleted;
 
     @ApiModelProperty(value = "备用字段1")
     private String remark;
@@ -47,6 +47,12 @@ public class Question implements Serializable {
 
     @ApiModelProperty(value = "作者id")
     private Integer authorId;
+
+    @ApiModelProperty(value = " 作者头像")
+    private String authorPicture;
+
+    @ApiModelProperty(value = " 问题图片")
+    private String pictureSrc;
 
     private static final long serialVersionUID = 1L;
 
@@ -106,11 +112,11 @@ public class Question implements Serializable {
         this.checkStatus = checkStatus;
     }
 
-    public Byte getIsDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Byte isDeleted) {
+    public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
 
@@ -162,6 +168,22 @@ public class Question implements Serializable {
         this.authorId = authorId;
     }
 
+    public String getAuthorPicture() {
+        return authorPicture;
+    }
+
+    public void setAuthorPicture(String authorPicture) {
+        this.authorPicture = authorPicture;
+    }
+
+    public String getPictureSrc() {
+        return pictureSrc;
+    }
+
+    public void setPictureSrc(String pictureSrc) {
+        this.pictureSrc = pictureSrc;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -182,6 +204,8 @@ public class Question implements Serializable {
         sb.append(", clickNumber=").append(clickNumber);
         sb.append(", createTime=").append(createTime);
         sb.append(", authorId=").append(authorId);
+        sb.append(", authorPicture=").append(authorPicture);
+        sb.append(", pictureSrc=").append(pictureSrc);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
