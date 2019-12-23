@@ -56,6 +56,23 @@ public class Question implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public Question() {
+    }
+
+    public Question(String questionTitle, String questionDescript, Integer answerNumber, Integer followNumber, Integer hot, Byte checkStatus, Boolean isDeleted, String author, Integer clickNumber, Date createTime, Integer authorId) {
+        this.questionTitle = questionTitle;
+        this.questionDescript = questionDescript;
+        this.answerNumber = answerNumber;
+        this.followNumber = followNumber;
+        this.hot = hot;
+        this.checkStatus = checkStatus;
+        this.isDeleted = isDeleted;
+        this.author = author;
+        this.clickNumber = clickNumber;
+        this.createTime = createTime;
+        this.authorId = authorId;
+    }
+
     public Integer getQuestionId() {
         return questionId;
     }

@@ -17,7 +17,7 @@ public class CommonUtils {
     public static String orderStr(String order, OrderEnum orderEnum){
         String str = null;
         str="`"+order+"` ";
-        if(orderEnum !=null){
+        if(orderEnum !=null || !"".equals(order)){
 
             str += orderEnum.getName();
         }else {

@@ -66,6 +66,26 @@ public class Answer implements Serializable {
     @ApiModelProperty(value = "回答内容")
     private String answerContent;
 
+    public Answer() {
+    }
+
+    public Answer(Integer agreeNumber, Integer disagreeNumber, Byte checkStatus, Integer commentNumber, Date createTime, Integer clickNumber, Byte isNoName, String autherName, Boolean isDeleted, Integer authorId, Integer questionId, String questionTitile, String authorPicture, String answerContent) {
+        this.agreeNumber = agreeNumber;
+        this.disagreeNumber = disagreeNumber;
+        this.checkStatus = checkStatus;
+        this.commentNumber = commentNumber;
+        this.createTime = createTime;
+        this.clickNumber = clickNumber;
+        this.isNoName = isNoName;
+        this.autherName = autherName;
+        this.isDeleted = isDeleted;
+        this.authorId = authorId;
+        this.questionId = questionId;
+        this.questionTitile = questionTitile;
+        this.authorPicture = authorPicture;
+        this.answerContent = answerContent;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getAnswerId() {

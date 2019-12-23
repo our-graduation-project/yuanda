@@ -1,11 +1,13 @@
 package wang.haogui.yuanda.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.Answer;
 import wang.haogui.yuanda.model.AnswerExample;
 
 import java.util.List;
 
+@Mapper
 public interface AnswerMapper {
     long countByExample(AnswerExample example);
 
@@ -34,4 +36,6 @@ public interface AnswerMapper {
     int updateByPrimaryKeyWithBLOBs(Answer record);
 
     int updateByPrimaryKey(Answer record);
+
+    int addBatchAnswer(List<Answer> answers);
 }

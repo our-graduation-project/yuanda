@@ -1,11 +1,14 @@
 package wang.haogui.yuanda.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.Question;
 import wang.haogui.yuanda.model.QuestionExample;
 
 import java.util.List;
+import java.util.Map;
 
+@Mapper
 public interface QuestionMapper {
     long countByExample(QuestionExample example);
 
@@ -28,4 +31,9 @@ public interface QuestionMapper {
     int updateByPrimaryKeySelective(Question record);
 
     int updateByPrimaryKey(Question record);
+
+    int addBatchQuestion(List<Question> questions);
+
+    List<Question> selectByTypeName(Map map);
+    List<Question> selectByTypeId(Map map);
 }

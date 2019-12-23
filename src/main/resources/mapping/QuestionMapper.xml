@@ -383,4 +383,60 @@
       picture_src = #{pictureSrc,jdbcType=VARCHAR}
     where question_id = #{questionId,jdbcType=INTEGER}
   </update>
+
+
+
+
+<!--  自己写的批量增加-->
+
+  <insert id="addBatchQuestion" parameterType="java.util.List">
+    insert into question (question_title,question_descript,answer_number,follow_number,hot,check_status,
+    is_deleted,author,click_number,create_time,author_id,author_picture,picture_src) values
+    <foreach collection="list" separator="," item="question">
+      (#{question.questionTitle,jdbcType=VARCHAR},
+      #{question.questionDescript,jdbcType=VARCHAR},
+      #{question.answerNumber,jdbcType=INTEGER},
+      #{question.followNumber,jdbcType=INTEGER},
+      #{question.hot,jdbcType=INTEGER},
+      #{question.checkStatus,jdbcType=TINYINT},
+      #{question.isDeleted,jdbcType=TINYINT},
+      #{question.author,jdbcType=VARCHAR},
+      #{question.clickNumber,jdbcType=INTEGER},
+      #{question.createTime,jdbcType=TIMESTAMP},
+      #{question.authorId,jdbcType=INTEGER},
+      #{question.authorPicture,jdbcType=VARCHAR},
+      #{question.pictureSrc,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+
+<!--  自己写的查询-->
+  <select id="selectByTypeName" parameterType="java.lang.String" resultMap="BaseResultMap">
+select question_id questionId,question_title questionTitle,question_descript questionDescript,answer_number answerNumber,follow_number followNumber,hot,check_status checkStatus,
+is_deleted isDeleted,author,click_number clickNumber,create_time createTime,author_id authorId
+from question where question_id in
+(
+select connect_id  from label_connection
+WHERE connect_type = 2 and is_deleted=0 and label_id in
+(
+select label_id FROM label where label_name = #{typeName} and is_deleted=0
+)
+)
+      <if test="str != null">
+          order by #{str}
+      </if>
+  </select>
+    <select id="selectByTypeId" parameterType="Map" resultMap="BaseResultMap">
+    select question_id questionId,question_title questionTitle,question_descript questionDescript,answer_number answerNumber,follow_number followNumber,hot,check_status checkStatus,
+    is_deleted isDeleted,author,click_number clickNumber,create_time createTime,author_id authorId
+    from question where question_id in
+    (
+    select connect_id  from label_connection
+    WHERE connect_type = 2 and is_deleted=0  and label_id =#{typeId}
+    )
+    <if test="str != null">
+        order by #{str}
+    </if>
+    </select>
+
 </mapper>
