@@ -515,4 +515,36 @@
       author_picture = #{authorPicture,jdbcType=VARCHAR}
     where answer_id = #{answerId,jdbcType=INTEGER}
   </update>
+
+
+
+  <!--  自己写的批量增加-->
+
+  <insert id="addBatchAnswer" parameterType="java.util.List">
+    insert into answer (answer_content,agree_number,disagree_number,check_status,comment_number,
+    create_time,update_time,click_number,is_no_name,auther_name,is_deleted,author_id,check_admin_id,
+    check_time,question_id,question_titile,author_picture) values
+    <foreach collection="list" separator="," item="answer">
+      (#{answer.answerContent,jdbcType=LONGVARCHAR},
+      #{answer.agreeNumber,jdbcType=INTEGER},
+      #{answer.disagreeNumber,jdbcType=INTEGER},
+      #{answer.checkStatus,jdbcType=TINYINT},
+      #{answer.commentNumber,jdbcType=INTEGER},
+      #{answer.createTime,jdbcType=TIMESTAMP},
+      #{answer.updateTime,jdbcType=TIMESTAMP},
+      #{answer.clickNumber,jdbcType=INTEGER},
+      #{answer.isNoName,jdbcType=TINYINT},
+      #{answer.autherName,jdbcType=VARCHAR},
+      #{answer.isDeleted,jdbcType=TINYINT},
+      #{answer.authorId,jdbcType=INTEGER},
+      #{answer.checkAdminId,jdbcType=INTEGER},
+      #{answer.checkTime,jdbcType=TIMESTAMP},
+      #{answer.questionId,jdbcType=INTEGER},
+      #{answer.questionTitile,jdbcType=INTEGER},
+      #{answer.authorPicture,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+
+
+
 </mapper>
