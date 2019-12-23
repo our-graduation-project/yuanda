@@ -9,9 +9,6 @@ public class Article implements Serializable {
     @ApiModelProperty(value = "文章id")
     private Integer articleId;
 
-    @ApiModelProperty(value = "审核时间")
-    private Date checkTime;
-
     @ApiModelProperty(value = "文章标题")
     private String articleTitle;
 
@@ -48,6 +45,9 @@ public class Article implements Serializable {
     @ApiModelProperty(value = "审核人的id")
     private Integer checkAdminId;
 
+    @ApiModelProperty(value = "审核时间")
+    private Date checkTime;
+
     @ApiModelProperty(value = "图片路径")
     private String pictureSrc;
 
@@ -71,14 +71,6 @@ public class Article implements Serializable {
 
     public void setArticleId(Integer articleId) {
         this.articleId = articleId;
-    }
-
-    public Date getCheckTime() {
-        return checkTime;
-    }
-
-    public void setCheckTime(Date checkTime) {
-        this.checkTime = checkTime;
     }
 
     public String getArticleTitle() {
@@ -177,6 +169,14 @@ public class Article implements Serializable {
         this.checkAdminId = checkAdminId;
     }
 
+    public Date getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(Date checkTime) {
+        this.checkTime = checkTime;
+    }
+
     public String getPictureSrc() {
         return pictureSrc;
     }
@@ -224,7 +224,6 @@ public class Article implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", articleId=").append(articleId);
-        sb.append(", checkTime=").append(checkTime);
         sb.append(", articleTitle=").append(articleTitle);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
@@ -237,6 +236,7 @@ public class Article implements Serializable {
         sb.append(", commentNumber=").append(commentNumber);
         sb.append(", recommendNumber=").append(recommendNumber);
         sb.append(", checkAdminId=").append(checkAdminId);
+        sb.append(", checkTime=").append(checkTime);
         sb.append(", pictureSrc=").append(pictureSrc);
         sb.append(", isDeleted=").append(isDeleted);
         sb.append(", authorName=").append(authorName);

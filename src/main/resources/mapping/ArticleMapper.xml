@@ -3,7 +3,6 @@
 <mapper namespace="wang.haogui.yuanda.mapper.ArticleMapper">
   <resultMap id="BaseResultMap" type="wang.haogui.yuanda.model.Article">
     <id column="article_id" jdbcType="INTEGER" property="articleId" />
-    <id column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="article_title" jdbcType="VARCHAR" property="articleTitle" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -16,6 +15,7 @@
     <result column="comment_number" jdbcType="INTEGER" property="commentNumber" />
     <result column="recommend_number" jdbcType="INTEGER" property="recommendNumber" />
     <result column="check_admin_id" jdbcType="INTEGER" property="checkAdminId" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="picture_src" jdbcType="VARCHAR" property="pictureSrc" />
     <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="author_name" jdbcType="VARCHAR" property="authorName" />
@@ -83,9 +83,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    article_id, check_time, article_title, create_time, update_time, author_id, check_status, 
-    click_number, hot_number, agreement_number, disagreement_number, comment_number, 
-    recommend_number, check_admin_id, picture_src, is_deleted, author_name, author_picture
+    article_id, article_title, create_time, update_time, author_id, check_status, click_number, 
+    hot_number, agreement_number, disagreement_number, comment_number, recommend_number, 
+    check_admin_id, check_time, picture_src, is_deleted, author_name, author_picture
   </sql>
   <sql id="Blob_Column_List">
     article_content
@@ -120,19 +120,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="map" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from article
     where article_id = #{articleId,jdbcType=INTEGER}
-      and check_time = #{checkTime,jdbcType=TIMESTAMP}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="map">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from article
     where article_id = #{articleId,jdbcType=INTEGER}
-      and check_time = #{checkTime,jdbcType=TIMESTAMP}
   </delete>
   <delete id="deleteByExample" parameterType="wang.haogui.yuanda.model.ArticleExample">
     delete from article
@@ -144,18 +142,18 @@
     <selectKey keyProperty="articleId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into article (check_time, article_title, create_time, 
-      update_time, author_id, check_status, 
-      click_number, hot_number, agreement_number, 
-      disagreement_number, comment_number, recommend_number, 
-      check_admin_id, picture_src, is_deleted, 
+    insert into article (article_title, create_time, update_time, 
+      author_id, check_status, click_number, 
+      hot_number, agreement_number, disagreement_number, 
+      comment_number, recommend_number, check_admin_id, 
+      check_time, picture_src, is_deleted, 
       author_name, author_picture, article_content
       )
-    values (#{checkTime,jdbcType=TIMESTAMP}, #{articleTitle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{authorId,jdbcType=VARCHAR}, #{checkStatus,jdbcType=TINYINT}, 
-      #{clickNumber,jdbcType=INTEGER}, #{hotNumber,jdbcType=INTEGER}, #{agreementNumber,jdbcType=INTEGER}, 
-      #{disagreementNumber,jdbcType=INTEGER}, #{commentNumber,jdbcType=INTEGER}, #{recommendNumber,jdbcType=INTEGER}, 
-      #{checkAdminId,jdbcType=INTEGER}, #{pictureSrc,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
+    values (#{articleTitle,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{authorId,jdbcType=VARCHAR}, #{checkStatus,jdbcType=TINYINT}, #{clickNumber,jdbcType=INTEGER}, 
+      #{hotNumber,jdbcType=INTEGER}, #{agreementNumber,jdbcType=INTEGER}, #{disagreementNumber,jdbcType=INTEGER}, 
+      #{commentNumber,jdbcType=INTEGER}, #{recommendNumber,jdbcType=INTEGER}, #{checkAdminId,jdbcType=INTEGER}, 
+      #{checkTime,jdbcType=TIMESTAMP}, #{pictureSrc,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
       #{authorName,jdbcType=VARCHAR}, #{authorPicture,jdbcType=VARCHAR}, #{articleContent,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -165,9 +163,6 @@
     </selectKey>
     insert into article
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="checkTime != null">
-        check_time,
-      </if>
       <if test="articleTitle != null">
         article_title,
       </if>
@@ -204,6 +199,9 @@
       <if test="checkAdminId != null">
         check_admin_id,
       </if>
+      <if test="checkTime != null">
+        check_time,
+      </if>
       <if test="pictureSrc != null">
         picture_src,
       </if>
@@ -221,9 +219,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="checkTime != null">
-        #{checkTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="articleTitle != null">
         #{articleTitle,jdbcType=VARCHAR},
       </if>
@@ -260,6 +255,9 @@
       <if test="checkAdminId != null">
         #{checkAdminId,jdbcType=INTEGER},
       </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="pictureSrc != null">
         #{pictureSrc,jdbcType=VARCHAR},
       </if>
@@ -288,9 +286,6 @@
     <set>
       <if test="record.articleId != null">
         article_id = #{record.articleId,jdbcType=INTEGER},
-      </if>
-      <if test="record.checkTime != null">
-        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.articleTitle != null">
         article_title = #{record.articleTitle,jdbcType=VARCHAR},
@@ -328,6 +323,9 @@
       <if test="record.checkAdminId != null">
         check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
       </if>
+      <if test="record.checkTime != null">
+        check_time = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.pictureSrc != null">
         picture_src = #{record.pictureSrc,jdbcType=VARCHAR},
       </if>
@@ -351,7 +349,6 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update article
     set article_id = #{record.articleId,jdbcType=INTEGER},
-      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       article_title = #{record.articleTitle,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -364,6 +361,7 @@
       comment_number = #{record.commentNumber,jdbcType=INTEGER},
       recommend_number = #{record.recommendNumber,jdbcType=INTEGER},
       check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       picture_src = #{record.pictureSrc,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
       author_name = #{record.authorName,jdbcType=VARCHAR},
@@ -376,7 +374,6 @@
   <update id="updateByExample" parameterType="map">
     update article
     set article_id = #{record.articleId,jdbcType=INTEGER},
-      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       article_title = #{record.articleTitle,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -389,6 +386,7 @@
       comment_number = #{record.commentNumber,jdbcType=INTEGER},
       recommend_number = #{record.recommendNumber,jdbcType=INTEGER},
       check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
+      check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       picture_src = #{record.pictureSrc,jdbcType=VARCHAR},
       is_deleted = #{record.isDeleted,jdbcType=BIT},
       author_name = #{record.authorName,jdbcType=VARCHAR},
@@ -436,6 +434,9 @@
       <if test="checkAdminId != null">
         check_admin_id = #{checkAdminId,jdbcType=INTEGER},
       </if>
+      <if test="checkTime != null">
+        check_time = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="pictureSrc != null">
         picture_src = #{pictureSrc,jdbcType=VARCHAR},
       </if>
@@ -453,7 +454,6 @@
       </if>
     </set>
     where article_id = #{articleId,jdbcType=INTEGER}
-      and check_time = #{checkTime,jdbcType=TIMESTAMP}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="wang.haogui.yuanda.model.Article">
     update article
@@ -469,13 +469,13 @@
       comment_number = #{commentNumber,jdbcType=INTEGER},
       recommend_number = #{recommendNumber,jdbcType=INTEGER},
       check_admin_id = #{checkAdminId,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
       picture_src = #{pictureSrc,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT},
       author_name = #{authorName,jdbcType=VARCHAR},
       author_picture = #{authorPicture,jdbcType=VARCHAR},
       article_content = #{articleContent,jdbcType=LONGVARCHAR}
     where article_id = #{articleId,jdbcType=INTEGER}
-      and check_time = #{checkTime,jdbcType=TIMESTAMP}
   </update>
   <update id="updateByPrimaryKey" parameterType="wang.haogui.yuanda.model.Article">
     update article
@@ -491,11 +491,11 @@
       comment_number = #{commentNumber,jdbcType=INTEGER},
       recommend_number = #{recommendNumber,jdbcType=INTEGER},
       check_admin_id = #{checkAdminId,jdbcType=INTEGER},
+      check_time = #{checkTime,jdbcType=TIMESTAMP},
       picture_src = #{pictureSrc,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=BIT},
       author_name = #{authorName,jdbcType=VARCHAR},
       author_picture = #{authorPicture,jdbcType=VARCHAR}
     where article_id = #{articleId,jdbcType=INTEGER}
-      and check_time = #{checkTime,jdbcType=TIMESTAMP}
   </update>
 </mapper>
