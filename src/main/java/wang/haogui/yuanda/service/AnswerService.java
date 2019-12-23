@@ -2,6 +2,7 @@ package wang.haogui.yuanda.service;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
+import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Answer;
 
@@ -68,5 +69,10 @@ public interface AnswerService {
      */
     PageInfo<Answer> selectAnswers(int page, int limit, String order, OrderEnum orderEnum);
 
-
+    /**
+     * 批量审核
+     * @param answerId 需要审核的答案的Id
+     * @return 返回是否成功
+     */
+    boolean updateCheckStatus(List<Integer> answerId, CheckEnum checkEnum);
 }

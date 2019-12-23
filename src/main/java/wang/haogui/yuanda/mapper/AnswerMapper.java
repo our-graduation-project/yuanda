@@ -40,4 +40,9 @@ public interface AnswerMapper {
     int updateForCommentNumber(Integer commentTargetId);
 
     int addBatchAnswer(List<Answer> answers);
+
+    int updateCheckStatusPass(List<Integer> answerId);
+
+    int updateCheckStatusFail(List<Integer> answerId);
+
 }

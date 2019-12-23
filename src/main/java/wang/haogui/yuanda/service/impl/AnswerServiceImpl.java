@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.mapper.AnswerMapper;
 import wang.haogui.yuanda.model.Answer;
@@ -172,5 +173,28 @@ public class AnswerServiceImpl implements AnswerService {
         }
         PageInfo<Answer> pageInfo = select(page, limit, answerExample);
         return pageInfo;
+    }
+
+    /**
+     * 批量审核
+     *
+     * @param answerId  需要审核的答案的Id
+     * @param checkEnum
+     * @return 返回是否成功
+     */
+    @Override
+    public boolean updateCheckStatus(List<Integer> answerId, CheckEnum checkEnum) {
+        int i = 0;
+        if(checkEnum == CheckEnum.CHECKPASS){
+            i = answerMapper.updateCheckStatusPass(answerId);
+        }else {
+            i = answerMapper.updateCheckStatusFail(answerId);
+        }
+        if(i == answerId.size()){
+            return true;
+        }else {
+            LogUtils.getDBLogger().info("数据库回答批量修改失败");
+            throw new RuntimeException("数据库回答批量修改失败");
+        }
     }
 }

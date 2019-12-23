@@ -1,6 +1,7 @@
 package wang.haogui.yuanda.service;
 
 import com.github.pagehelper.PageInfo;
+import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Question;
 
@@ -112,5 +113,13 @@ public interface QuestionService {
      * @return 是否成功
      */
     boolean deleteQuestion(int questionId);
+
+
+    /**
+     * 批量审核
+     * @param questionIds 需要审核的问题的Id
+     * @return 返回是否成功
+     */
+    boolean updateCheckStatus(List<Integer> questionIds, CheckEnum checkEnum);
 
 }

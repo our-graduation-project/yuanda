@@ -35,5 +35,11 @@ public interface QuestionMapper {
     int addBatchQuestion(List<Question> questions);
 
     List<Question> selectByTypeName(Map map);
+
     List<Question> selectByTypeId(Map map);
+
+    int updateCheckStatusPass(List<Integer> questionIds);
+
+    int updateCheckStatusFail(List<Integer> questionIds);
+
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import wang.haogui.yuanda.YuandaApplication;
+import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Question;
 
@@ -113,6 +114,16 @@ class QuestionServiceImplTest {
     @Test
     void deleteQuestions() {
         boolean b = questionService.deleteQuestion(1);
+        System.out.println(b);
+    }
+
+    @Test
+    void updateCheckStatus(){
+        List<Integer> ids = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            ids.add(i);
+        }
+        boolean b = questionService.updateCheckStatus(ids, CheckEnum.CHECKFAILL);
         System.out.println(b);
     }
 }

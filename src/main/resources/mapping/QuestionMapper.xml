@@ -409,6 +409,31 @@
     </foreach>
   </insert>
 
+<!--审核通过-->
+  <update id="updateCheckStatusPass" parameterType="java.util.List">
+UPDATE question
+    SET check_status = 1
+    WHERE question_id IN (
+    <foreach collection="list" separator="," item="questionId">
+    #{questionId}
+  </foreach>
+  )
+  </update>
+
+
+  <!--审核未通过-->
+  <update id="updateCheckStatusFail" parameterType="java.util.List">
+    UPDATE question
+    SET check_status = 2
+    WHERE question_id IN (
+    <foreach collection="list" separator="," item="questionId">
+      #{questionId}
+    </foreach>
+    )
+  </update>
+
+
+
 
 <!--  自己写的查询-->
   <select id="selectByTypeName" parameterType="java.lang.String" resultMap="BaseResultMap">

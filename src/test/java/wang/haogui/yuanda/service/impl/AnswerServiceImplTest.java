@@ -88,4 +88,14 @@ class AnswerServiceImplTest {
             System.out.println(a.getAnswerId()+":"+a.getAgreeNumber());
         }
     }
+
+    @Test
+    void updateCheckStatus(){
+        List<Integer> ids = new ArrayList<>();
+        for (int i = 3; i <= 10; i++) {
+            ids.add(i);
+        }
+        boolean b = answerService.updateCheckStatus(ids, CheckEnum.CHECKFAILL);
+        System.out.println(b);
+    }
 }

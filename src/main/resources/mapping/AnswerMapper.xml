@@ -550,6 +550,28 @@
     </foreach>
   </insert>
 
+  <!--审核通过-->
+  <update id="updateCheckStatusPass" parameterType="java.util.List">
+    UPDATE answer
+    SET check_status = 1
+    WHERE answer_id IN (
+    <foreach collection="list" separator="," item="answerId">
+      #{answerId}
+    </foreach>
+    )
+  </update>
+
+
+  <!--审核未通过-->
+  <update id="updateCheckStatusFail" parameterType="java.util.List">
+    UPDATE answer
+    SET check_status = 2
+    WHERE answer_id IN (
+    <foreach collection="list" separator="," item="answerId">
+      #{answerId}
+    </foreach>
+    )
+  </update>
 
 
 </mapper>
