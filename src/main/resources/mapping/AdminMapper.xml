@@ -10,7 +10,7 @@
     <result column="right" jdbcType="TINYINT" property="right" />
     <result column="sex" jdbcType="BIT" property="sex" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -112,7 +112,7 @@
       phone, is_deleted)
     values (#{adminName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
       #{adminPassword,jdbcType=VARCHAR}, #{right,jdbcType=TINYINT}, #{sex,jdbcType=BIT}, 
-      #{phone,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT})
+      #{phone,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Admin">
     <selectKey keyProperty="adminId" order="AFTER" resultType="java.lang.Integer">
@@ -168,7 +168,7 @@
         #{phone,jdbcType=VARCHAR},
       </if>
       <if test="isDeleted != null">
-        #{isDeleted,jdbcType=TINYINT},
+        #{isDeleted,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -206,7 +206,7 @@
         phone = #{record.phone,jdbcType=VARCHAR},
       </if>
       <if test="record.isDeleted != null">
-        is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -223,7 +223,7 @@
      `right` = #{record.right,jdbcType=TINYINT},
       sex = #{record.sex,jdbcType=BIT},
       phone = #{record.phone,jdbcType=VARCHAR},
-      is_deleted = #{record.isDeleted,jdbcType=TINYINT}
+      is_deleted = #{record.isDeleted,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -253,7 +253,7 @@
         phone = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="isDeleted != null">
-        is_deleted = #{isDeleted,jdbcType=TINYINT},
+        is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
     </set>
     where admin_id = #{adminId,jdbcType=INTEGER}
@@ -267,7 +267,7 @@
       `right` = #{right,jdbcType=TINYINT},
       sex = #{sex,jdbcType=BIT},
       phone = #{phone,jdbcType=VARCHAR},
-      is_deleted = #{isDeleted,jdbcType=TINYINT}
+      is_deleted = #{isDeleted,jdbcType=BIT}
     where admin_id = #{adminId,jdbcType=INTEGER}
   </update>
 </mapper>

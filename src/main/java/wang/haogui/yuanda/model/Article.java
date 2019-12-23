@@ -22,7 +22,7 @@ public class Article implements Serializable {
     private Date updateTime;
 
     @ApiModelProperty(value = "作者")
-    private String author;
+    private String authorId;
 
     @ApiModelProperty(value = "是否审核，0表示未审核，1表示审核通过,2表示审核未通过")
     private Byte checkStatus;
@@ -45,12 +45,6 @@ public class Article implements Serializable {
     @ApiModelProperty(value = "推荐度")
     private Integer recommendNumber;
 
-    @ApiModelProperty(value = "备用字段")
-    private String remark;
-
-    @ApiModelProperty(value = "备用字段2")
-    private String remark2;
-
     @ApiModelProperty(value = "审核人的id")
     private Integer checkAdminId;
 
@@ -59,6 +53,12 @@ public class Article implements Serializable {
 
     @ApiModelProperty(value = " 是否删除")
     private Boolean isDeleted;
+
+    @ApiModelProperty(value = " 作者名")
+    private String authorName;
+
+    @ApiModelProperty(value = " 作者头像")
+    private String authorPicture;
 
     @ApiModelProperty(value = "文章内容")
     private String articleContent;
@@ -105,12 +105,12 @@ public class Article implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public Byte getCheckStatus() {
@@ -169,22 +169,6 @@ public class Article implements Serializable {
         this.recommendNumber = recommendNumber;
     }
 
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getRemark2() {
-        return remark2;
-    }
-
-    public void setRemark2(String remark2) {
-        this.remark2 = remark2;
-    }
-
     public Integer getCheckAdminId() {
         return checkAdminId;
     }
@@ -209,6 +193,22 @@ public class Article implements Serializable {
         this.isDeleted = isDeleted;
     }
 
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public String getAuthorPicture() {
+        return authorPicture;
+    }
+
+    public void setAuthorPicture(String authorPicture) {
+        this.authorPicture = authorPicture;
+    }
+
     public String getArticleContent() {
         return articleContent;
     }
@@ -228,7 +228,7 @@ public class Article implements Serializable {
         sb.append(", articleTitle=").append(articleTitle);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
-        sb.append(", author=").append(author);
+        sb.append(", authorId=").append(authorId);
         sb.append(", checkStatus=").append(checkStatus);
         sb.append(", clickNumber=").append(clickNumber);
         sb.append(", hotNumber=").append(hotNumber);
@@ -236,11 +236,11 @@ public class Article implements Serializable {
         sb.append(", disagreementNumber=").append(disagreementNumber);
         sb.append(", commentNumber=").append(commentNumber);
         sb.append(", recommendNumber=").append(recommendNumber);
-        sb.append(", remark=").append(remark);
-        sb.append(", remark2=").append(remark2);
         sb.append(", checkAdminId=").append(checkAdminId);
         sb.append(", pictureSrc=").append(pictureSrc);
         sb.append(", isDeleted=").append(isDeleted);
+        sb.append(", authorName=").append(authorName);
+        sb.append(", authorPicture=").append(authorPicture);
         sb.append(", articleContent=").append(articleContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

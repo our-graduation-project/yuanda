@@ -12,14 +12,15 @@
     <result column="click_number" jdbcType="INTEGER" property="clickNumber" />
     <result column="is_no_name" jdbcType="TINYINT" property="isNoName" />
     <result column="auther_name" jdbcType="VARCHAR" property="autherName" />
-    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="auther_id" jdbcType="INTEGER" property="autherId" />
+    <result column="author_id" jdbcType="INTEGER" property="authorId" />
     <result column="check_admin_id" jdbcType="INTEGER" property="checkAdminId" />
     <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="question_id" jdbcType="INTEGER" property="questionId" />
     <result column="question_titile" jdbcType="VARCHAR" property="questionTitile" />
+    <result column="author_picture" jdbcType="VARCHAR" property="authorPicture" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="wang.haogui.yuanda.model.Answer">
     <result column="answer_content" jdbcType="LONGVARCHAR" property="answerContent" />
@@ -85,7 +86,7 @@
   <sql id="Base_Column_List">
     answer_id, agree_number, disagree_number, check_status, comment_number, create_time, 
     update_time, click_number, is_no_name, auther_name, is_deleted, remark2, remark, 
-    auther_id, check_admin_id, check_time, question_id, question_titile
+    author_id, check_admin_id, check_time, question_id, question_titile, author_picture
   </sql>
   <sql id="Blob_Column_List">
     answer_content
@@ -146,16 +147,16 @@
       comment_number, create_time, update_time, 
       click_number, is_no_name, auther_name, 
       is_deleted, remark2, remark, 
-      auther_id, check_admin_id, check_time, 
-      question_id, question_titile, answer_content
-      )
+      author_id, check_admin_id, check_time, 
+      question_id, question_titile, author_picture, 
+      answer_content)
     values (#{agreeNumber,jdbcType=INTEGER}, #{disagreeNumber,jdbcType=INTEGER}, #{checkStatus,jdbcType=TINYINT}, 
       #{commentNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{clickNumber,jdbcType=INTEGER}, #{isNoName,jdbcType=TINYINT}, #{autherName,jdbcType=VARCHAR}, 
-      #{isDeleted,jdbcType=TINYINT}, #{remark2,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{autherId,jdbcType=INTEGER}, #{checkAdminId,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, 
-      #{questionId,jdbcType=INTEGER}, #{questionTitile,jdbcType=VARCHAR}, #{answerContent,jdbcType=LONGVARCHAR}
-      )
+      #{isDeleted,jdbcType=BIT}, #{remark2,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{authorId,jdbcType=INTEGER}, #{checkAdminId,jdbcType=INTEGER}, #{checkTime,jdbcType=TIMESTAMP}, 
+      #{questionId,jdbcType=INTEGER}, #{questionTitile,jdbcType=VARCHAR}, #{authorPicture,jdbcType=VARCHAR}, 
+      #{answerContent,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Answer">
     <selectKey keyProperty="answerId" order="AFTER" resultType="java.lang.Integer">
@@ -199,8 +200,8 @@
       <if test="remark != null">
         remark,
       </if>
-      <if test="autherId != null">
-        auther_id,
+      <if test="authorId != null">
+        author_id,
       </if>
       <if test="checkAdminId != null">
         check_admin_id,
@@ -213,6 +214,9 @@
       </if>
       <if test="questionTitile != null">
         question_titile,
+      </if>
+      <if test="authorPicture != null">
+        author_picture,
       </if>
       <if test="answerContent != null">
         answer_content,
@@ -247,7 +251,7 @@
         #{autherName,jdbcType=VARCHAR},
       </if>
       <if test="isDeleted != null">
-        #{isDeleted,jdbcType=TINYINT},
+        #{isDeleted,jdbcType=BIT},
       </if>
       <if test="remark2 != null">
         #{remark2,jdbcType=VARCHAR},
@@ -255,8 +259,8 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="autherId != null">
-        #{autherId,jdbcType=INTEGER},
+      <if test="authorId != null">
+        #{authorId,jdbcType=INTEGER},
       </if>
       <if test="checkAdminId != null">
         #{checkAdminId,jdbcType=INTEGER},
@@ -269,6 +273,9 @@
       </if>
       <if test="questionTitile != null">
         #{questionTitile,jdbcType=VARCHAR},
+      </if>
+      <if test="authorPicture != null">
+        #{authorPicture,jdbcType=VARCHAR},
       </if>
       <if test="answerContent != null">
         #{answerContent,jdbcType=LONGVARCHAR},
@@ -315,7 +322,7 @@
         auther_name = #{record.autherName,jdbcType=VARCHAR},
       </if>
       <if test="record.isDeleted != null">
-        is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
       <if test="record.remark2 != null">
         remark2 = #{record.remark2,jdbcType=VARCHAR},
@@ -323,8 +330,8 @@
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
-      <if test="record.autherId != null">
-        auther_id = #{record.autherId,jdbcType=INTEGER},
+      <if test="record.authorId != null">
+        author_id = #{record.authorId,jdbcType=INTEGER},
       </if>
       <if test="record.checkAdminId != null">
         check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
@@ -337,6 +344,9 @@
       </if>
       <if test="record.questionTitile != null">
         question_titile = #{record.questionTitile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorPicture != null">
+        author_picture = #{record.authorPicture,jdbcType=VARCHAR},
       </if>
       <if test="record.answerContent != null">
         answer_content = #{record.answerContent,jdbcType=LONGVARCHAR},
@@ -358,14 +368,15 @@
       click_number = #{record.clickNumber,jdbcType=INTEGER},
       is_no_name = #{record.isNoName,jdbcType=TINYINT},
       auther_name = #{record.autherName,jdbcType=VARCHAR},
-      is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       remark2 = #{record.remark2,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      auther_id = #{record.autherId,jdbcType=INTEGER},
+      author_id = #{record.authorId,jdbcType=INTEGER},
       check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
       check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       question_id = #{record.questionId,jdbcType=INTEGER},
       question_titile = #{record.questionTitile,jdbcType=VARCHAR},
+      author_picture = #{record.authorPicture,jdbcType=VARCHAR},
       answer_content = #{record.answerContent,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -383,14 +394,15 @@
       click_number = #{record.clickNumber,jdbcType=INTEGER},
       is_no_name = #{record.isNoName,jdbcType=TINYINT},
       auther_name = #{record.autherName,jdbcType=VARCHAR},
-      is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       remark2 = #{record.remark2,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
-      auther_id = #{record.autherId,jdbcType=INTEGER},
+      author_id = #{record.authorId,jdbcType=INTEGER},
       check_admin_id = #{record.checkAdminId,jdbcType=INTEGER},
       check_time = #{record.checkTime,jdbcType=TIMESTAMP},
       question_id = #{record.questionId,jdbcType=INTEGER},
-      question_titile = #{record.questionTitile,jdbcType=VARCHAR}
+      question_titile = #{record.questionTitile,jdbcType=VARCHAR},
+      author_picture = #{record.authorPicture,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -426,7 +438,7 @@
         auther_name = #{autherName,jdbcType=VARCHAR},
       </if>
       <if test="isDeleted != null">
-        is_deleted = #{isDeleted,jdbcType=TINYINT},
+        is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
       <if test="remark2 != null">
         remark2 = #{remark2,jdbcType=VARCHAR},
@@ -434,8 +446,8 @@
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="autherId != null">
-        auther_id = #{autherId,jdbcType=INTEGER},
+      <if test="authorId != null">
+        author_id = #{authorId,jdbcType=INTEGER},
       </if>
       <if test="checkAdminId != null">
         check_admin_id = #{checkAdminId,jdbcType=INTEGER},
@@ -448,6 +460,9 @@
       </if>
       <if test="questionTitile != null">
         question_titile = #{questionTitile,jdbcType=VARCHAR},
+      </if>
+      <if test="authorPicture != null">
+        author_picture = #{authorPicture,jdbcType=VARCHAR},
       </if>
       <if test="answerContent != null">
         answer_content = #{answerContent,jdbcType=LONGVARCHAR},
@@ -466,14 +481,15 @@
       click_number = #{clickNumber,jdbcType=INTEGER},
       is_no_name = #{isNoName,jdbcType=TINYINT},
       auther_name = #{autherName,jdbcType=VARCHAR},
-      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
       remark2 = #{remark2,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      auther_id = #{autherId,jdbcType=INTEGER},
+      author_id = #{authorId,jdbcType=INTEGER},
       check_admin_id = #{checkAdminId,jdbcType=INTEGER},
       check_time = #{checkTime,jdbcType=TIMESTAMP},
       question_id = #{questionId,jdbcType=INTEGER},
       question_titile = #{questionTitile,jdbcType=VARCHAR},
+      author_picture = #{authorPicture,jdbcType=VARCHAR},
       answer_content = #{answerContent,jdbcType=LONGVARCHAR}
     where answer_id = #{answerId,jdbcType=INTEGER}
   </update>
@@ -488,14 +504,15 @@
       click_number = #{clickNumber,jdbcType=INTEGER},
       is_no_name = #{isNoName,jdbcType=TINYINT},
       auther_name = #{autherName,jdbcType=VARCHAR},
-      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
       remark2 = #{remark2,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      auther_id = #{autherId,jdbcType=INTEGER},
+      author_id = #{authorId,jdbcType=INTEGER},
       check_admin_id = #{checkAdminId,jdbcType=INTEGER},
       check_time = #{checkTime,jdbcType=TIMESTAMP},
       question_id = #{questionId,jdbcType=INTEGER},
-      question_titile = #{questionTitile,jdbcType=VARCHAR}
+      question_titile = #{questionTitile,jdbcType=VARCHAR},
+      author_picture = #{authorPicture,jdbcType=VARCHAR}
     where answer_id = #{answerId,jdbcType=INTEGER}
   </update>
 </mapper>

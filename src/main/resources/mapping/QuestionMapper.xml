@@ -9,13 +9,15 @@
     <result column="follow_number" jdbcType="INTEGER" property="followNumber" />
     <result column="hot" jdbcType="INTEGER" property="hot" />
     <result column="check_status" jdbcType="TINYINT" property="checkStatus" />
-    <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="remark2" jdbcType="VARCHAR" property="remark2" />
     <result column="author" jdbcType="VARCHAR" property="author" />
     <result column="click_number" jdbcType="INTEGER" property="clickNumber" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="author_id" jdbcType="INTEGER" property="authorId" />
+    <result column="author_picture" jdbcType="VARCHAR" property="authorPicture" />
+    <result column="picture_src" jdbcType="VARCHAR" property="pictureSrc" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,7 +79,8 @@
   </sql>
   <sql id="Base_Column_List">
     question_id, question_title, question_descript, answer_number, follow_number, hot, 
-    check_status, is_deleted, remark, remark2, author, click_number, create_time, author_id
+    check_status, is_deleted, remark, remark2, author, click_number, create_time, author_id, 
+    author_picture, picture_src
   </sql>
   <select id="selectByExample" parameterType="wang.haogui.yuanda.model.QuestionExample" resultMap="BaseResultMap">
     select
@@ -117,12 +120,14 @@
       answer_number, follow_number, hot, 
       check_status, is_deleted, remark, 
       remark2, author, click_number, 
-      create_time, author_id)
+      create_time, author_id, author_picture, 
+      picture_src)
     values (#{questionTitle,jdbcType=VARCHAR}, #{questionDescript,jdbcType=VARCHAR}, 
       #{answerNumber,jdbcType=INTEGER}, #{followNumber,jdbcType=INTEGER}, #{hot,jdbcType=INTEGER}, 
-      #{checkStatus,jdbcType=TINYINT}, #{isDeleted,jdbcType=TINYINT}, #{remark,jdbcType=VARCHAR}, 
+      #{checkStatus,jdbcType=TINYINT}, #{isDeleted,jdbcType=BIT}, #{remark,jdbcType=VARCHAR}, 
       #{remark2,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{clickNumber,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{authorId,jdbcType=INTEGER})
+      #{createTime,jdbcType=TIMESTAMP}, #{authorId,jdbcType=INTEGER}, #{authorPicture,jdbcType=VARCHAR}, 
+      #{pictureSrc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Question">
     <selectKey keyProperty="questionId" order="AFTER" resultType="java.lang.Integer">
@@ -169,6 +174,12 @@
       <if test="authorId != null">
         author_id,
       </if>
+      <if test="authorPicture != null">
+        author_picture,
+      </if>
+      <if test="pictureSrc != null">
+        picture_src,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="questionTitle != null">
@@ -190,7 +201,7 @@
         #{checkStatus,jdbcType=TINYINT},
       </if>
       <if test="isDeleted != null">
-        #{isDeleted,jdbcType=TINYINT},
+        #{isDeleted,jdbcType=BIT},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -209,6 +220,12 @@
       </if>
       <if test="authorId != null">
         #{authorId,jdbcType=INTEGER},
+      </if>
+      <if test="authorPicture != null">
+        #{authorPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureSrc != null">
+        #{pictureSrc,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,7 +260,7 @@
         check_status = #{record.checkStatus,jdbcType=TINYINT},
       </if>
       <if test="record.isDeleted != null">
-        is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -263,6 +280,12 @@
       <if test="record.authorId != null">
         author_id = #{record.authorId,jdbcType=INTEGER},
       </if>
+      <if test="record.authorPicture != null">
+        author_picture = #{record.authorPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pictureSrc != null">
+        picture_src = #{record.pictureSrc,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -277,13 +300,15 @@
       follow_number = #{record.followNumber,jdbcType=INTEGER},
       hot = #{record.hot,jdbcType=INTEGER},
       check_status = #{record.checkStatus,jdbcType=TINYINT},
-      is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
       remark = #{record.remark,jdbcType=VARCHAR},
       remark2 = #{record.remark2,jdbcType=VARCHAR},
       author = #{record.author,jdbcType=VARCHAR},
       click_number = #{record.clickNumber,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      author_id = #{record.authorId,jdbcType=INTEGER}
+      author_id = #{record.authorId,jdbcType=INTEGER},
+      author_picture = #{record.authorPicture,jdbcType=VARCHAR},
+      picture_src = #{record.pictureSrc,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -310,7 +335,7 @@
         check_status = #{checkStatus,jdbcType=TINYINT},
       </if>
       <if test="isDeleted != null">
-        is_deleted = #{isDeleted,jdbcType=TINYINT},
+        is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -330,6 +355,12 @@
       <if test="authorId != null">
         author_id = #{authorId,jdbcType=INTEGER},
       </if>
+      <if test="authorPicture != null">
+        author_picture = #{authorPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="pictureSrc != null">
+        picture_src = #{pictureSrc,jdbcType=VARCHAR},
+      </if>
     </set>
     where question_id = #{questionId,jdbcType=INTEGER}
   </update>
@@ -341,13 +372,15 @@
       follow_number = #{followNumber,jdbcType=INTEGER},
       hot = #{hot,jdbcType=INTEGER},
       check_status = #{checkStatus,jdbcType=TINYINT},
-      is_deleted = #{isDeleted,jdbcType=TINYINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
       remark = #{remark,jdbcType=VARCHAR},
       remark2 = #{remark2,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
       click_number = #{clickNumber,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      author_id = #{authorId,jdbcType=INTEGER}
+      author_id = #{authorId,jdbcType=INTEGER},
+      author_picture = #{authorPicture,jdbcType=VARCHAR},
+      picture_src = #{pictureSrc,jdbcType=VARCHAR}
     where question_id = #{questionId,jdbcType=INTEGER}
   </update>
 </mapper>

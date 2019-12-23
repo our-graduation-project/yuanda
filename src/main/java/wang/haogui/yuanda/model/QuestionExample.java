@@ -555,52 +555,52 @@ public class QuestionExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedEqualTo(Byte value) {
+        public Criteria andIsDeletedEqualTo(Boolean value) {
             addCriterion("is_deleted =", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotEqualTo(Byte value) {
+        public Criteria andIsDeletedNotEqualTo(Boolean value) {
             addCriterion("is_deleted <>", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThan(Byte value) {
+        public Criteria andIsDeletedGreaterThan(Boolean value) {
             addCriterion("is_deleted >", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedGreaterThanOrEqualTo(Byte value) {
+        public Criteria andIsDeletedGreaterThanOrEqualTo(Boolean value) {
             addCriterion("is_deleted >=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThan(Byte value) {
+        public Criteria andIsDeletedLessThan(Boolean value) {
             addCriterion("is_deleted <", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedLessThanOrEqualTo(Byte value) {
+        public Criteria andIsDeletedLessThanOrEqualTo(Boolean value) {
             addCriterion("is_deleted <=", value, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedIn(List<Byte> values) {
+        public Criteria andIsDeletedIn(List<Boolean> values) {
             addCriterion("is_deleted in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotIn(List<Byte> values) {
+        public Criteria andIsDeletedNotIn(List<Boolean> values) {
             addCriterion("is_deleted not in", values, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeletedBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
 
-        public Criteria andIsDeletedNotBetween(Byte value1, Byte value2) {
+        public Criteria andIsDeletedNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_deleted not between", value1, value2, "isDeleted");
             return (Criteria) this;
         }
@@ -992,6 +992,146 @@ public class QuestionExample {
 
         public Criteria andAuthorIdNotBetween(Integer value1, Integer value2) {
             addCriterion("author_id not between", value1, value2, "authorId");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureIsNull() {
+            addCriterion("author_picture is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureIsNotNull() {
+            addCriterion("author_picture is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureEqualTo(String value) {
+            addCriterion("author_picture =", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureNotEqualTo(String value) {
+            addCriterion("author_picture <>", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureGreaterThan(String value) {
+            addCriterion("author_picture >", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureGreaterThanOrEqualTo(String value) {
+            addCriterion("author_picture >=", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureLessThan(String value) {
+            addCriterion("author_picture <", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureLessThanOrEqualTo(String value) {
+            addCriterion("author_picture <=", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureLike(String value) {
+            addCriterion("author_picture like", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureNotLike(String value) {
+            addCriterion("author_picture not like", value, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureIn(List<String> values) {
+            addCriterion("author_picture in", values, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureNotIn(List<String> values) {
+            addCriterion("author_picture not in", values, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureBetween(String value1, String value2) {
+            addCriterion("author_picture between", value1, value2, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthorPictureNotBetween(String value1, String value2) {
+            addCriterion("author_picture not between", value1, value2, "authorPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcIsNull() {
+            addCriterion("picture_src is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcIsNotNull() {
+            addCriterion("picture_src is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcEqualTo(String value) {
+            addCriterion("picture_src =", value, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcNotEqualTo(String value) {
+            addCriterion("picture_src <>", value, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcGreaterThan(String value) {
+            addCriterion("picture_src >", value, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcGreaterThanOrEqualTo(String value) {
+            addCriterion("picture_src >=", value, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcLessThan(String value) {
+            addCriterion("picture_src <", value, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcLessThanOrEqualTo(String value) {
+            addCriterion("picture_src <=", value, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcLike(String value) {
+            addCriterion("picture_src like", value, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcNotLike(String value) {
+            addCriterion("picture_src not like", value, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcIn(List<String> values) {
+            addCriterion("picture_src in", values, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcNotIn(List<String> values) {
+            addCriterion("picture_src not in", values, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcBetween(String value1, String value2) {
+            addCriterion("picture_src between", value1, value2, "pictureSrc");
+            return (Criteria) this;
+        }
+
+        public Criteria andPictureSrcNotBetween(String value1, String value2) {
+            addCriterion("picture_src not between", value1, value2, "pictureSrc");
             return (Criteria) this;
         }
     }

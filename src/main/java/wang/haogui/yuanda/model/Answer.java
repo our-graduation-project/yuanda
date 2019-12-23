@@ -37,7 +37,7 @@ public class Answer implements Serializable {
     private String autherName;
 
     @ApiModelProperty(value = "是否被删除，0表示未删除，1表示删除")
-    private Byte isDeleted;
+    private Boolean isDeleted;
 
     @ApiModelProperty(value = "备用字段2")
     private String remark2;
@@ -46,7 +46,7 @@ public class Answer implements Serializable {
     private String remark;
 
     @ApiModelProperty(value = "回答者id")
-    private Integer autherId;
+    private Integer authorId;
 
     @ApiModelProperty(value = "审核人的id")
     private Integer checkAdminId;
@@ -59,6 +59,9 @@ public class Answer implements Serializable {
 
     @ApiModelProperty(value = "问题标题")
     private String questionTitile;
+
+    @ApiModelProperty(value = "作者头像")
+    private String authorPicture;
 
     @ApiModelProperty(value = "回答内容")
     private String answerContent;
@@ -145,11 +148,11 @@ public class Answer implements Serializable {
         this.autherName = autherName;
     }
 
-    public Byte getIsDeleted() {
+    public Boolean getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(Byte isDeleted) {
+    public void setIsDeleted(Boolean isDeleted) {
         this.isDeleted = isDeleted;
     }
 
@@ -169,12 +172,12 @@ public class Answer implements Serializable {
         this.remark = remark;
     }
 
-    public Integer getAutherId() {
-        return autherId;
+    public Integer getAuthorId() {
+        return authorId;
     }
 
-    public void setAutherId(Integer autherId) {
-        this.autherId = autherId;
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
     }
 
     public Integer getCheckAdminId() {
@@ -209,6 +212,14 @@ public class Answer implements Serializable {
         this.questionTitile = questionTitile;
     }
 
+    public String getAuthorPicture() {
+        return authorPicture;
+    }
+
+    public void setAuthorPicture(String authorPicture) {
+        this.authorPicture = authorPicture;
+    }
+
     public String getAnswerContent() {
         return answerContent;
     }
@@ -236,11 +247,12 @@ public class Answer implements Serializable {
         sb.append(", isDeleted=").append(isDeleted);
         sb.append(", remark2=").append(remark2);
         sb.append(", remark=").append(remark);
-        sb.append(", autherId=").append(autherId);
+        sb.append(", authorId=").append(authorId);
         sb.append(", checkAdminId=").append(checkAdminId);
         sb.append(", checkTime=").append(checkTime);
         sb.append(", questionId=").append(questionId);
         sb.append(", questionTitile=").append(questionTitile);
+        sb.append(", authorPicture=").append(authorPicture);
         sb.append(", answerContent=").append(answerContent);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
