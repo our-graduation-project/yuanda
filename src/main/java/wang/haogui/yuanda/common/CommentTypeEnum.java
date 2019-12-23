@@ -8,21 +8,21 @@ package wang.haogui.yuanda.common;
 public enum CommentTypeEnum {
 
     //表示评论为评论文章
-    ARTICLE(0),
+    ARTICLE((byte)0),
 
     //表示评论为评论问题
-    ANSWER(1),
+    ANSWER((byte)1),
 
     //表示评论为评论评论
-    COMMENT(2);
+    COMMENT((byte)2);
 
-    private int commentType;
+    private byte commentType;
 
-    public int getCommentType() {
+    public byte getCommentType() {
         return commentType;
     }
 
-    CommentTypeEnum(int commentType) {
+    CommentTypeEnum(byte commentType) {
         this.commentType = commentType;
     }
 }

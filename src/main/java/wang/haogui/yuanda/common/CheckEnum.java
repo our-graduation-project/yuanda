@@ -9,24 +9,24 @@ package wang.haogui.yuanda.common;
 public enum  CheckEnum {
 
     //还没有审核
-    HVAEDNOCHECK(0),
+    HVAEDNOCHECK((byte)0),
 
     //审核通过
-    CHECKPASS(1),
+    CHECKPASS((byte)1),
 
     //审核失败
-    CHECKFAILL(2);
+    CHECKFAILL((byte)2);
 
     /**
      * 审查的状态码
      */
-    private int status;
+    private byte status;
 
-    CheckEnum(int status) {
+    CheckEnum(byte status) {
         this.status = status;
     }
 
-    public int getStatus() {
+    public byte getStatus() {
         return status;
     }
 }
