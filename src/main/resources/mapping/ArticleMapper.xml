@@ -503,4 +503,15 @@
     set comment_number = comment_number - 1
     where article_id = #{articleId,jdbcType=INTEGER}
   </update>
+
+  <update id="updateCheckStatusByList" >
+    update article
+    set check_status = #{status}
+    where article_id in
+    (
+      <foreach collection="list"  item="id" separator="," >
+          #{id}
+      </foreach>
+    )
+  </update>
 </mapper>

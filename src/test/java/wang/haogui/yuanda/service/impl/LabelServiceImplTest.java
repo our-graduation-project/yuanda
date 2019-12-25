@@ -1,5 +1,6 @@
 package wang.haogui.yuanda.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -44,5 +45,13 @@ class LabelServiceImplTest {
                 .forEach(
                         label-> System.out.println(label.getLabelName())
                 );
+    }
+
+    @Test
+    void selectLabelByIdAndType(){
+        PageInfo<Label> labelPageInfo = labelService.selectLabelByIdAndType(0, 10, 1, 0);
+        labelPageInfo.getList().forEach(label -> {
+            System.out.println(label.getLabelName());
+        });
     }
 }

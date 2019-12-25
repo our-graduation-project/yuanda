@@ -38,4 +38,6 @@ public interface ArticleMapper {
     int updateByPrimaryKey(Article record);
 
     int updateForCommentNumber(Integer articleId);
+
+    int updateCheckStatusByList(@Param("list") List list,@Param("status") Integer status);
 }

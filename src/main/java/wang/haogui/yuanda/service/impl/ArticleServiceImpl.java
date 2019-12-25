@@ -169,5 +169,56 @@ public class ArticleServiceImpl implements ArticleService {
         return articleMapper.updateByPrimaryKeySelective(article) > 0 ? true : false;
     }
 
+    /**
+     * 通过分页信息查询文章信息
+     *
+     * @param page
+     * @param limit
+     * @param order
+     * @param orderEnum
+     * @return
+     */
+    @Override
+    public PageInfo selectArticleByPage(int page, int limit, String order, OrderEnum orderEnum) {
+
+        ArticleExample articleExample = new ArticleExample();
+
+        //排序不为空则排序
+        if(order != null){
+            String s = CommonUtils.orderStr(order, orderEnum);
+            articleExample.setOrderByClause(s);
+        }
+
+        PageHelper.startPage(page,limit);
+        List<Article> articles = articleMapper.selectByExampleWithBLOBs(articleExample);
+        PageInfo pageInfo = new PageInfo(articles,5);
+        return pageInfo;
+    }
+
+    /**
+     * 通过id查询文章
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public Article selectArticleId(Integer id) {
+        Article article = articleMapper.selectByPrimaryKey(id);
+        return article;
+    }
+
+    /**
+     * 通过文章id将其状态码全部改为status
+     *
+     * @param list
+     * @param status
+     * @return
+     */
+    @Override
+    public Boolean changeCheckStatusByList(List list, Integer status) {
+        int i = articleMapper.updateCheckStatusByList(list, status);
+        return i > 0 ? true : false;
+    }
+
 
 }

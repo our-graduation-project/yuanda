@@ -31,4 +31,14 @@ public interface LabelService {
      */
     PageInfo<Label> selectLabel(int page, int limit);
 
+    /**
+     * 通过联系表中的的类型(文章，或问题)与id 查询她所拥有的所有标签
+     * @param page
+     * @param limit
+     * @param connectionId
+     * @param connectionType
+     * @return
+     */
+    PageInfo<Label> selectLabelByIdAndType(int page, int limit, int connectionId, int connectionType);
+
 }
