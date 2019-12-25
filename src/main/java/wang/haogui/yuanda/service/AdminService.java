@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Admin;
 
+import java.util.List;
+
 public interface AdminService {
     /**
      * 登录管理员
@@ -18,6 +20,13 @@ public interface AdminService {
      * @return
      */
     int addAdmin(Admin admin);
+
+    /**
+     * 批量增加管理员
+     * @param admins
+     * @return
+     */
+    boolean addBatchAdmin(List<Admin> admins);
 
     /**
      * 修改管理员
@@ -88,4 +97,13 @@ public interface AdminService {
      * @return
      */
     PageInfo<Admin> searchAdminByName(int page,int limit,String adminName);
+
+    /**
+     *根据名称查询管理员
+     * @param page
+     * @param limit
+     * @param email
+     * @return
+     */
+    PageInfo<Admin> searchAdminByEmail(int page,int limit,String email);
 }

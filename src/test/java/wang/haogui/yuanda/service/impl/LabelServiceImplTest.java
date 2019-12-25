@@ -24,11 +24,11 @@ class LabelServiceImplTest {
     @Autowired
     private LabelService labelService;
 
-    @Test
-    void addLabel() {
-        Label label = new Label("生活",false);
-        Assert.assertTrue(labelService.addLabel(label));
-    }
+//    @Test
+//    void addLabel() {
+//        Label label = new Label("生活",false);
+//        Assert.assertTrue(labelService.addLabel(label));
+//    }
 
     @Test
     void deleteLabel() {

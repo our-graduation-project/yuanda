@@ -498,9 +498,16 @@
       author_picture = #{authorPicture,jdbcType=VARCHAR}
     where article_id = #{articleId,jdbcType=INTEGER}
   </update>
-  <update id="updateForCommentNumber" parameterType="java.lang.Integer">
+  <update id="updateForCommentNumber" parameterType="wang.haogui.yuanda.model.Article">
     update article
-    set comment_number = comment_number - 1
+      <set>
+          <if test="commentNumber == 1">
+              comment_number = comment_number + 1
+          </if>
+          <if test="commentNumber == -1">
+              comment_number = comment_number - 1
+          </if>
+      </set>
     where article_id = #{articleId,jdbcType=INTEGER}
   </update>
 

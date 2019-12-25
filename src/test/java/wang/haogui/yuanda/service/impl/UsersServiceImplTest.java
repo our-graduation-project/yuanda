@@ -11,6 +11,9 @@ import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Users;
 import wang.haogui.yuanda.service.UsersService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
@@ -32,8 +35,9 @@ class UsersServiceImplTest {
     void addUser() {
         Users users=new Users();
         users.setUserId(2);
-        users.setUserName("李雪");
+        users.setUserName("张三");
         users.setUserPassword("123");
+        users.setEmail("1761432110@qq.com");
         users.setUserSex(0);
         users.setIsDeleted(true);
         int i = usersService.addUser(users);
@@ -41,8 +45,19 @@ class UsersServiceImplTest {
     }
 
     @Test
+    void addBatchUsers() {
+        List<Users> list=new ArrayList<>();
+        for (int i = 0; i <10 ; i++) {
+            Users users=new Users("孟","123",1,"1761432189@qq.com"+i,true);
+            list.add(users);
+        }
+        boolean b = usersService.addBatchUsers(list);
+        System.out.println(b);
+    }
+
+    @Test
     void updateUser() {
-        System.out.println(usersService.updateUser(new Users(1,"meng","456",1,true)));
+        System.out.println(usersService.updateUser(new Users(1,"meng","456",0,"1761432178@qq.com",true)));
     }
 
     @Test
@@ -71,8 +86,8 @@ class UsersServiceImplTest {
 
     @Test
     void searchUsersById() {
-//        Users users=new Users();
-//        usersService.searchUsersById(1,3,2,null, null);
+        PageInfo<Users> pageInfo = usersService.searchUsersById(1, 3, 3, "user_id", OrderEnum.DESC);
+        System.out.println(pageInfo.getList());
     }
 
     @Test

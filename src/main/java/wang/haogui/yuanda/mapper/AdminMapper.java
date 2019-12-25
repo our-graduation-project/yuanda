@@ -30,4 +30,8 @@ public interface AdminMapper {
     int updateByPrimaryKeySelective(Admin record);
 
     int updateByPrimaryKey(Admin record);
+
+    int addBatchAdmin(List<Admin> admins);
+
+    int updateBatchIsDeleted(List<Admin> admins);
 }

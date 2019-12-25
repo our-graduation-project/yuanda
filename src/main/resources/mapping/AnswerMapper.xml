@@ -515,13 +515,18 @@
       author_picture = #{authorPicture,jdbcType=VARCHAR}
     where answer_id = #{answerId,jdbcType=INTEGER}
   </update>
-  <update id="updateForCommentNumber" parameterType="java.lang.Integer">
+  <update id="updateForCommentNumber" parameterType="wang.haogui.yuanda.model.Answer">
     update answer
-    set comment_number = comment_number - 1
+    <set>
+      <if test="commentNumber == 1">
+        comment_number = comment_number + 1
+      </if>
+      <if test="commentNumber == -1">
+        comment_number = comment_number - 1
+      </if>
+    </set>
     where answer_id = #{answerId,jdbcType=INTEGER}
   </update>
-
-
 
   <!--  自己写的批量增加-->
 

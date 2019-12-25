@@ -72,11 +72,20 @@ public class Users implements Serializable {
     public Users() {
     }
 
-    public Users(Integer userId, String userName, String userPassword, Integer userSex, Boolean isDeleted) {
+    public Users( String userName, String userPassword, Integer userSex, String email, Boolean isDeleted) {
+        this.userName = userName;
+        this.userPassword = userPassword;
+        this.userSex = userSex;
+        this.email = email;
+        this.isDeleted = isDeleted;
+    }
+
+    public Users(Integer userId, String userName, String userPassword, Integer userSex, String email, Boolean isDeleted) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userSex = userSex;
+        this.email = email;
         this.isDeleted = isDeleted;
     }
 

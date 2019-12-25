@@ -432,7 +432,7 @@
         unread_message_number = #{unreadMessageNumber,jdbcType=INTEGER},
       </if>
       <if test="isDeleted != null">
-        is_deleted = #{isDeleted,jdbcType=BIT},
+        is_deleted = #{isDeleted},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
@@ -461,4 +461,43 @@
       is_deleted = #{isDeleted,jdbcType=BIT}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+  <!--批量删除用户-->
+
+  <update id="updateBatchIsDeleted" parameterType="java.util.List">
+    UPDATE users SET is_deleted =
+    #{item.isDeleted}
+    WHERE user_id IN
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">#{item.userId}
+    </foreach>
+  </update>
+
+  <!--  自己写的批量增加-->
+
+  <insert id="addBatchUsers" parameterType="java.util.List">
+    insert into `users` (user_name, user_password, user_age,user_brithday, user_sex, user_picture,
+    user_background, nick_name, email,telphone, user_integral, last_time,user_descript, article_number, answer_number,
+    question_number,unread_message_number, is_deleted) values
+    <foreach collection="list" separator="," item="users">
+      (#{users.userName,jdbcType=VARCHAR},
+      #{users.userPassword,jdbcType=VARCHAR},
+      #{users.userAge,jdbcType=INTEGER},
+      #{users.userBrithday,jdbcType=TIMESTAMP},
+      #{users.userSex,jdbcType=INTEGER},
+      #{users.userPicture,jdbcType=VARCHAR},
+      #{users.userBackground,jdbcType=VARCHAR},
+      #{users.nickName,jdbcType=VARCHAR},
+      #{users.email,jdbcType=VARCHAR},
+      #{users.telphone,jdbcType=VARCHAR},
+      #{users.userIntegral,jdbcType=INTEGER},
+      #{users.lastTime,jdbcType=DATE},
+      #{users.userDescript,jdbcType=VARCHAR},
+      #{users.articleNumber,jdbcType=INTEGER},
+      #{users.answerNumber,jdbcType=INTEGER},
+      #{users.questionNumber,jdbcType=INTEGER},
+      #{users.unreadMessageNumber,jdbcType=INTEGER},
+      #{users.isDeleted,jdbcType=BIT})
+    </foreach>
+  </insert>
+
 </mapper>

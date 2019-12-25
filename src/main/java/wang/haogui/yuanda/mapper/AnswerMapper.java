@@ -37,7 +37,12 @@ public interface AnswerMapper {
 
     int updateByPrimaryKey(Answer record);
 
-    int updateForCommentNumber(Integer commentTargetId);
+    /**
+     * 用于增减问题的评论数
+     * @param record
+     * @return
+     */
+    int updateForCommentNumber(Answer record);
 
     int addBatchAnswer(List<Answer> answers);
 

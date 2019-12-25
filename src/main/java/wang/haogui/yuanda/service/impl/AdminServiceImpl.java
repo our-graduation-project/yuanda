@@ -9,6 +9,7 @@ import wang.haogui.yuanda.mapper.AdminMapper;
 import wang.haogui.yuanda.model.Admin;
 import wang.haogui.yuanda.model.AdminExample;
 import wang.haogui.yuanda.service.AdminService;
+import wang.haogui.yuanda.utils.LogUtils;
 
 import java.util.List;
 
@@ -42,6 +43,23 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public int addAdmin(Admin admin) {
         return mapper.insert(admin);
+    }
+
+    /**
+     * 批量增加管理员
+     * @param admins
+     * @return
+     */
+    @Override
+    public boolean addBatchAdmin(List<Admin> admins) {
+        int i =0;
+        i=mapper.addBatchAdmin(admins);
+        if (i==admins.size()){
+            return true;
+        }else {
+            LogUtils.getDBLogger().info("数据库回答批量增加失败");
+            throw new RuntimeException("数据库回答批量增加失败");
+        }
     }
 
     /**
@@ -145,7 +163,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public PageInfo<Admin> searchAdminById(int page, int limit, Integer adminId, String order, OrderEnum orderEnum) {
         AdminExample adminExample=new AdminExample();
-        adminExample.or().andAdminIdEqualTo(adminId);
+        //根据ID查询存在的管理员
+        adminExample.or().andAdminIdEqualTo(adminId).andIsDeletedEqualTo(false);
         if (order != null) {
             String str = null;
             str = "`" + order + "` ";
@@ -173,6 +192,23 @@ public class AdminServiceImpl implements AdminService {
     public PageInfo<Admin> searchAdminByName(int page, int limit, String adminName) {
         AdminExample adminExample=new AdminExample();
         adminExample.or().andAdminNameEqualTo(adminName);
+        PageHelper.startPage(page, limit);
+        List<Admin> admins = mapper.selectByExample(adminExample);
+        PageInfo pageInfo=new PageInfo(admins,3);
+        return pageInfo;
+    }
+
+    /**
+     * 根据邮箱查询用户
+     * @param page
+     * @param limit
+     * @param email
+     * @return
+     */
+    @Override
+    public PageInfo<Admin> searchAdminByEmail(int page, int limit, String email) {
+        AdminExample adminExample=new AdminExample();
+        adminExample.or().andEmailEqualTo(email);
         PageHelper.startPage(page, limit);
         List<Admin> admins = mapper.selectByExample(adminExample);
         PageInfo pageInfo=new PageInfo(admins,3);

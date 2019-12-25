@@ -50,7 +50,8 @@ public class CommentServiceImpl implements CommentService {
         int insert = commentMapper.insert(comment);
 
         if(insert <= 0){
-            return false;
+            LogUtils.getDBLogger().info("在文章下插入评论失败");
+            throw new RuntimeException("在文章下插入评论失败！");
         }
 
         //先通过id查询到这条文章
@@ -60,7 +61,8 @@ public class CommentServiceImpl implements CommentService {
         int i = articleMapper.updateByPrimaryKey(article);
 
         if(i <= 0){
-            return false;
+            LogUtils.getDBLogger().info("在文章评论数增加失败");
+            throw new RuntimeException("在文章评论数增加失败！");
         }
 
 
@@ -79,17 +81,22 @@ public class CommentServiceImpl implements CommentService {
         int insert = commentMapper.insert(comment);
 
         if(insert <= 0){
-            return false;
+            LogUtils.getDBLogger().info("在回答评论数增加失败");
+            throw new RuntimeException("在回答评论数增加失败！");
         }
 
-        //查询这个问题
-        Answer answer = answerMapper.selectByPrimaryKey(comment.getCommentTargetId());
+//        //查询这个问题
+//        Answer answer = answerMapper.selectByPrimaryKey(comment.getCommentTargetId());
         //修改问题下的评论数量
+        Answer answer = new Answer();
+        answer.setAnswerId(comment.getCommentTargetId());
+        answer.setCommentNumber(1);
         answer.setCommentNumber(answer.getCommentNumber()+1);
         int i = answerMapper.updateByPrimaryKey(answer);
 
         if(i <= 0){
-            return false;
+            LogUtils.getDBLogger().info("在回答评论数增加失败");
+            throw new RuntimeException("在回答评论数增加失败！");
         }
 
         return true;
@@ -107,17 +114,21 @@ public class CommentServiceImpl implements CommentService {
         int insert = commentMapper.insert(comment);
 
         if(insert <= 0){
-            return false;
+            LogUtils.getDBLogger().info("在评论中增加评论失败");
+            throw new RuntimeException("在评论中增加评论失败！");
         }
 
         //查询这个评论
-        Comment comment1 = commentMapper.selectByPrimaryKey(comment.getCommentTargetId());
+//        Comment comment1 = commentMapper.selectByPrimaryKey(comment.getCommentTargetId());
         //修改评论下的评论数量
-        comment1.setCommentNumber(comment1.getCommentNumber()+1);
-        int i = commentMapper.updateByPrimaryKey(comment1);
+        Comment comment1 = new Comment();
+        comment1.setCommentId(comment.getCommentTargetId());
+        comment1.setCommentNumber(1);
+        int i = commentMapper.updateForCommentNumber(comment1);
 
         if(i <= 0){
-            return false;
+            LogUtils.getDBLogger().info("在评论的评论数增加失败");
+            throw new RuntimeException("在评论的评论数增加失败！");
         }
 
         return true;
@@ -238,18 +249,27 @@ public class CommentServiceImpl implements CommentService {
             throw new RuntimeException("删除子评论失败！");
         }
 
-        //将父级的评论数量减一
+        //将父级的评论数量减一 （这里我将-1作为commentNumber表示为评论数减1的标志）
         //先找到父级
         //0 代表文章  1 代表问题 2 表示评论
         switch (commentParent.getCommentType()){
             case 0:
-                articleMapper.updateForCommentNumber(commentParent.getCommentTargetId());
+                Article article = new Article();
+                article.setArticleId(commentParent.getCommentTargetId());
+                article.setCommentNumber(-1);
+                articleMapper.updateForCommentNumber(article);
                 break;
             case 1:
-                answerMapper.updateForCommentNumber(commentParent.getCommentTargetId());
+                Answer answer = new Answer();
+                answer.setAnswerId(commentParent.getCommentTargetId());
+                answer.setCommentNumber(-1);
+                answerMapper.updateForCommentNumber(answer);
                 break;
             case 2:
-                commentMapper.updateForCommentNumber(commentParent.getCommentTargetId());
+                Comment comment = new Comment();
+                comment.setCommentId(commentParent.getCommentTargetId());
+                comment.setCommentNumber(-1);
+                commentMapper.updateForCommentNumber(comment);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + commentParent.getCommentType());

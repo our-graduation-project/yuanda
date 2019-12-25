@@ -8,8 +8,8 @@ import wang.haogui.yuanda.mapper.FavoritesMapper;
 import wang.haogui.yuanda.model.Favorites;
 import wang.haogui.yuanda.model.FavoritesConnection;
 import wang.haogui.yuanda.model.FavoritesConnectionExample;
-import wang.haogui.yuanda.model.FavoritesExample;
 import wang.haogui.yuanda.service.FavoritesConnectionService;
+import wang.haogui.yuanda.utils.LogUtils;
 
 import java.util.List;
 
@@ -39,7 +39,8 @@ public class FavoritesConnectionServiceImpl implements FavoritesConnectionServic
         //先向收藏夹中增加一条记录
         int insert = favoritesConnectionMapper.insert(favoritesConnection);
         if(insert <= 0){
-            return false;
+            LogUtils.getDBLogger().info("收藏夹增加收藏内容失败");
+            throw new RuntimeException("收藏夹增加收藏内容失败！");
         }
 
         //在把该收藏夹中收藏数量加一
@@ -47,7 +48,8 @@ public class FavoritesConnectionServiceImpl implements FavoritesConnectionServic
         favorites.setFavoritesNumber(favorites.getFavoritesNumber()+1);
         int i = favoritesMapper.updateByPrimaryKeySelective(favorites);
         if(i <= 0){
-            return false;
+            LogUtils.getDBLogger().info("收藏夹收藏数量增加失败");
+            throw new RuntimeException("收藏夹收藏数量增加失败！");
         }
         return true;
     }
@@ -65,7 +67,12 @@ public class FavoritesConnectionServiceImpl implements FavoritesConnectionServic
         FavoritesConnection favoritesConnection = favoritesConnectionMapper.selectByPrimaryKey(id);
         favoritesConnection.setIsDeleted(true);
         int i = favoritesConnectionMapper.updateByPrimaryKey(favoritesConnection);
-        return i > 0;
+        if(i <= 0){
+            LogUtils.getDBLogger().info("收藏夹删除记录失败");
+            throw new RuntimeException("收藏夹删除记录失败！");
+        }
+
+        return true;
     }
 
     /**
