@@ -84,4 +84,21 @@ public class LabelServiceImpl implements LabelService {
         PageInfo pageInfo = new PageInfo(labels);
         return pageInfo;
     }
+
+    /**
+     * 通过联系表中的的类型(文章，或问题)与id 查询她所拥有的所有标签
+     *
+     * @param page
+     * @param limit
+     * @param connectionId
+     * @param connectionType
+     * @return
+     */
+    @Override
+    public PageInfo<Label> selectLabelByIdAndType(int page, int limit, int connectionId, int connectionType) {
+        PageHelper.startPage(page,limit);
+        List<Label> labels = labelMapper.selectLabelNameByConnectionId(connectionId, connectionType);
+        PageInfo pageInfo = new PageInfo(labels,5);
+        return pageInfo;
+    }
 }

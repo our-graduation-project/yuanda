@@ -55,6 +55,7 @@ public class TransactionAdviceConfig {
         source.addTransactionalMethod("remove*",txAttr_REQUIRED);
         source.addTransactionalMethod("del*",txAttr_REQUIRED);
         source.addTransactionalMethod("check*",txAttr_REQUIRED);
+        source.addTransactionalMethod("change*",txAttr_REQUIRED);
 //        source.addTransactionalMethod("*", txAttr_REQUIRED_READONLY);
         return new TransactionInterceptor(transactionManager, source);
     }

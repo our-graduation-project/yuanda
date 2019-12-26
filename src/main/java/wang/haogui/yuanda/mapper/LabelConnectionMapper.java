@@ -6,6 +6,7 @@ import wang.haogui.yuanda.model.LabelConnection;
 import wang.haogui.yuanda.model.LabelConnectionExample;
 
 import java.util.List;
+
 @Mapper
 public interface LabelConnectionMapper {
     long countByExample(LabelConnectionExample example);
@@ -29,4 +30,11 @@ public interface LabelConnectionMapper {
     int updateByPrimaryKeySelective(LabelConnection record);
 
     int updateByPrimaryKey(LabelConnection record);
+
+    /**
+     * 通过标签id软删除，与标签相关的全部联系记录
+     * @param labelConnection
+     * @return
+     */
+    int deleteBatchByLabelId(LabelConnection labelConnection);
 }

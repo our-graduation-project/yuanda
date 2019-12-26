@@ -182,12 +182,12 @@ function getSelectedRow() {
     var rowKey = grid.getGridParam("selrow");
     if (!rowKey) {
         alert("请选择一条记录");
-        return;
+        return false;
     }
     var selectedIDs = grid.getGridParam("selarrrow");
     if (selectedIDs.length > 1) {
         alert("只能选择一条记录");
-        return;
+        return false;
     }
     return selectedIDs[0];
 }

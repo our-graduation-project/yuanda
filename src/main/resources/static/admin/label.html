@@ -60,7 +60,7 @@
 
                     <li class="menu-title">信息模块</li><!-- /.menu-title -->
 
-                    <li class="active">
+                    <li >
                         <a href="article.html" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>
                             文章管理</a>
                     </li>
@@ -74,8 +74,11 @@
                         <a href="comment.html" class="dropdown-toggle" > <i class="menu-icon fa fa-bar-chart"></i>评论管理</a>
                     </li>
 
-                    <li >
+                    <li>
                         <a href="banner.html" class="dropdown-toggle"> <i class="menu-icon fa fa-area-chart"></i>广告管理</a>
+                    </li>
+                    <li class="active">
+                        <a href="banner.html" class="dropdown-toggle"> <i class="menu-icon fa fa-bar-chart"></i>标签管理</a>
                     </li>
 
                 </ul>
@@ -199,11 +202,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <a  class="btn btn-outline-primary btn-sm" onclick="articleAdd()"><i class="fa fa-star"></i>&nbsp; 增加</a>
+                            <a  class="btn btn-outline-primary btn-sm" onclick="labelAdd()"><i class="fa fa-star"></i>&nbsp; 增加</a>
 <!--                            <a  class="btn btn-outline-danger btn-sm"><i class="fa fa-lightbulb-o"></i>&nbsp;删除</a>-->
 <!--                            <a  class="btn btn-outline-success btn-sm"><i class="fa fa-magic"></i>&nbsp; 修改</a>-->
-                            <a  class="btn btn-outline-warning btn-sm" onclick="checkArticle()"><i class="fa fa-map-marker"></i>&nbsp; 审核</a>
-                            <a  class="btn btn-outline-secondary btn-sm" onclick="articleDetails()"><i class="fa fa-rss"></i>&nbsp;查看</a>
+<!--                            <a  class="btn btn-outline-warning btn-sm" onclick="checkArticle()"><i class="fa fa-map-marker"></i>&nbsp; 审核</a>-->
+                            <a  class="btn btn-outline-secondary btn-sm" onclick="labelDelete()"><i class="fa fa-rss"></i>&nbsp;删除</a>
                         </div>
                         <div class="card-body">
                             <table id="jqGrid" class="table table-bordered">
@@ -216,13 +219,13 @@
         </div>
 
         <div class="content">
-            <div class="modal fade" id="articleModal" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel">
+            <div class="modal fade" id="labelModal" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content" style="width: 800px;height: 960px;">
+                    <div class="modal-content" style="width: 400px;height: 400px;">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                            <h6 class="modal-title" id="articleModalLabel">编辑</h6>
+                            <h6 class="modal-title" id="articleModalLabel">新增</h6>
                         </div>
                         <div class="modal-body">
                             <form>
@@ -231,18 +234,8 @@
                                 </div>
                                 <input type="hidden" id="articleId" value="0">
                                 <div class="form-group">
-                                    <label for="articleTitle" class="control-label">标题:</label>
-                                    <input type="text" class="form-control" style="width: 70%" id="articleTitle">
-                                </div>
-                                <div class="form-group">
-                                    <label for="articleAuthor" class="control-label">作者:</label>
-                                    <input type="text" class="form-control" style="width: 70%" id="articleAuthor">
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label">内容:</label>
-                                    <textarea class="form-control" id="editor"
-                                              style="width:700px;height:400px;"></textarea>
-
+                                    <label for="labelName" class="control-label">标签名:</label>
+                                    <input type="text" class="form-control" style="width: 70%" id="labelName">
                                 </div>
                             </form>
                         </div>
@@ -282,33 +275,11 @@
     <!-- JqGrid依赖jquery，因此需要先引入jquery.min.js文件 -->
     <script src="../plugins/jqgrid-5.3.0/grid.locale-cn.js"></script>
     <script src="../plugins/jqgrid-5.3.0/jquery.jqGrid.min.js"></script>
-<!--    富文本编辑器-->
-    <script src="../plugins/ckeditor/ckeditor.js"></script>
     <script src="../mydist/js/public.js"></script>
     <!--Local Stuff-->
     <script type="text/javascript">
 
-        // // 替换 <textarea id="editor1">为CKEditor实例
-        // // 使用默认配置
-        // var editorConfig = {
-        //     customConfig: './samples/editConfig.js'
-        // };
-        //
-        // CKEDITOR.replace( 'editor', editorConfig);
-
-        //获得数据
-        document.getElementById("tijiao").onclick = function(){
-            var data =  CKEDITOR.instances.editor.getData();
-            console.log(data)
-        }
-
-        //重置数据
-        document.getElementById("chongzhi").onclick = function(){
-            CKEDITOR.instances.editor.setData( '<p>This is the editor data.</p>' );
-        }
-
-
     </script>
-    <script src="../mydist/js/article.js"></script>
+    <script src="../mydist/js/label.js"></script>
 </body>
 </html>

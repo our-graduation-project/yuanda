@@ -5,6 +5,8 @@ import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Article;
 
+import java.util.List;
+
 /**
  * @author whg
  * @date 2019/12/21 10:23
@@ -88,6 +90,28 @@ public interface ArticleService {
      */
     Boolean changeCheckStuatsById(int id, CheckEnum checkEnum);
 
+    /**
+     * 通过分页信息查询文章信息
+     * @param page
+     * @param limit
+     * @param order
+     * @param orderEnum
+     * @return
+     */
+    PageInfo selectArticleByPage(int page, int limit, String order, OrderEnum orderEnum);
 
+    /**
+     * 通过id查询文章
+     * @param id
+     * @return
+     */
+    Article selectArticleId(Integer id);
 
+    /**
+     * 通过文章id将其状态码全部改为status
+     * @param list
+     * @param status
+     * @return
+     */
+    Boolean changeCheckStatusByList(List list, Integer status);
 }

@@ -208,4 +208,17 @@
       is_deleted = #{isDeleted,jdbcType=BIT}
     where label_id = #{labelId,jdbcType=INTEGER}
   </update>
+
+
+  <select id="selectLabelNameByConnectionId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from label
+    where label_id in(
+        select label_id
+        from label_connection
+        where connect_type=#{connectionType}
+        and connect_id=#{connectId}
+    )
+  </select>
 </mapper>
