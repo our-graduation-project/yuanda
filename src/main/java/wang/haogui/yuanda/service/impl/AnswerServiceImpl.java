@@ -73,20 +73,38 @@ public class AnswerServiceImpl implements AnswerService {
     /**
      * 删除回答
      *
-     * @param answerId 回答的Id
+     * @param answerIds 回答的Id
      * @return 是否成功
      */
     @Override
-    public boolean deleteAnswer(int answerId) {
+    public boolean deleteAnswers(List<Integer> answerIds) {
         int len = 0;
-        Answer answer = new Answer();
-        answer.setAnswerId(answerId);
-        answer.setIsDeleted(true);
-        len = answerMapper.updateByPrimaryKeySelective(answer);
-        if(len > 0){
+
+        len = answerMapper.deleteAnswers(answerIds);
+        if(len == answerIds.size()){
             return true;
+        }else {
+            LogUtils.getDBLogger().info("回答数据删除错误,删除条数为："+len);
+            throw new RuntimeException("回答数据删除错误,删除条数为："+len);
         }
-        return false;
+    }
+
+    /**
+     * 按照问题的ID批量删除回答
+     *
+     * @param questionIds 问题的Id
+     * @return 是否成功
+     */
+    @Override
+    public boolean deleteAnswersbyQuestionId(List<Integer> questionIds) {
+
+        int i = answerMapper.deleteAnswersbyQuestionId(questionIds);
+        if(i >= questionIds.size()){
+            return true;
+        }else {
+            LogUtils.getDBLogger().info("数据库根据问题id删除回答操作失败，删除的数据条数为:"+i);
+            throw new RuntimeException("数据库根据问题id删除回答操作失败，删除的数据条数为:"+i);
+        }
     }
 
 
@@ -100,7 +118,7 @@ public class AnswerServiceImpl implements AnswerService {
     private PageInfo<Answer> select(int page,int limit,AnswerExample answerExample){
 
         PageHelper.startPage(page,limit);
-        List<Answer> answers = answerMapper.selectByExample(answerExample);
+        List<Answer> answers = answerMapper.selectByExampleWithBLOBs(answerExample);
         PageInfo<Answer> pageInfo = new PageInfo(answers,5);
 
         return pageInfo;
@@ -166,8 +184,7 @@ public class AnswerServiceImpl implements AnswerService {
     public PageInfo<Answer> selectAnswers(int page, int limit, String order, OrderEnum orderEnum) {
         AnswerExample answerExample = new AnswerExample();
         answerExample.or().andIsDeletedEqualTo(false);
-
-        if(order!=null&&!"".equals(order)){
+        if(order!=null&&(!"".equals(order))){
             String str = CommonUtils.orderStr(order, orderEnum);
             answerExample.setOrderByClause(str);
         }
@@ -185,8 +202,11 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public boolean updateCheckStatus(List<Integer> answerId, CheckEnum checkEnum) {
         int i = 0;
+        System.out.println("开始updateCheckStatus1");
         if(checkEnum == CheckEnum.CHECKPASS){
+            System.out.println("开始updateCheckStatus");
             i = answerMapper.updateCheckStatusPass(answerId);
+            System.out.println(i);
         }else {
             i = answerMapper.updateCheckStatusFail(answerId);
         }

@@ -42,7 +42,7 @@ public interface UsersService {
      * @param isDeleted
      * @return
      */
-    int updateisDeleted(Integer userId,Boolean isDeleted);
+    int updateisDeleted(Integer userId, Boolean isDeleted);
 
 
     /**
@@ -65,7 +65,7 @@ public interface UsersService {
      * @param limit
      * @return
      */
-    PageInfo<Users> searchUsers(int page,int limit);
+    PageInfo<Users> searchUsers(int page, int limit);
 
     /**
      * 根据ID查询用户
@@ -90,7 +90,7 @@ public interface UsersService {
      * @param userName
      * @return
      */
-    PageInfo<Users> searchUsersByName(int page,int limit,String userName);
+    PageInfo<Users> searchUsersByName(int page, int limit, String userName);
 
     /**
      *根据邮箱查询用户
@@ -99,6 +99,6 @@ public interface UsersService {
      * @param email
      * @return
      */
-    PageInfo<Users> searchUsersByEmail(int page,int limit,String email);
+    PageInfo<Users> searchUsersByEmail(int page, int limit, String email);
 
 }

@@ -46,7 +46,7 @@ public interface QuestionService {
      * @param orderEnum 是否升序
      * @return 查询出来的问题列表
      */
-    PageInfo<Question> selectQuestionByUerId(int userId,int page,int limit,String order,OrderEnum orderEnum);
+    PageInfo<Question> selectQuestionByUerId(int userId, int page, int limit, String order, OrderEnum orderEnum);
 
 
     /**
@@ -58,7 +58,7 @@ public interface QuestionService {
      * @param orderEnum 是否升序
      * @return 查询出来的问题列表
      */
-    PageInfo<Question> selectQuestionByName(String name,int page,int limit,String order,OrderEnum orderEnum);
+    PageInfo<Question> selectQuestionByName(String name, int page, int limit, String order, OrderEnum orderEnum);
 
 
     /**
@@ -70,7 +70,7 @@ public interface QuestionService {
      * @param orderEnum 是否升序
      * @return 查询出来的问题
      */
-    PageInfo<Question> selectQuestionByTypeId(int typeId,int page,int limit,String order,OrderEnum orderEnum);
+    PageInfo<Question> selectQuestionByTypeId(int typeId, int page, int limit, String order, OrderEnum orderEnum);
 
 
     /**
@@ -82,7 +82,7 @@ public interface QuestionService {
      * @param orderEnum 是否升序
      * @return 查询出来的问题
      */
-    PageInfo<Question> selectQuestionByTypeName(String typeName,int page,int limit,String order,OrderEnum orderEnum);
+    PageInfo<Question> selectQuestionByTypeName(String typeName, int page, int limit, String order, OrderEnum orderEnum);
 
 
     /**
@@ -108,11 +108,11 @@ public interface QuestionService {
 
 
     /**
-     * 删除一个问题
-     * @param questionId 问题的Id
+     * 批量删除
+     * @param questionIds 问题的Id
      * @return 是否成功
      */
-    boolean deleteQuestion(int questionId);
+    boolean deleteQuestion(List<Integer> questionIds);
 
 
     /**
@@ -121,5 +121,14 @@ public interface QuestionService {
      * @return 返回是否成功
      */
     boolean updateCheckStatus(List<Integer> questionIds, CheckEnum checkEnum);
+
+    /**
+     * 改变问题的数据，比如热度，浏览数等
+     * @param questionId 问题id
+     * @param dateName 数据的名字
+     * @param inOrDe 增加或减少数量
+     * @return 操作是否成功
+     */
+    boolean updateDate(int questionId, String dateName, int inOrDe);
 
 }

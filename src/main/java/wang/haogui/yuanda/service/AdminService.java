@@ -41,7 +41,7 @@ public interface AdminService {
      * @param right
      * @return
      */
-    int updateRight(Integer adminId,Byte right);
+    int updateRight(Integer adminId, Byte right);
 
     /**
      * 根据ID修改状态
@@ -49,7 +49,7 @@ public interface AdminService {
      * @param isDeleted
      * @return
      */
-    int updateisDeleted(Integer adminId,Boolean isDeleted);
+    int updateisDeleted(Integer adminId, Boolean isDeleted);
 
     /**
      * 通过邮箱修改密码
@@ -96,7 +96,7 @@ public interface AdminService {
      * @param adminName
      * @return
      */
-    PageInfo<Admin> searchAdminByName(int page,int limit,String adminName);
+    PageInfo<Admin> searchAdminByName(int page, int limit, String adminName);
 
     /**
      *根据名称查询管理员
@@ -105,5 +105,5 @@ public interface AdminService {
      * @param email
      * @return
      */
-    PageInfo<Admin> searchAdminByEmail(int page,int limit,String email);
+    PageInfo<Admin> searchAdminByEmail(int page, int limit, String email);
 }

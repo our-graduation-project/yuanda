@@ -204,11 +204,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <a class="btn btn-outline-primary btn-sm"><i class="fa fa-star"></i>&nbsp; 增加</a>
-                            <a class="btn btn-outline-secondary btn-sm"><i class="fa fa-lightbulb-o"></i>&nbsp;删除</a>
-                            <a class="btn btn-outline-success btn-sm"><i class="fa fa-magic"></i>&nbsp; 修改</a>
-                            <a class="btn btn-outline-danger btn-sm"><i class="fa fa-rss"></i>&nbsp;Danger</a>
-                            <a class="btn btn-outline-warning btn-sm"><i class="fa fa-map-marker"></i>&nbsp; 审核</a>
+<!--                            <a class="btn btn-outline-primary btn-sm" onclick=""><i class="fa fa-star"></i>&nbsp; 增加</a>-->
+                            <a class="btn btn-outline-secondary btn-sm" onclick="deleteAnswer()"><i class="fa fa-lightbulb-o"></i>&nbsp;删除</a>
+                            <a class="btn btn-outline-success btn-sm" onclick="detailsAnswer()"><i class="fa fa-magic"></i>&nbsp; 查看详情</a>
+                            <a class="btn btn-outline-danger btn-sm" onclick="updateAnswerStatus(2)"><i class="fa fa-rss"></i>&nbsp;审核未通过</a>
+                            <a class="btn btn-outline-warning btn-sm" onclick="updateAnswerStatus(1)"><i class="fa fa-map-marker"></i>确定通过</a>
                         </div>
                         <div class="card-body">
                             <table id="jqGrid" class="table table-bordered">
@@ -220,7 +220,101 @@
             </div>
         </div>
 
+
+
+
+
+
+        <div class="content">
+            <div class="modal fade" id="answerModal" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="width: 800px;height: 700px;">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h6 class="modal-title" id="articleModalLabel">详情</h6>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+
+                                <input type="hidden" id="articleId" value="0">
+                                <div class="form-group" id="answerData">
+                                    <ul class="list-group">
+                                        <li class="list-group-item">
+                                            <div style="display: table">
+                                                <span>编号: {{ pro.answerId }}</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item list-group-item-info">
+                                            <div style="display: table">
+                                                <span>回答者: {{pro.authorId}}--{{ pro.autherName }}({{pro.isNoNameStr}})</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div style="display: table">
+                                                <div style="display: inline-block;margin-right: 60px">
+                                                    <span>同意数: {{pro.agreeNumber}}</span>
+                                                </div>
+                                                <div style="display: inline-block;margin-right: 60px">
+                                                    <span>不同意数: {{pro.disagreeNumber}}</span>
+                                                </div>
+                                                <div style="display: inline-block;margin-right: 60px">
+                                                    <span>浏览次数: {{pro.clickNumber}}</span>
+
+                                                </div>
+                                                <div style="display: inline-block">
+                                                    <span>评论数: {{pro.commentNumber}}</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item list-group-item-info">
+                                            <div style="display: table">
+                                                <span>是否通过审核: {{pro.checkStatusStr}}</span>
+                                            </div>
+                                        </li>
+
+                                        <li class="list-group-item">
+                                            <div style="display: table">
+                                                <span>回答时间: {{pro.createTimeStr}}</span>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item list-group-item-info">
+                                            <div style="display: table">
+                                                <span>最后更新时间: {{pro.updateTimeStr}}</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <div style="margin-top: 20px">
+                                        <span>作者头像</span>
+                                        <img v-bind:src="pro.authorPicture" style="width: 100px;height: 100px">
+                                    </div>
+
+                                    <!--                                    <label  class="control-label">标题:</label>-->
+                                    <!--                                    <input type="text" class="form-control" style="width: 70%" id="articleName">-->
+                                    <div class="form-group" style="margin-top: 20px">
+                                        <label class="control-label">内容:</label>
+                                        <p>{{pro.answerContent}}</p>
+
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="answerButton" onclick="deleteAnswer()">删除</button>
+                            <button type="button" class="btn btn-primary" id="passButton" onclick="updateAnswerStatus(1)">确认通过</button>
+                            <button type="button" class="btn btn-primary" id="failButton" onclick="updateAnswerStatus(2)">审核未通过</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal -->
+        </div>
         <!-- /.content -->
+
+
+
+
         <div class="clearfix"></div>
         <!-- Footer -->
         <footer class="site-footer">
@@ -240,10 +334,11 @@
 
     <!-- jQuery -->
     <script src="../plugins/jquery/jquery.min.js"></script>
-
+    <script src="../mydist/js/vue.js"></script>
     <script src="../plugins/sweetalert/sweetalert.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../mydist/js/public.js"></script>
     <script src="../mydist/js/answer.js"></script>
     <!-- JqGrid依赖jquery，因此需要先引入jquery.min.js文件 -->
     <script src="../plugins/jqgrid-5.3.0/grid.locale-cn.js"></script>

@@ -42,4 +42,6 @@ public interface QuestionMapper {
 
     int updateCheckStatusFail(List<Integer> questionIds);
 
+    int deleteQuestion(List<Integer> questionIds);
+
 }

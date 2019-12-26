@@ -1,4 +1,17 @@
-$(function () {
+$(function (questionId) {
+    var url;
+    var thisUrl = location.search;
+    if(thisUrl !=null&&thisUrl.indexOf("?") != -1){
+        var str = thisUrl.substr(thisUrl.indexOf("=")+1);
+        console.log(str);
+        url = '/yuanda/admin/selectAnswersByQuestionId?questionId='+str;
+    }else {
+        url = '/yuanda/admin/selectAnswerList';
+    }
+    selectAnswer(url);
+});
+
+function selectAnswer(url) {
     //错误信息隐藏
     $('.alert-danger').css("display", "none");
 
@@ -11,18 +24,33 @@ $(function () {
 
     $("#jqGrid").jqGrid({
         //请求后台 JSON 数据的 URL
-        url: 'user/list.do',
+        url: url,
         //后台返回的数据格式
         datatype: "json",
         //列表信息，包括表头、宽度、是否显示、渲染参数等属性
-        colModel: [
-            {label: 'id', name: 'id', index: 'id', width: 50, hidden: true, key: true},
-            {label: '标题', name: 'userName', index: 'userName', sortable: false, width: 80},
-            {label: '作者', name: 'createTime', index: 'createTime', sortable: false, width: 80},
-            {label:  '创建时间', name: 'userToken',index: 'userToken',sortable: false, width: 80},
-            {label:  '最后更新时间', name: 'userToken',index: 'userToken',sortable: false, width: 80},
-            {label:  '是否通过审核', name: 'userToken',index: 'userToken',sortable: false, width: 80}
-        ],
+
+    colModel: [
+            {label: 'id', name: 'answerId', index: 'answerId', width: 80, hidden: true, key: true},
+            {label: '回答者名称', name: 'autherName', index: 'autherName', sortable: false, width: 80},
+            {label: '粗略内容', name: 'roughAnswerContent', index: 'roughAnswerContent', sortable: false, width: 100},
+            {label: '问题标题', name: 'questionTitile', index: 'questionTitile', sortable: false, width: 100},
+            {label:  '创建时间', name: 'createTimeStr',index: 'createTimeStr',sortable: false, width: 140},
+            {label:  '最后更新时间', name: 'updateTimeStr',index: 'updateTimeStr',sortable: false, width: 140},
+            {label:  '是否通过审核', name: 'checkStatusStr',index: 'checkStatusStr',sortable: false, width: 80},
+
+            {label: '回答者名称', name: 'answerContent', index: 'answerContent', hidden: true, sortable: false, width: 80},
+            {label: '同意数', name: 'agreeNumber', index: 'agreeNumber', hidden: true, sortable: false, width: 80},
+            {label: '不同意数', name: 'disagreeNumber', index: 'disagreeNumber',  hidden: true,sortable: false, width: 80},
+            {label: '评论数', name: 'commentNumber', index: 'commentNumber', hidden: true, sortable: false, width: 80},
+            {label: '浏览次数', name: 'clickNumber', index: 'clickNumber', hidden: true, sortable: false, width: 80},
+            {label: '是否匿名', name: 'isNoNameStr', index: 'isNoNameStr', hidden: true, sortable: false, width: 80},
+            {label: '回答者id', name: 'authorId', index: 'authorId', hidden: true, sortable: false, width: 80},
+            {label: '作者头像', name: 'authorPicture', index: 'authorPicture', hidden: true, sortable: false, width: 80},
+            {label: '问题id', name: 'questionId', index: 'questionId', hidden: true, sortable: false, width: 80},
+        {label: '粗略内容', name: 'answerContent', index: 'answerContent', sortable: false, width: 100},
+
+
+    ],
         //表格高度，可自行调节
         height: 485,
         //默认一页显示多少条数据，可自行调节
@@ -48,9 +76,9 @@ $(function () {
         //jsonReader 对象定义了如何对后端返回的 JSON 数据进行解析，
         jsonReader: {
             root: "data.list",           //数据列表模型
-            page: "data.currPage",       //数据页码
-            total: "data.totalPage",     //数据总页码
-            records: "data.totalCount",  //数据总记录数
+            page: "data.pageNum",       //数据页码
+            total: "data.pages",     //数据总页码
+            records: "data.total",  //数据总记录数
         },
         // 向后台请求的参数
         prmNames: {
@@ -65,91 +93,139 @@ $(function () {
         }
     });
 
-});
+}
 
+// 审核
 
-//绑定modal上的保存按钮
-$('#saveButton').click(function () {
-    //验证数据
-    if (validObject()) {
-        //一切正常后发送网络请求
-        //ajax
-        var id = $("#articleId").val();
-        var title = $("#articleName").val();
-        var addName = $("#articleAuthor").val();
-        var content = CKEDITOR.instances.editor.getData();
-        console.log("获取的内容为：" + content)
-        var data = {"articleTitle": title, "articleContent": content, "addName": addName};
-        var url = 'articles/save.do';
-        console.log("id:" + id);
-        //id>0表示编辑操作
-        if (id > 0) {
-            data = {"id": id, "articleTitle": title, "articleContent": content, "addName": addName};
-            url = 'articles/update.do';
+function updateAnswerStatus(status) {
+    var rows=[];
+    rows= getSelectedRows();
+    console.log(rows);
+    if(rows != null&&rows.length>0){
+        for (var i = 0; i < rows.length; i++) {
+            var rowData = $("#jqGrid").jqGrid('getRowData',rows[i]);
+            var state = rowData.checkStatusStr;
+            if((state == "审核未通过"&&status==2)||state == "审核通过"){
+                swal({
+                    title: "选择字段中有已经审核完成的数据",
+                });
+
+                return false;
+            }
         }
+        var data = {"answerIds":rows,"state":status};
         $.ajax({
-            type: 'POST',//方法类型
-            dataType: "json",//预期服务器返回的数据类型
-            url: url,//url
-            contentType: "application/json; charset=utf-8",
-            beforeSend: function (request) {
-                //设置header值
-                request.setRequestHeader("token", getCookie("token"));
-            },
-            data: JSON.stringify(data),
+            //请求方式
+            type : "POST",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "updateAnswerCheckStatus",
+            //数据，json字符串
+            data : JSON.stringify(data),
             success: function (result) {
-                checkResultCode(result.resultCode);
-                if (result.resultCode == 200) {
-                    $('#articleModal').modal('hide');
-                    alert("保存成功");
-                    //reload
-                    reload();
+
+                if (result.result) {
+                    swal({
+                        icon: "success",
+                    });
+
                 }
                 else {
-                    $('#articleModal').modal('hide');
-                    alert("保存失败");
-                };
+
+                    swal({
+                        title: "出错了，请重新审核",
+                    });
+                }
             },
             error: function () {
-                alert("操作失败");
+                swal({
+                    title: "出错了，请重新审核",
+                });
             }
+
+
+        })
+
+        reload();
+    }
+
+
+
+}
+
+function deleteAnswer() {
+    var rows=[];
+    rows= getSelectedRows();
+
+    if(rows != null){
+        console.log(rows);
+        var data = {"answerIds":rows};
+        $.ajax({
+            //请求方式
+            type : "POST",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "deleteAnswer",
+            //数据，json字符串
+            data : JSON.stringify(data),
+            success: function (result) {
+
+                if (result.result) {
+                    swal({
+                        icon: "success",
+                    });
+
+                }
+                else {
+                    swal({
+                        title: "出错了，请重新删除",
+                    });
+
+                }
+            },
+            error: function () {
+                swal({
+                    title: "出错了，请重新删除",
+                });
+            }
+
+
+        })
+    }else {
+        swal({
+            title: "请选择要删除的数据",
         });
+    }
+    reset();
+    reload();
+    $('#answerModal').modal('hide');
+}
 
+function detailsAnswer() {
+    reset();
+    var rows=[];
+    rows= getSelectedRows();
+    if(rows.length>1){
+        swal({
+            title: "只能选择一个数据",
+        });
+        return false;
     }
-});
+    var rowData = $("#jqGrid").jqGrid('getRowData',rows[0]);
+    var pic=rowData.authorPicture;
+    if(pic==null||pic==""){
+        pic="spare.jpg";
+    }
+    var data = {"answerId":rowData.answerId,"autherName":rowData.autherName,"roughAnswerContent":rowData.roughAnswerContent,
+        "questionTitile":rowData.questionTitile,"createTimeStr":rowData.createTimeStr,"updateTimeStr":rowData.updateTimeStr,"checkStatusStr":rowData.checkStatusStr,
+        "answerContent":rowData.answerContent,"agreeNumber":rowData.agreeNumber,"disagreeNumber":rowData.disagreeNumber,"commentNumber":rowData.commentNumber,"clickNumber":rowData.clickNumber,
+        "isNoNameStr":rowData.isNoNameStr,"authorId":rowData.authorId,"authorPicture":pic,"questionId":rowData.questionId,"answerContent":rowData.answerContent};
+    vm.addDatas(data);
+    //显示modal
+    $('#answerModal').modal('show');
 
-/**
- * 数据验证
- */
-function validObject() {
-    var articleName = $('#articleName').val();
-    if (isNull(articleName)) {
-        showErrorInfo("标题不能为空!");
-        return false;
-    }
-    if (!validLength(articleName, 120)) {
-        showErrorInfo("标题字符不能大于120!");
-        return false;
-    }
-    var articleAuthor = $('#articleAuthor').val();
-    if (isNull(articleAuthor)) {
-        showErrorInfo("作者不能为空!");
-        return false;
-    }
-    if (!validLength(articleAuthor, 10)) {
-        showErrorInfo("作者字符不能大于10!");
-        return false;
-    }
-    var ariticleContent = CKEDITOR.instances.editor.getData();
-    if (isNull(ariticleContent) || ariticleContent == '请输入...') {
-        showErrorInfo("内容不能为空!");
-        return false;
-    }
-    if (!validLength(ariticleContent, 8000)) {
-        showErrorInfo("内容字符不能大于8000!");
-        return false;
-    }
-    return true;
 }
 
 /**
@@ -176,3 +252,17 @@ function reload() {
     }).trigger("reloadGrid");
 }
 
+let vm = new Vue(
+    {
+        el: '#answerData',
+        data:{
+            pro:{},
+        },
+        methods:{
+            addDatas(data){
+                this.pro = data;
+                console.log(this.pro);
+            }
+        }
+    }
+);

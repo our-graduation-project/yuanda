@@ -578,5 +578,28 @@
     )
   </update>
 
+<!--按照问题id删除回答-->
+  <update id="deleteAnswersbyQuestionId" parameterType="java.util.List">
+    UPDATE answer
+    SET is_deleted = 1
+    WHERE question_id IN (
+    <foreach collection="list" separator="," item="questionId">
+      #{questionId}
+    </foreach>
+    )
+  </update>
+
+
+<!--  批量删除回答-->
+  <update id="deleteAnswers" parameterType="java.util.List">
+    UPDATE answer
+    SET is_deleted = 1
+    WHERE answer_id IN (
+    <foreach collection="list" separator="," item="answerId">
+      #{answerId}
+    </foreach>
+    )
+  </update>
+
 
 </mapper>
