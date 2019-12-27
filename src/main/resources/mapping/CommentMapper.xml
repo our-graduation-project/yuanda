@@ -9,8 +9,8 @@
         <result column="comment_resource_id" jdbcType="INTEGER" property="commentResourceId"/>
         <result column="comment_resource_name" jdbcType="VARCHAR" property="commentResourceName"/>
         <result column="comment_resource_picture" jdbcType="VARCHAR" property="commentResourcePicture"/>
-        <result column="remark" jdbcType="VARCHAR" property="remark"/>
-        <result column="remark2" jdbcType="VARCHAR" property="remark2"/>
+        <result column="remark" jdbcType="INTEGER" property="remark"/>
+        <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
         <result column="comment_type" jdbcType="TINYINT" property="commentType"/>
         <result column="is_deleted" jdbcType="BIT" property="isDeleted"/>
     </resultMap>
@@ -76,7 +76,7 @@
     </sql>
     <sql id="Base_Column_List">
     comment_id, comment_content, comment_number, comment_target_id, comment_resource_id, 
-    comment_resource_name, comment_resource_picture, remark, remark2, comment_type, is_deleted
+    comment_resource_name, comment_resource_picture, remark, parent_id, comment_type, is_deleted
   </sql>
     <select id="selectByExample" parameterType="wang.haogui.yuanda.model.CommentExample" resultMap="BaseResultMap">
         select
@@ -114,12 +114,12 @@
         </selectKey>
         insert into comment (comment_content, comment_number, comment_target_id,
         comment_resource_id, comment_resource_name,
-        comment_resource_picture, remark, remark2,
+        comment_resource_picture, remark, parent_id,
         comment_type, is_deleted)
         values (#{commentContent,jdbcType=VARCHAR}, #{commentNumber,jdbcType=INTEGER},
         #{commentTargetId,jdbcType=INTEGER},
         #{commentResourceId,jdbcType=INTEGER}, #{commentResourceName,jdbcType=VARCHAR},
-        #{commentResourcePicture,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{remark2,jdbcType=VARCHAR},
+        #{commentResourcePicture,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
         #{commentType,jdbcType=TINYINT}, #{isDeleted,jdbcType=BIT})
     </insert>
     <insert id="insertSelective" parameterType="wang.haogui.yuanda.model.Comment">
@@ -149,8 +149,8 @@
             <if test="remark != null">
                 remark,
             </if>
-            <if test="remark2 != null">
-                remark2,
+            <if test="parentId != null">
+                parent_id,
             </if>
             <if test="commentType != null">
                 comment_type,
@@ -181,8 +181,8 @@
             <if test="remark != null">
                 #{remark,jdbcType=VARCHAR},
             </if>
-            <if test="remark2 != null">
-                #{remark2,jdbcType=VARCHAR},
+            <if test="parentId != null">
+                #{parent_id,jdbcType=INTEGER},
             </if>
             <if test="commentType != null">
                 #{commentType,jdbcType=TINYINT},
@@ -225,8 +225,8 @@
             <if test="record.remark != null">
                 remark = #{record.remark,jdbcType=VARCHAR},
             </if>
-            <if test="record.remark2 != null">
-                remark2 = #{record.remark2,jdbcType=VARCHAR},
+            <if test="record.parentId != null">
+                parent_id = #{record.parentId,jdbcType=INTEGER},
             </if>
             <if test="record.commentType != null">
                 comment_type = #{record.commentType,jdbcType=TINYINT},
@@ -249,7 +249,7 @@
         comment_resource_name = #{record.commentResourceName,jdbcType=VARCHAR},
         comment_resource_picture = #{record.commentResourcePicture,jdbcType=VARCHAR},
         remark = #{record.remark,jdbcType=VARCHAR},
-        remark2 = #{record.remark2,jdbcType=VARCHAR},
+        parent_id = #{record.parentId,jdbcType=INTEGER},
         comment_type = #{record.commentType,jdbcType=TINYINT},
         is_deleted = #{record.isDeleted,jdbcType=BIT}
         <if test="_parameter != null">
@@ -280,8 +280,8 @@
             <if test="remark != null">
                 remark = #{remark,jdbcType=VARCHAR},
             </if>
-            <if test="remark2 != null">
-                remark2 = #{remark2,jdbcType=VARCHAR},
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
             </if>
             <if test="commentType != null">
                 comment_type = #{commentType,jdbcType=TINYINT},
@@ -301,7 +301,7 @@
       comment_resource_name = #{commentResourceName,jdbcType=VARCHAR},
       comment_resource_picture = #{commentResourcePicture,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
-      remark2 = #{remark2,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
       comment_type = #{commentType,jdbcType=TINYINT},
       is_deleted = #{isDeleted,jdbcType=BIT}
     where comment_id = #{commentId,jdbcType=INTEGER}
