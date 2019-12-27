@@ -45,7 +45,7 @@
         <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li>
                         <a href="../index.html"><i class="menu-icon fa fa-laptop"></i>后台管理 </a>
                     </li>
                     <li class="menu-title">人员管理</li><!-- /.menu-title -->
@@ -199,8 +199,8 @@
                     <div class="card">
                         <div class="card-body">
                             <a  class="btn btn-outline-primary btn-sm" onclick="modelAppear()"><i class="fa fa-star"></i>&nbsp; 增加</a>
-                            <a  class="btn btn-outline-secondary btn-sm" onclick="openSweetAlertWithConfirm()" ><i class="fa fa-lightbulb-o"></i>&nbsp;删除</a>
-                            <a  class="btn btn-outline-success btn-sm" onclick="updateModelApper()"><i class="fa fa-magic"></i>&nbsp; 修改</a>
+                            <a  class="btn btn-outline-secondary btn-sm" onclick="checkIsDeleted()" ><i class="fa fa-lightbulb-o"></i>&nbsp;删除</a>
+                            <a  class="btn btn-outline-success btn-sm" onclick="UsersDetails()"><i class="fa fa-magic"></i>&nbsp; 修改</a>
                         </div>
                         <div class="card-body">
                             <table id="jqGrid" class="table table-bordered">
@@ -214,9 +214,9 @@
 
 <!--        增加的模态框    -->
         <div class="content">
-            <div class="modal fade"  id="modalAdd" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel">
+            <div class="modal fade"  id="modalAdd" tabindex="-1" role="dialog" data-target="#myModal1" aria-labelledby="articleModalLabel">
                 <div class="modal-dialog" role="document">
-                        <div class="modal-content" style="width: 400px;height: 420px;">
+                        <div class="modal-content" style="width: 400px;height: 700px;">
                         <div class="modal-header">
                             <h6 class="modal-title" id="userModalLabel">用户添加</h6>
                         </div>
@@ -226,18 +226,36 @@
                                     <div class="alert alert-danger add-error-info">错误信息展示栏。</div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="userName" class="control-label">用户名:</label>
-                                    <input type="text" class="form-control" id="userName">
+                                    <label for="adduserName" class="control-label">用户名:</label>
+                                    <input type="text" class="form-control" id="adduserName">
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="control-label">密码:</label>
-                                    <input type="password" class="form-control" id="password">
+                                    <label for="adduserPassword" class="control-label">密码:</label>
+                                    <input type="password" class="form-control" id="adduserPassword">
+                                </div>
+                                <div class="form-group">
+                                    <label for="adduserSex" class="control-label">性别:</label>
+                                    <input name="userSex" type="radio" value="0" checked="checked" id="adduserSex"/>男
+                                    <input name="userSex" type="radio" value="1" />女
+                                </div>
+                                <div class="form-group">
+                                    <label for="addemail" class="control-label">邮箱:</label>
+                                    <input type="email" class="form-control" id="addemail">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addtelphone" class="control-label">电话:</label>
+                                    <input type="tel" class="form-control" id="addtelphone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="addisDeleted" class="control-label">状态:</label>
+                                    <input name="isDeleted" type="radio" value="false" checked="checked" id="addisDeleted"/>存在
+                                    <input name="isDeleted" type="radio" value="true" />禁用
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" id="cancelAdd">取消</button>
-                            <button type="button" class="btn btn-primary" id="saveButton">确认</button>
+                            <button type="button" onclick="closeModal()" class="btn btn-default" id="cancelAdd">取消</button>
+                            <button type="button" onclick="addUsers()" class="btn btn-primary" id="saveButton">确认</button>
                         </div>
                     </div>
                 </div>
@@ -249,25 +267,51 @@
         <div class="content">
             <div class="modal fade"  id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel">
                 <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width: 400px;height: 320px;">
+                <div class="modal-content" style="width: 400px;height: 800px;">
                     <div class="modal-header">
                         <h6 class="modal-title" id="modalEditLabel">用户编辑</h6>
                     </div>
                     <div class="modal-body">
                         <form>
-                            <input type="hidden" id="userId" value="0">
+                            <input type="hidden" id="userId">
                             <div class="form-group">
                                 <div class="alert alert-danger edit-error-info">错误信息展示栏。</div>
                             </div>
                             <div class="form-group">
-                                <label for="passwordEdit" class="control-label">新密码:</label>
-                                <input type="text" class="form-control" id="passwordEdit">
+                                <label for="edituserId" class="control-label">用户编号:</label>
+                                <input type="text" class="form-control" id="edituserId" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="edituserName" class="control-label">用户名:</label>
+                                <input type="text" class="form-control" id="edituserName">
+                            </div>
+                            <div class="form-group">
+                                <label for="edituserPassword" class="control-label">密码:</label>
+                                <input type="password" class="form-control" id="edituserPassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="edituserSex" class="control-label">性别:</label>
+                                <input name="sex" type="radio" value="0" checked="checked" id="edituserSex"/>男
+                                <input name="sex" type="radio" value="1" />女
+                            </div>
+                            <div class="form-group">
+                                <label for="editemail" class="control-label">邮箱:</label>
+                                <input type="email" class="form-control" id="editemail">
+                            </div>
+                            <div class="form-group">
+                                <label for="edittelphone" class="control-label">电话:</label>
+                                <input type="tel" class="form-control" id="edittelphone">
+                            </div>
+                            <div class="form-group">
+                                <label for="editisDeleted" class="control-label">状态:</label>
+                                <input name="userIsDeleted" type="radio" value="false" checked="checked" id="editisDeleted"/>存在
+                                <input name="userIsDeleted" type="radio" value="true" />禁用
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" id="cancelEdit">取消</button>
-                        <button type="button" class="btn btn-primary" id="editButton">确认</button>
+                        <button type="button" onclick="closeModal()" class="btn btn-default" id="cancelEdit">取消</button>
+                        <button type="button" onclick="edituser()" class="btn btn-primary" id="editButton">确认</button>
                     </div>
                 </div>
             </div>
@@ -290,14 +334,15 @@
         </footer>
         <!-- /.site-footer -->
     </div>
+    <script src="../plugins/jquery/jquery.min.js"></script>
+    <script src="../mydist/js/public.js"></script>
+
+    <script src="../mydist/js/user.js"></script>
     <!-- /#right-panel -->
     <!-- jQuery -->
-    <script src="../plugins/jquery/jquery.min.js"></script>
-
     <script src="../plugins/sweetalert/sweetalert.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../mydist/js/user.js"></script>
     <!-- JqGrid依赖jquery，因此需要先引入jquery.min.js文件 -->
     <script src="../plugins/jqgrid-5.3.0/grid.locale-cn.js"></script>
     <script src="../plugins/jqgrid-5.3.0/jquery.jqGrid.min.js"></script>
@@ -308,10 +353,6 @@
             console.log("想要显示模态框");
             //显示modal
             $('#modalAdd').modal('show');
-        }
-
-        function updateModelApper() {
-            $('#modalEdit').modal('show');
         }
 
         /**
@@ -329,20 +370,20 @@
         }
 
         /**
-         * SweetAlert确认提示框
+         * 关闭modal
          */
-        function openSweetAlertWithConfirm() {
-            swal({
-                title: "确认弹框",
-                text: "确认执行进行删除操作吗?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((flag) => {
-                if(flag) {
-                    swal("已确认删除");
-                }else{
-                    swal("已取消删除");}});
+        function closeModal() {
+            //关闭前清空输入框数据
+            reset();
+            console.log("想要关闭模态框");
+            $("#modalAdd").modal('hide');
+            $("#modalEdit").modal('hide');
+        }
+
+
+        //重置数据
+        document.getElementById("chongzhi").onclick = function(){
+            CKEDITOR.instances.editor.setData( '<p>This is the editor data.</p>' );
         }
 
     </script>

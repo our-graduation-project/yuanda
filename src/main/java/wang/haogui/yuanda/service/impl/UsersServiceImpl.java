@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wang.haogui.yuanda.common.IsDeletedEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.mapper.UsersMapper;
 import wang.haogui.yuanda.model.Users;
@@ -20,16 +21,17 @@ public class UsersServiceImpl implements UsersService {
 
     /**
      * 用户登录
+     *
      * @param users
      * @return
      */
     @Override
     public Users loginUser(Users users) {
-        UsersExample usersExample=new UsersExample();
+        UsersExample usersExample = new UsersExample();
         usersExample.or().andEmailEqualTo(users.getEmail())
                 .andUserPasswordEqualTo(users.getUserPassword());
         List<Users> user = usersMapper.selectByExample(usersExample);
-        if (user!=null&&user.size()==1){
+        if (user != null && user.size() == 1) {
             return user.get(0);
         }
         return null;
@@ -37,6 +39,7 @@ public class UsersServiceImpl implements UsersService {
 
     /**
      * 用户增加
+     *
      * @param users
      * @return
      */
@@ -47,16 +50,17 @@ public class UsersServiceImpl implements UsersService {
 
     /**
      * 批量增加用户
+     *
      * @param users
      * @return
      */
     @Override
     public boolean addBatchUsers(List<Users> users) {
-        int i =0;
-        i=usersMapper.addBatchUsers(users);
-        if (i==users.size()){
+        int i = 0;
+        i = usersMapper.addBatchUsers(users);
+        if (i == users.size()) {
             return true;
-        }else {
+        } else {
             LogUtils.getDBLogger().info("数据库回答批量增加失败");
             throw new RuntimeException("数据库回答批量增加失败");
         }
@@ -64,27 +68,29 @@ public class UsersServiceImpl implements UsersService {
 
     /**
      * 修改用户
+     *
      * @param users
      * @return
      */
     @Override
     public boolean updateUser(Users users) {
         int i = usersMapper.updateByPrimaryKeySelective(users);
-        return i>0?true:false;
+        return i > 0 ? true : false;
     }
 
 
     /**
      * 删除用户
+     *
      * @param userId
      * @param isDeleted
      * @return
      */
     @Override
     public int updateisDeleted(Integer userId, Boolean isDeleted) {
-        int i=0;
-        Users users=searchUsersByUserId(userId);
-        if (users!=null){
+        int i = 0;
+        Users users = searchUsersByUserId(userId);
+        if (users != null) {
             users.setIsDeleted(isDeleted);
             i = usersMapper.updateByPrimaryKey(users);
         }
@@ -93,39 +99,42 @@ public class UsersServiceImpl implements UsersService {
 
     /**
      * 根据邮箱修改密码
+     *
      * @param users
      * @return
      */
     @Override
     public int updatePasswordByMailbox(Users users) {
-        UsersExample usersExample=new UsersExample();
+        UsersExample usersExample = new UsersExample();
         usersExample.or().andEmailEqualTo(users.getEmail());
-        return usersMapper.updateByExampleSelective(users,usersExample);
+        return usersMapper.updateByExampleSelective(users, usersExample);
     }
 
     /**
      * 根据ID删除用户
+     *
      * @param userId
      * @return
      */
     @Override
     public boolean deleteUser(Integer userId) {
-        return usersMapper.deleteByPrimaryKey(userId)>0?true:false;
+        return usersMapper.deleteByPrimaryKey(userId) > 0 ? true : false;
     }
 
     /**
      * 查询所有用户
+     *
      * @param page
      * @param limit
      * @return
      */
     @Override
     public PageInfo<Users> searchUsers(int page, int limit) {
-        UsersExample usersExample=new UsersExample();
+        UsersExample usersExample = new UsersExample();
         usersExample.or();
         PageHelper.startPage(page, limit);
         List<Users> users = usersMapper.selectByExample(usersExample);
-        PageInfo pageInfo=new PageInfo(users,3);
+        PageInfo pageInfo = new PageInfo(users, 3);
         return pageInfo;
     }
 
@@ -136,11 +145,12 @@ public class UsersServiceImpl implements UsersService {
     }
 
     /**
-     *根据ID查询用户
-     * @param page  当前页码
-     * @param limit 页面大小
-     * @param userId 用户ID
-     * @param order 排序列
+     * 根据ID查询用户
+     *
+     * @param page      当前页码
+     * @param limit     页面大小
+     * @param userId    用户ID
+     * @param order     排序列
      * @param orderEnum 是否升序
      * @return
      */
@@ -150,7 +160,7 @@ public class UsersServiceImpl implements UsersService {
         //根据用户ID查询存在的用户
         usersExample.or().andUserIdEqualTo(userId).andIsDeletedEqualTo(false);
         if (order != null) {
-            String str=null;
+            String str = null;
             str = "`" + order + "` ";
             if (orderEnum != null) {
 
@@ -160,14 +170,15 @@ public class UsersServiceImpl implements UsersService {
             }
             usersExample.setOrderByClause(str);
         }
-        PageHelper.startPage(page,limit);
+        PageHelper.startPage(page, limit);
         List<Users> users = usersMapper.selectByExample(usersExample);
-        PageInfo pageInfo=new PageInfo(users,3);
+        PageInfo pageInfo = new PageInfo(users, 3);
         return pageInfo;
     }
 
     /**
      * 根据用户名查询用户
+     *
      * @param page
      * @param limit
      * @param userName
@@ -175,16 +186,17 @@ public class UsersServiceImpl implements UsersService {
      */
     @Override
     public PageInfo<Users> searchUsersByName(int page, int limit, String userName) {
-        UsersExample usersExample=new UsersExample();
+        UsersExample usersExample = new UsersExample();
         usersExample.or().andUserNameEqualTo(userName);
         PageHelper.startPage(page, limit);
         List<Users> users = usersMapper.selectByExample(usersExample);
-        PageInfo pageInfo=new PageInfo(users,3);
+        PageInfo pageInfo = new PageInfo(users, 3);
         return pageInfo;
     }
 
     /**
      * 根据邮箱查询用户
+     *
      * @param page
      * @param limit
      * @param email
@@ -192,11 +204,40 @@ public class UsersServiceImpl implements UsersService {
      */
     @Override
     public PageInfo<Users> searchUsersByEmail(int page, int limit, String email) {
-        UsersExample usersExample=new UsersExample();
+        UsersExample usersExample = new UsersExample();
         usersExample.or().andEmailEqualTo(email);
         PageHelper.startPage(page, limit);
         List<Users> users = usersMapper.selectByExample(usersExample);
-        PageInfo pageInfo=new PageInfo(users,3);
+        PageInfo pageInfo = new PageInfo(users, 3);
         return pageInfo;
+    }
+
+    /**
+     * 通过用户ID修改状态码
+     *
+     * @param id
+     * @param isDeletedEnum
+     * @return
+     */
+    @Override
+    public Boolean changeIsDeletedById(int id, IsDeletedEnum isDeletedEnum) {
+        Users users = new Users();
+        users.setIsDeleted(isDeletedEnum.getStatus());
+        users.setUserId(id);
+        int i = usersMapper.updateByPrimaryKeySelective(users);
+        return i > 0 ? true : false;
+    }
+
+    /**
+     * 软删除用户
+     *
+     * @param list
+     * @param status
+     * @return
+     */
+    @Override
+    public Boolean changeIsDeletedByList(List list, Boolean status) {
+        int i = usersMapper.updateIsDeletedByList(list, status);
+        return i > 0 ? true : false;
     }
 }

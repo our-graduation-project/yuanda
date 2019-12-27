@@ -32,4 +32,6 @@ public interface UsersMapper {
     int updateByPrimaryKey(Users record);
 
     int addBatchUsers(List<Users> users);
+
+    int updateIsDeletedByList(@Param("list") List list,@Param("status") Boolean status);
 }

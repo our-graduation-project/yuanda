@@ -34,4 +34,6 @@ public interface AdminMapper {
     int addBatchAdmin(List<Admin> admins);
 
     int updateBatchIsDeleted(List<Admin> admins);
+
+    int updateIsDeletedByList(@Param("list") List list,@Param("status") Boolean status);
 }

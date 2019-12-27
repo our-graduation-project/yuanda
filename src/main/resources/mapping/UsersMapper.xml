@@ -500,4 +500,14 @@
     </foreach>
   </insert>
 
+  <update id="updateIsDeletedByList" >
+    update users
+    set is_deleted = #{status}
+    where user_id in
+    (
+    <foreach collection="list"  item="id" separator="," >
+      #{id}
+    </foreach>
+    )
+  </update>
 </mapper>
