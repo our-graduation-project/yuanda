@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Comment;
 
+import java.util.List;
+
 /**
  * @Author: Zxw
  * @Description:
@@ -39,7 +41,7 @@ public interface CommentService {
      * OrderEnum,为排序的枚举
      * @param articleId
      */
-    PageInfo selectCommentByArticle(int articleId, int page, int limit, String order, OrderEnum orderEnum);
+    List<Comment> selectCommentByArticle(int articleId);
 
     /**
      * 查询评论通过文章id
@@ -47,7 +49,7 @@ public interface CommentService {
      *  OrderEnum,为排序的枚举
      * @param answerId
      */
-    PageInfo selectCommentByAnswer(int answerId, int page, int limit, String order, OrderEnum orderEnum);
+    List<Comment> selectCommentByAnswer(int answerId);
 
     /**
      * 查询评论通过文章id
@@ -55,7 +57,7 @@ public interface CommentService {
      *  OrderEnum,为排序的枚举
      * @param commentId
      */
-    PageInfo selectCommentByCommentId(int commentId, int page, int limit, String order, OrderEnum orderEnum);
+    List<Comment> selectCommentByCommentId(int commentId);
 
     /**
      *  删除某一条评论 然后级联删除它下面的所有子评论

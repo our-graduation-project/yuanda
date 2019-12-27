@@ -44,4 +44,5 @@ public interface FavoritesService {
     boolean editFavorites(Favorites favorites);
 
 
+    Favorites selectFavoritesById(Integer id);
 }

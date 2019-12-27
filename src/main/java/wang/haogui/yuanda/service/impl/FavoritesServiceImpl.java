@@ -83,12 +83,24 @@ public class FavoritesServiceImpl implements FavoritesService {
      */
     @Override
     public boolean editFavorites(Favorites favorites) {
-        int i = favoritesMapper.updateByPrimaryKey(favorites);
+        int i = favoritesMapper.updateByPrimaryKeySelective(favorites);
         if(i <= 0){
             LogUtils.getDBLogger().info("修改收藏夹失败");
             throw new RuntimeException("修改收藏夹失败！");
         }
 
         return true;
+    }
+
+    @Override
+    public Favorites selectFavoritesById(Integer id) {
+
+        Favorites favorites = favoritesMapper.selectByPrimaryKey(id);
+
+        if(favorites == null){
+            LogUtils.getDBLogger().info("selectFavoritesById查询为空");
+            throw new RuntimeException("selectFavoritesById查询为空！");
+        }
+        return favorites;
     }
 }

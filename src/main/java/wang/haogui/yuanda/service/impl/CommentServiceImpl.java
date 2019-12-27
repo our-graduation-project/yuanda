@@ -140,28 +140,17 @@ public class CommentServiceImpl implements CommentService {
      * OrderEnum,为排序的枚举
      *
      * @param articleId
-     * @param page
-     * @param limit
-     * @param order
-     * @param orderEnum
      */
     @Override
-    public PageInfo selectCommentByArticle(int articleId, int page, int limit, String order, OrderEnum orderEnum) {
+    public List<Comment> selectCommentByArticle(int articleId) {
         CommentExample commentExample = new CommentExample();
 
         commentExample.or().andCommentTargetIdEqualTo(articleId)
                 .andCommentTypeEqualTo((byte)0).andIsDeletedEqualTo(false);
-        //添加是否进行排序的查询
-        if(order!=null){
-            String str = CommonUtils.orderStr(order, orderEnum);
-            commentExample.setOrderByClause(str);
-        }
 
-        PageHelper.startPage(page,limit);
         List<Comment> comments = commentMapper.selectByExample(commentExample);
-        PageInfo pageInfo = new PageInfo(comments);
 
-        return pageInfo;
+        return comments;
     }
 
     /**
@@ -170,28 +159,17 @@ public class CommentServiceImpl implements CommentService {
      * OrderEnum,为排序的枚举
      *
      * @param answerId
-     * @param page
-     * @param limit
-     * @param order
-     * @param orderEnum
      */
     @Override
-    public PageInfo selectCommentByAnswer(int answerId, int page, int limit, String order, OrderEnum orderEnum) {
+    public List<Comment> selectCommentByAnswer(int answerId) {
         CommentExample commentExample = new CommentExample();
 
         commentExample.or().andCommentTargetIdEqualTo(answerId)
                 .andCommentTypeEqualTo((byte)1).andIsDeletedEqualTo(false);
-        //添加是否进行排序的查询
-        if(order!=null){
-            String str = CommonUtils.orderStr(order, orderEnum);
-            commentExample.setOrderByClause(str);
-        }
 
-        PageHelper.startPage(page,limit);
         List<Comment> comments = commentMapper.selectByExample(commentExample);
-        PageInfo pageInfo = new PageInfo(comments);
 
-        return pageInfo;
+        return comments;
     }
 
     /**
@@ -200,27 +178,16 @@ public class CommentServiceImpl implements CommentService {
      * OrderEnum,为排序的枚举
      *
      * @param commentId
-     * @param page
-     * @param limit
-     * @param order
-     * @param orderEnum
      */
     @Override
-    public PageInfo selectCommentByCommentId(int commentId, int page, int limit, String order, OrderEnum orderEnum) {
+    public List<Comment> selectCommentByCommentId(int commentId) {
         CommentExample commentExample = new CommentExample();
 
         commentExample.or().andCommentTargetIdEqualTo(commentId).andCommentTypeEqualTo((byte)2).andIsDeletedEqualTo(false);
-        //添加是否进行排序的查询
-        if(order!=null){
-            String str = CommonUtils.orderStr(order, orderEnum);
-            commentExample.setOrderByClause(str);
-        }
 
-        PageHelper.startPage(page,limit);
         List<Comment> comments = commentMapper.selectByExample(commentExample);
-        PageInfo pageInfo = new PageInfo(comments);
 
-        return pageInfo;
+        return comments;
     }
 
     /**

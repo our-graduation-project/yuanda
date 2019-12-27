@@ -1,11 +1,13 @@
 package wang.haogui.yuanda.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.Favorites;
 import wang.haogui.yuanda.model.FavoritesExample;
 
 import java.util.List;
 
+@Mapper
 public interface FavoritesMapper {
     long countByExample(FavoritesExample example);
 
