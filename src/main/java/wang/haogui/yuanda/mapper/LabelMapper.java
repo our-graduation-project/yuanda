@@ -1,11 +1,13 @@
 package wang.haogui.yuanda.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.Label;
 import wang.haogui.yuanda.model.LabelExample;
 
 import java.util.List;
 
+@Mapper
 public interface LabelMapper {
     long countByExample(LabelExample example);
 
@@ -28,4 +30,12 @@ public interface LabelMapper {
     int updateByPrimaryKeySelective(Label record);
 
     int updateByPrimaryKey(Label record);
+
+    /**
+     * 通过connectionType，与connectionType，查询它所拥有的标签
+     * @param connectId
+     * @param connectionType
+     * @return
+     */
+    List<Label> selectLabelNameByConnectionId(@Param("connectId") int connectId,@Param("connectionType") int connectionType);
 }

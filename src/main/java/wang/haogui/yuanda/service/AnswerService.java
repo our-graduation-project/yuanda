@@ -30,10 +30,19 @@ public interface AnswerService {
 
     /**
      * 删除回答
-     * @param answerId 回答的Id
+     * @param answerIds 回答的Id
      * @return 是否成功
      */
-    boolean deleteAnswer(int answerId);
+    boolean deleteAnswers(List<Integer> answerIds);
+
+
+    /**
+     * 按照问题的ID批量删除回答
+     * @param questionIds 问题的Id
+     * @return 是否成功
+     */
+    boolean deleteAnswersbyQuestionId(List<Integer> questionIds);
+
 
     /**
      * 按照问题查询回答
@@ -44,7 +53,7 @@ public interface AnswerService {
      * @param orderEnum 升序或者降序
      * @return 查询出来的分页回答
      */
-    PageInfo<Answer> selectAnswerByQuestionId(int questionId,int page, int limit, String order, OrderEnum orderEnum);
+    PageInfo<Answer> selectAnswerByQuestionId(int questionId, int page, int limit, String order, OrderEnum orderEnum);
 
 
     /**
@@ -56,7 +65,7 @@ public interface AnswerService {
      * @param orderEnum 升序或者降序
      * @return 查询出来的分页回答
      */
-    PageInfo<Answer> selectAnswerByUserId(int userId,int page, int limit, String order, OrderEnum orderEnum);
+    PageInfo<Answer> selectAnswerByUserId(int userId, int page, int limit, String order, OrderEnum orderEnum);
 
 
     /**

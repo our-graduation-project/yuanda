@@ -433,6 +433,16 @@ UPDATE question
   </update>
 
 
+  <update id="deleteQuestion" parameterType="java.util.List">
+    UPDATE question
+    SET is_deleted = 1
+    WHERE question_id IN (
+    <foreach collection="list" separator="," item="questionId">
+      #{questionId}
+    </foreach>
+    )
+  </update>
+
 
 
 <!--  自己写的查询-->
@@ -463,5 +473,8 @@ select label_id FROM label where label_name = #{typeName} and is_deleted=0
         order by #{str}
     </if>
     </select>
+
+
+
 
 </mapper>

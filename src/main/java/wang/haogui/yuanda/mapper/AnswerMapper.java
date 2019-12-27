@@ -50,4 +50,7 @@ public interface AnswerMapper {
 
     int updateCheckStatusFail(List<Integer> answerId);
 
+    int deleteAnswers(List<Integer> answerIds);
+
+    int deleteAnswersbyQuestionId(List<Integer> questionIds);
 }

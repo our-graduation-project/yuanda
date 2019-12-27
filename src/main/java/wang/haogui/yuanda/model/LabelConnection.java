@@ -5,6 +5,18 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 
 public class LabelConnection implements Serializable {
+
+
+    public LabelConnection() {
+    }
+
+    public LabelConnection(Integer labelId, Integer connectId, Boolean connectType, Boolean isDeleted) {
+        this.labelId = labelId;
+        this.connectId = connectId;
+        this.connectType = connectType;
+        this.isDeleted = isDeleted;
+    }
+
     @ApiModelProperty(value = "本表id")
     private Integer id;
 
@@ -14,7 +26,7 @@ public class LabelConnection implements Serializable {
     @ApiModelProperty(value = "关联的文章或问题的id")
     private Integer connectId;
 
-    @ApiModelProperty(value = "1表示文章，2表示问题")
+    @ApiModelProperty(value = "0表示文章，1表示问题")
     private Boolean connectType;
 
     private String remark;

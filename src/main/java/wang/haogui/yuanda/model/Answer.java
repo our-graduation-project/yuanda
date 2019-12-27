@@ -3,6 +3,7 @@ package wang.haogui.yuanda.model;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Answer implements Serializable {
@@ -112,6 +113,16 @@ public class Answer implements Serializable {
         this.disagreeNumber = disagreeNumber;
     }
 
+    public String getCheckStatusStr() {
+        if(checkStatus == 0){
+            return "未审核";
+        }else if(checkStatus == 1){
+            return "审核通过";
+        }else {
+            return "审核未通过";
+        }
+    }
+
     public Byte getCheckStatus() {
         return checkStatus;
     }
@@ -132,12 +143,33 @@ public class Answer implements Serializable {
         return createTime;
     }
 
+    public String getCreateTimeStr() {
+        if(createTime != null){
+            return dateStr(createTime);
+        }
+        return "时间未设置";
+    }
+
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
+    private String dateStr(Date date){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(date);
+        return dateString;
+    }
+
     public Date getUpdateTime() {
         return updateTime;
+    }
+
+    public String getUpdateTimeStr() {
+        if(checkTime != null){
+            return dateStr(updateTime);
+        }
+        return "时间未设置";
+
     }
 
     public void setUpdateTime(Date updateTime) {
@@ -154,6 +186,14 @@ public class Answer implements Serializable {
 
     public Byte getIsNoName() {
         return isNoName;
+    }
+
+    public String getIsNoNameStr() {
+        if(isNoName == (byte)1){
+            return "不匿名";
+        }
+        return "匿名";
+
     }
 
     public void setIsNoName(Byte isNoName) {
@@ -212,6 +252,13 @@ public class Answer implements Serializable {
         return checkTime;
     }
 
+    public String getCheckTimeStr() {
+        if(checkTime != null){
+            return dateStr(checkTime);
+        }
+        return "时间未设置";
+    }
+
     public void setCheckTime(Date checkTime) {
         this.checkTime = checkTime;
     }
@@ -238,6 +285,13 @@ public class Answer implements Serializable {
 
     public void setAuthorPicture(String authorPicture) {
         this.authorPicture = authorPicture;
+    }
+
+    public String getRoughAnswerContent() {
+        if(answerContent.length()<10){
+            return answerContent;
+        }
+        return answerContent.substring(0,10)+"...";
     }
 
     public String getAnswerContent() {

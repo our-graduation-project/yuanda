@@ -55,7 +55,9 @@ class AnswerServiceImplTest {
 
     @Test
     void deleteAnswer() {
-        boolean b = answerService.deleteAnswer(3);
+        List<Integer> ids = new ArrayList<>();
+        ids.add(3);
+        boolean b = answerService.deleteAnswers(ids);
         System.out.println(b);
     }
 
@@ -85,7 +87,7 @@ class AnswerServiceImplTest {
         List<Answer> list = pageInfo.getList();
         for (Answer a :
                 list) {
-            System.out.println(a.getAnswerId()+":"+a.getAgreeNumber());
+            System.out.println(a);
         }
     }
 

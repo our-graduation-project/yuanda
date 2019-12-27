@@ -3,6 +3,7 @@ package wang.haogui.yuanda.model;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Question implements Serializable {
@@ -125,9 +126,22 @@ public class Question implements Serializable {
         return checkStatus;
     }
 
+    public String  getCheckStatusStr() {
+        if(checkStatus==0){
+            return "未审核";
+        }else if(checkStatus == 1){
+            return "审核通过";
+        }else {
+            return "审核未通过";
+        }
+
+    }
+
     public void setCheckStatus(Byte checkStatus) {
         this.checkStatus = checkStatus;
     }
+
+
 
     public Boolean getIsDeleted() {
         return isDeleted;
@@ -173,6 +187,13 @@ public class Question implements Serializable {
         return createTime;
     }
 
+    public String getCreateTimeStr() {
+        if(createTime == null){
+            return "时间未存在";
+        }
+        return dateStr(createTime);
+    }
+
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
@@ -199,6 +220,13 @@ public class Question implements Serializable {
 
     public void setPictureSrc(String pictureSrc) {
         this.pictureSrc = pictureSrc;
+    }
+
+
+    private String dateStr(Date date){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(date);
+        return dateString;
     }
 
     @Override

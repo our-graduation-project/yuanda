@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
+import wang.haogui.yuanda.mapper.AnswerMapper;
 import wang.haogui.yuanda.mapper.QuestionMapper;
+import wang.haogui.yuanda.model.Answer;
+import wang.haogui.yuanda.model.AnswerExample;
 import wang.haogui.yuanda.model.Question;
 import wang.haogui.yuanda.model.QuestionExample;
 import wang.haogui.yuanda.service.QuestionService;
@@ -30,6 +33,14 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     @Resource(type = QuestionMapper.class)
     QuestionMapper questionMapper;
+
+    @Autowired
+    @Resource(type = AnswerMapper.class)
+    AnswerMapper answerMapper;
+
+
+    @Autowired
+    AnswerServiceImpl answerService;
     /**
      * 增加问题的操作
      *
@@ -230,6 +241,7 @@ public class QuestionServiceImpl implements QuestionService {
         questionExample.or().andIsDeletedEqualTo(false);
 
         if(order!=null&&!"".equals(order)){
+
             String str = CommonUtils.orderStr(order, orderEnum);
             questionExample.setOrderByClause(str);
         }
@@ -262,20 +274,25 @@ public class QuestionServiceImpl implements QuestionService {
     /**
      * 删除一个问题
      *
-     * @param questionId 问题的Id
+     * @param questionIds 问题的Id
      * @return 是否成功
      */
     @Override
-    public boolean deleteQuestion(int questionId) {
+    public boolean deleteQuestion(List<Integer> questionIds) {
+        AnswerExample answerExample = new AnswerExample();
+       //
         Question question = new Question();
-        question.setQuestionId(questionId);
-        question.setIsDeleted(true);
-        int i = questionMapper.updateByPrimaryKeySelective(question);
-        if (i > 0){
+
+        int i = questionMapper.deleteQuestion(questionIds);
+        if (i == questionIds.size()){
+            answerService.deleteAnswersbyQuestionId(questionIds);
             return true;
+
         }else {
-            return false;
+            LogUtils.getDBLogger().info("数据库删除问题操作失败");
+            throw new RuntimeException("数据库删除问题操作失败");
         }
+
 
 
     }
@@ -301,6 +318,34 @@ public class QuestionServiceImpl implements QuestionService {
             throw new RuntimeException("数据库问题批量修改失败");
         }
 
+    }
+
+    /**
+     * 改变问题的数据，比如热度，浏览数等
+     *
+     * @param questionId 问题id
+     * @param dateName    数据的名字
+     * @param inOrDe      增加或减少数量
+     * @return 操作是否成功
+     */
+    @Override
+    public boolean updateDate(int questionId, String dateName, int inOrDe) {
+        Question question = selectQuestionById(questionId);
+        if("hot".equals(dateName)){
+            question.setHot(question.getHot()+inOrDe);
+        }else if("answerNumber".equals(dateName)){
+            question.setAnswerNumber(question.getAnswerNumber()+inOrDe);
+        }else if("followNumber".equals(dateName)){
+            question.setFollowNumber(question.getFollowNumber()+inOrDe);
+        }else {
+            question.setClickNumber(question.getClickNumber()+inOrDe);
+        }
+        int len = 0;
+        len = questionMapper.updateByPrimaryKey(question);
+        if(len > 0){
+            return true;
+        }
+        return false;
     }
 
 

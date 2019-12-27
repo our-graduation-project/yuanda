@@ -23,12 +23,12 @@ class LabelConnectionServiceImplTest {
     @Autowired
     private LabelConnectionService labelConnectionService;
 
-//    @Test
-//    void addLabelConnection() {
+    @Test
+    void addLabelConnection() {
 //        LabelConnection labelConnection = new LabelConnection(1,1,false,false);
 //        LabelConnection labelConnection2 = new LabelConnection(1,2,true,false);
 //        Assert.assertTrue(labelConnectionService.addLabelConnection(labelConnection2));
-//    }
+    }
 
     @Test
     void deleteLabelConnection() {

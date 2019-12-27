@@ -113,7 +113,9 @@ class QuestionServiceImplTest {
 
     @Test
     void deleteQuestions() {
-        boolean b = questionService.deleteQuestion(1);
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);
+        boolean b = questionService.deleteQuestion(ids);
         System.out.println(b);
     }
 
