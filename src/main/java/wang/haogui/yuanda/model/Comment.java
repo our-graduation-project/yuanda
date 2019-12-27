@@ -29,8 +29,8 @@ public class Comment implements Serializable {
     @ApiModelProperty(value = "备用字段1")
     private String remark;
 
-    @ApiModelProperty(value = "备用字段2")
-    private String remark2;
+    @ApiModelProperty(value = "父级id")
+    private Integer parentId;
 
     @ApiModelProperty(value = "评论对象的类型0表示文章，1表示回答，2表示评论")
     private Byte commentType;
@@ -104,12 +104,12 @@ public class Comment implements Serializable {
         this.remark = remark;
     }
 
-    public String getRemark2() {
-        return remark2;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setRemark2(String remark2) {
-        this.remark2 = remark2;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public Byte getCommentType() {
@@ -142,7 +142,7 @@ public class Comment implements Serializable {
         sb.append(", commentResourceName=").append(commentResourceName);
         sb.append(", commentResourcePicture=").append(commentResourcePicture);
         sb.append(", remark=").append(remark);
-        sb.append(", remark2=").append(remark2);
+        sb.append(", parentId=").append(parentId);
         sb.append(", commentType=").append(commentType);
         sb.append(", isDeleted=").append(isDeleted);
         sb.append(", serialVersionUID=").append(serialVersionUID);
