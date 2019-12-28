@@ -25,4 +25,21 @@ public class CommonUtils {
         }
         return str;
     }
+
+
+    /**
+     * 将字符类型的升降序变成枚举类
+     * @param order 字符型升降序
+     * @return 枚举类升降序
+     */
+    public static OrderEnum isOrderEnum(String order){
+
+        OrderEnum orderEnum = null;
+        if( "asc".equals(order)){
+            orderEnum =OrderEnum.ASC;
+        }else {
+            orderEnum =OrderEnum.DESC;
+        }
+        return orderEnum;
+    }
 }

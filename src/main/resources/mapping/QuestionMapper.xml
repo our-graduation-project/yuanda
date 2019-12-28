@@ -446,7 +446,7 @@ UPDATE question
 
 
 <!--  自己写的查询-->
-  <select id="selectByTypeName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByTypeName" parameterType="map" resultMap="BaseResultMap">
 select question_id questionId,question_title questionTitle,question_descript questionDescript,answer_number answerNumber,follow_number followNumber,hot,check_status checkStatus,
 is_deleted isDeleted,author,click_number clickNumber,create_time createTime,author_id authorId
 from question where question_id in
@@ -458,10 +458,10 @@ select label_id FROM label where label_name = #{typeName} and is_deleted=0
 )
 )
       <if test="str != null">
-          order by #{str}
+          order by ${str}
       </if>
   </select>
-    <select id="selectByTypeId" parameterType="Map" resultMap="BaseResultMap">
+    <select id="selectByTypeId" parameterType="map" resultMap="BaseResultMap">
     select question_id questionId,question_title questionTitle,question_descript questionDescript,answer_number answerNumber,follow_number followNumber,hot,check_status checkStatus,
     is_deleted isDeleted,author,click_number clickNumber,create_time createTime,author_id authorId
     from question where question_id in
@@ -470,7 +470,7 @@ select label_id FROM label where label_name = #{typeName} and is_deleted=0
     WHERE connect_type = 2 and is_deleted=0  and label_id =#{typeId}
     )
     <if test="str != null">
-        order by #{str}
+        order by ${str}
     </if>
     </select>
 

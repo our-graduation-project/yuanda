@@ -13,6 +13,7 @@ import wang.haogui.yuanda.model.Answer;
 import wang.haogui.yuanda.model.Question;
 import wang.haogui.yuanda.service.impl.AnswerServiceImpl;
 import wang.haogui.yuanda.utils.APIResult;
+import wang.haogui.yuanda.utils.CommonUtils;
 import wang.haogui.yuanda.utils.power.AntMatcher;
 
 import java.util.List;
@@ -28,6 +29,21 @@ public class AnswerController {
     @Autowired
     AnswerServiceImpl answerService;
 
+
+
+
+    /**
+     * 前台根据id分页查询所有回答啊
+     * @param map 传入的信息
+     * @return 返回的信息
+     */
+    @RequestMapping("/admin/pageSelectAnswersByQuestionId")
+    @ResponseBody
+    public APIResult pageSelectAnswersByQuestionId(@RequestBody Map map){
+        return selectAnswersByQuestionId(map);
+
+    }
+
     /**
      * 分页查询所有回答啊
      * @param map 传入的信息
@@ -41,16 +57,17 @@ public class AnswerController {
             int limit = Integer.valueOf((String) map.get("limit"));
             String order = (String) map.get("order");
             String orderName = (String) map.get("orderName");
-            OrderEnum orderEnum = null;
-            if( "asc".equals(order)){
-                orderEnum =OrderEnum.ASC;
-            }else {
-                orderEnum =OrderEnum.DESC;
+
+            OrderEnum orderEnum = CommonUtils.isOrderEnum(order);
+
+            if(orderName == null||"".equals(orderName)){
+                orderName = "check_status";
             }
-            PageInfo<Answer> pageInfo = answerService.selectAnswers(page, limit, "check_status", orderEnum);
+
+            PageInfo<Answer> pageInfo = answerService.selectAnswers(page, limit, orderName, orderEnum);
 
             if(pageInfo!=null &&pageInfo.getList()!=null&&pageInfo.getList().size()==0){
-                return APIResult.genSuccessApiResponse("查询失败",null);
+                return APIResult.genFailApiResponse500("查询失败");
             }
 
             return APIResult.genSuccessApiResponse("查询成功",pageInfo);
@@ -77,17 +94,14 @@ public class AnswerController {
         String order = (String) map.get("order");
         String orderName = (String) map.get("orderName");
 
-        OrderEnum orderEnum = null;
-        if( "asc".equals(order)){
-            orderEnum =OrderEnum.ASC;
-        }else {
-            orderEnum =OrderEnum.DESC;
+        OrderEnum orderEnum =CommonUtils.isOrderEnum(order);
+        PageInfo<Answer> answerPageInfo = answerService.selectAnswerByQuestionId(questionId, page, limit, orderName, orderEnum);
+        if(answerPageInfo!=null ){
+            System.out.println(answerPageInfo.getList().size());
+            return APIResult.genSuccessApiResponse("查询成功",answerPageInfo);
         }
-        PageInfo<Answer> answerPageInfo = answerService.selectAnswerByQuestionId(questionId, page, limit, "check_status", orderEnum);
-        if(answerPageInfo!=null &&answerPageInfo.getList()!=null&&answerPageInfo.getList().size()==0){
-            return APIResult.genSuccessApiResponse("查询失败",null);
-        }
-        return APIResult.genSuccessApiResponse("查询成功",answerPageInfo);
+        return APIResult.genSuccessApiResponse("查询失败");
+
     }
 
 
@@ -101,11 +115,12 @@ public class AnswerController {
     public APIResult updateAnswerCheckStatus(@RequestBody Map map){
         System.out.println("开始updateAnswerCheckStatus");
         List<Integer> answerids = (List<Integer>) map.get("answerIds");
-        int answerState = (int) map.get("state");
-        if(answerids == null|| answerids.size() == 0||map.get("state")==null||answerState == 0){
-            System.out.println("if");
+
+        if(answerids == null|| answerids.size() == 0||map.get("state")==null|| map.get("state") == null){
+
             return APIResult.genFailApiResponse500("fail");
         }
+        int answerState = (int) map.get("state");
         CheckEnum answerStatus = CheckEnum.CHECKFAILL;
         if((byte)answerState == CheckEnum.CHECKPASS.getStatus()){
             answerStatus = CheckEnum.CHECKPASS;

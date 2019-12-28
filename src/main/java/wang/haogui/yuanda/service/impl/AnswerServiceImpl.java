@@ -202,9 +202,8 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public boolean updateCheckStatus(List<Integer> answerId, CheckEnum checkEnum) {
         int i = 0;
-        System.out.println("开始updateCheckStatus1");
+
         if(checkEnum == CheckEnum.CHECKPASS){
-            System.out.println("开始updateCheckStatus");
             i = answerMapper.updateCheckStatusPass(answerId);
             System.out.println(i);
         }else {

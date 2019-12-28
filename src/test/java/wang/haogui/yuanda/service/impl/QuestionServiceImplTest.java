@@ -42,7 +42,7 @@ class QuestionServiceImplTest {
 
         List<Question> list = new ArrayList();
         for (int i = 0; i < 10; i++) {
-            Question question = new Question("这个能写完吗?","aaaaaaaaaaa",4+i,5+i,22+i,(byte)1,true,"张老三",1+i,new Date(),2);
+            Question question = new Question("测试?"+i,"我这个就是为了测试，就是为了测试测试测试啊啊啊啊啊啊",4+i,20+i,100+i,(byte)1,true,"张老三",300+i,new Date(),2);
 
             list.add(question);
         }

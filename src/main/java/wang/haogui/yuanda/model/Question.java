@@ -94,6 +94,13 @@ public class Question implements Serializable {
         return questionDescript;
     }
 
+    public String getRoughQuestionDescript() {
+        if(questionDescript.length()>20){
+            return questionDescript.substring(0,20)+"......";
+        }
+        return questionDescript;
+    }
+
     public void setQuestionDescript(String questionDescript) {
         this.questionDescript = questionDescript;
     }
