@@ -5,61 +5,71 @@
     <!--移动端预览-->
     <meta name="viewport" content="device-width, initial-scale=1.0">
 
-    <title>后台管理</title>
+    <title>前台管理</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <!--引入自定义CSS-->
     <link rel="stylesheet" href="../plugins/blog/css/me.css">
 </head>
 <body>
-    <br/>
-    <br/>
-    <br/>
-    <div class="m-container-small m-padded-tb-massive" style="max-width: 28em  !important;">
-        <div class="ui container">
-            <div class="ui middle aligned center aligned grid">
-                <div class="column">
-                    <h2 class="ui teal image header">
-                        <!--<img src="assets/images/logo.png" class="image">-->
-                        <div class="content">
-                            后台管理登录
-                        </div>
-                    </h2>
-                    <div class="ui large form">
-                        <div class="ui  segment">
-                            <div class="field">
-                                <div class="ui left icon input">
-                                    <i class="user icon"></i>
-                                    <input type="text" id="email" name="email" placeholder="邮箱">
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui left icon input">
-                                    <i class="lock icon"></i>
-                                    <input type="password" id="adminPassword" name="adminPassword" placeholder="密码">
-                                </div>
-                            </div>
-                            <button onclick="loginAdmin()" class="ui fluid large teal submit button">登   录</button>
-                        </div>
-
-                        <div class="ui error mini message"></div>
-                        <div class="clear">
-                            <span style="color: #9d0000"><label id="error"  style="display: none" >错误信息</label></span>
-                        </div>
-
+<br/>
+<br/>
+<br/>
+<div class="m-container-small m-padded-tb-massive" style="max-width: 28em  !important;">
+    <div class="ui container">
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui teal image header">
+                    <!--<img src="assets/images/logo.png" class="image">-->
+                    <div class="content">
+                        前台管理登录
                     </div>
+                </h2>
+                <div class="ui large form">
+                    <div class="ui  segment">
+                        <br>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="user icon"></i>
+                                <input type="text" id="email" name="email" placeholder="邮箱">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="field">
+                            <div class="ui left icon input">
+                                <i class="lock icon"></i>
+                                <input type="password" id="userPassword" name="userPassword" placeholder="密码">
+                            </div>
+                        </div>
+                        <div align="left" style="float:left">
+                            <button onclick="loginUser()" style="height: 35px;width: 120px" class="ui fluid large teal submit button">登录</button>
+                        </div>
+                        <div align="right">
+                            <a onclick="" href="register.html" style="height: 35px;width: 120px" class="ui fluid large teal submit button">注册</a>
+                        </div>
+                        <br>
+                        <input name="" type="checkbox" value=""checked="checked"/>记住密码
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="forgetpassword.html">忘记密码？</a>
+                    </div>
+
+                    <div class="ui error mini message"></div>
+                    <div class="clear">
+                        <span style="color: #9d0000"><label id="error"  style="display: none" >错误信息</label></span>
+                    </div>
+
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
-    <!--引入jQuery-->
-    <script src="../plugins/jquery/jquery.min.js"></script>
-    <script src="../mydist/js/admin.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-    <!--/*/</th:block>/*/-->
+</div>
+
+<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
+<!--引入jQuery-->
+<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="../mydist/js/user.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
 
 <script>
     /*表单校验*/
@@ -72,8 +82,8 @@
                     prompt: '请输入用户名'
                 }]
             },
-            adminPassword : {
-                identifier: 'adminPassword',
+            userPassword : {
+                identifier: 'userPassword',
                 rules: [{
                     type : 'empty',
                     prompt: '请输入密码'

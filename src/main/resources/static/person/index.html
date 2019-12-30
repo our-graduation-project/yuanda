@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="_fragments :: head(~{::title})">
+<html>
+<head replace="_fragments :: head(~{::title})">
     <meta charset="UTF-8">
     <!--移动端预览-->
     <meta name="viewport" content="device-width, initial-scale=1.0">
@@ -12,109 +12,119 @@
 </head>
 <body>
     <!--导航-->
-    <nav th:replace="admin/_fragments :: menu(1)" class="ui inverted attached segment segment m-padded-tb-mini m-shadow-small">
-        <div class="ui container">
-            <div class="ui inverted secondary stackable menu">
-                <h2 class="ui teal header item">个人管理</h2>
-                <a href="../index.html" class="m-item item m-mobile-hide" ><i class="small tags icon"></i>前台</a>
-                <a href="#" class="m-item active item m-mobile-hide"><i class="small home icon"></i>个人中心</a>
-                <div class="right m-item item m-mobile-hide">
-                    <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
-                        <div class="ui icon inverted  input">
-                            <input type="text" name="query" placeholder="Search.." th:value="${query}">
-                            <i onclick="document.forms['static.search'].submit()" class="search icon link"></i>
-                        </div>
-                    </form>
-                </div>
-                <div class="right m-item m-mobile-hide menu">
-                    <div class="ui dropdown item">
-                        <div class="text ">
-                            <img class="ui avatar image" src="https://picsum.photos/id/1011/100/100">
-                            叶仁平
-                        </div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <a href="#"  class="item">注销</a>
-                            <a class="item">编辑个人信息</a>
+    <div id="indexApp">
+        <nav replace="admin/_fragments :: menu(1)" class="ui inverted attached segment segment m-padded-tb-mini m-shadow-small">
+            <div class="ui container">
+                <div class="ui inverted secondary stackable menu">
+                    <h2 class="ui teal header item">个人管理</h2>
+                    <a href="../index.html" class="m-item item m-mobile-hide" ><i class="small tags icon"></i>前台</a>
+                    <a href="#" class="m-item active item m-mobile-hide"><i class="small home icon"></i>个人中心</a>
+                    <div class="right m-item item m-mobile-hide">
+                        <form name="search" action="" action="" target="_blank" method="post">
+                            <div class="ui icon inverted  input">
+                                <input type="text" name="query" placeholder="Search.." value="">
+                                <i onclick="document.forms['search'].submit()" class="search icon link"></i>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="right m-item m-mobile-hide menu">
+                        <div class="ui dropdown item">
+                            <div class="text ">
+                                <img class="ui avatar image" src="https://picsum.photos/id/1011/100/100">
+                                <span type="text" >{{users.userName}}</span>
+                            </div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <a href="login.html"  class="item">注销</a>
+                                <a class="item" href="person.html">编辑个人信息</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--menu toggle无任何显示意思-->
-<!--        <a href="" class="ui icon menu toggle black button m-right-top m-mobile-show">-->
-<!--            <i class="sidebar icon"></i>-->
-<!--        </a>-->
-    </nav>
+            <!--menu toggle无任何显示意思-->
+            <!--        <a href="" class="ui icon menu toggle black button m-right-top m-mobile-show">-->
+            <!--            <i class="sidebar icon"></i>-->
+            <!--        </a>-->
+        </nav>
 
-    <!--二级导航-->
-    <div class="ui attached pointing menu">
-      <div class="ui container">
-          <div class="right menu">
-              <a href="blogs-input.html" th:href="@{/admin/blogs/input}" class="item">发布</a>
-              <a href="blogs.html"  th:href="@{/admin/blogs}" class="item">列表</a>
-              <a href="person.html"  th:href="@{/admin/blogs}" class="item">个人中心</a>
-          </div>
-      </div>
-    </div>
-    <!--中间内容-->
-    <div class="m-container-small m-padded-tb-big">
-        <!--适应移动端手机-->
-        <div class="ui container">
-            <div class="ui success large message">
-                <h3>Hello</h3>
-                <p>叶仁平，欢迎登录！</p>
-            </div>
-            <img src="https://picsum.photos/id/1005/1000/400" alt="" class="ui rounded bordered fluid image">
-        </div>
-    </div>
-    <br>
-    <br>
-    <!--底部-->
-    <footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive ">
-        <div class="ui center aligned container ">
-            <div class="ui inverted divided stackable grid">
-                <div class="three wide column">
-                    <div class="ui inverted link list">
-                        <h4 class="ui inverted header m-opacity-min">站长微信</h4>
-                        <div class="item">
-                            <img src="../../static/images/WeChat.jpg" CLASS="ui rounded image" alt="" style="width:110px">
-                        </div>
-                    </div>
-                </div>
-                <div class="three wide column">
-                    <h4 class="ui inverted header m-opacity-min">最新博客</h4>
-                    <div class="ui inverted link list">
-                        <a href="#" class="item">2019一年收获总结</a>
-                        <a href="#" class="item">idea的操作笔记</a>
-                        <a href="#" class="item">SpringBoot学习计划</a>
-                    </div>
-                </div>
-                <div class="three wide column">
-                    <h4 class="ui inverted header m-opacity-min">联系作者</h4>
-                    <div class="ui inverted link list">
-                        <a href="https://space.bilibili.com/393270022" class="item">b站</a>
-                        <a href="#" class="item">QQ:1515177029</a>
-                        <a href="#" class="item">邮箱:yerenping@aliyun.com</a>
-                    </div>
-                </div>
-                <div class="seven wide column">
-                    <h4 class="ui inverted header m-opacity-min">关于作者</h4>
-                    <p class="m-text-thin m-text-spaced m-opacity-min m-text-lined">作者是一名springboot爱好者,是一名正在努力奋斗的学生,主要学习JavaEE开发,Web前端等技术.作者是个喜欢旅行的孩子,目标是游遍全世界！</p>
+        <!--二级导航-->
+        <div class="ui attached pointing menu">
+            <div class="ui container">
+                <div class="right menu">
+                    <a href="blogs-input.html" class="item">发布</a>
+                    <a href="blogs.html"  class="item">列表</a>
+                    <a href="person.html" class="item">个人中心</a>
                 </div>
             </div>
-            <!--分割线-->
-            <div class="ui inverted section divider"></div>
-            <p class="m-text-thin m-text-spaced m-opacity-tiny">Copy © 2019 - 2020 作者:小小叶儿 此站仅供个人所有 如有疑问联系作者</p>
         </div>
-    </footer>
+        <!--中间内容-->
+        <div class="m-container-small m-padded-tb-big">
+            <!--适应移动端手机-->
+            <div class="ui container">
+                <div class="ui success large message">
+                    <h3>Hello</h3>
+                    <p>{{users.userName}},欢迎登录！</p>
+                </div>
+                <img src="https://picsum.photos/id/1005/1000/400" alt="" class="ui rounded bordered fluid image">
+            </div>
+        </div>
+        <br>
+        <br>
+        <!--底部-->
+        <footer replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive ">
+            <div class="ui center aligned container ">
+            </div>
+        </footer>
+    </div>
+
     <!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
     <!--引入jQuery-->
+    <script src="../plugins/jquery/jquery.min.js"></script>
+    <!-- /#right-panel -->
+    <!-- jQuery -->
+    <script src="../plugins/sweetalert/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <script src="../mydist/js/public.js"></script>
+    <script src="../mydist/js/user.js"></script>
+    <script src="../mydist/js/vue.js"></script>
     <!--/*/</th:block>/*/-->
     <!--声明行内js代码域-->
-    <script>
+    <script type="text/javascript">
+        let personVue = new Vue({
+            el:"#indexApp",
+            created(){
+                this.getData()
+            },
+            data:{
+                users:{}
+            },
+            methods:{
+                getData(){
+                    $.ajax({
+                        //请求方式
+                        type : "POST",
+                        //请求的媒体类型
+                        contentType: "application/json;charset=UTF-8",
+                        //请求地址
+                        url : "http://localhost:8080/yuanda/admins/user/searchUserByUserId",
+                        //数据，json字符串
+                        success: function (result) {
+                            personVue.users = result.data;
+                            console.log(personVue.users);
+                        },
+                        error: function () {
+                            alert("操作失败");
+                        }
+
+                    })
+                },
+            }
+        });
+
+
+
         $('.menu.toggle').click(function () {
             $('.m-item').toggleClass('m-mobile-hide');
         });

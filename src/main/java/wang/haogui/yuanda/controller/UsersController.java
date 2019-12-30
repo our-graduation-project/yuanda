@@ -13,6 +13,7 @@ import wang.haogui.yuanda.model.Users;
 import wang.haogui.yuanda.service.UsersService;
 import wang.haogui.yuanda.utils.APIResult;
 import wang.haogui.yuanda.utils.LogUtils;
+import wang.haogui.yuanda.utils.MD5Utils;
 import wang.haogui.yuanda.utils.TokenUtil;
 
 import javax.servlet.http.Cookie;
@@ -40,7 +41,7 @@ public class UsersController {
      * @param response
      * @return
      */
-    @RequestMapping("user/loginUser")
+    @RequestMapping("admins/user/loginUser")
     @ResponseBody
     public APIResult loginUser(@RequestParam(value = "page",defaultValue = "0") int page
                               ,@RequestParam(value = "limit",defaultValue = "3") int limit,
@@ -49,13 +50,14 @@ public class UsersController {
         Logger logger = LogUtils.getBussinessLogger();
         Users users=new Users();
         users.setEmail(map.get("email").toString());
-        users.setUserPassword(map.get("userPassword").toString());
-        System.out.println(map.get("email").toString()+"-------"+map.get("userPassword").toString());
+        users.setUserPassword(MD5Utils.StringInMd5(map.get("userPassword").toString()));
+        System.out.println(map.get("email").toString()+"-------"+MD5Utils.StringInMd5(map.get("userPassword").toString()));
         Users login = usersService.loginUser(users);
         if (login!=null){
             Map map1=new HashMap();
             map1.put("userId",login.getUserId());
             map1.put("userName",login.getUserName());
+            map1.put("userPicture",login.getUserPicture());
             map1.put("right","users");
             String s = TokenUtil.becomeToken(map1);
             Cookie token=new Cookie("token",s);
@@ -78,7 +80,7 @@ public class UsersController {
      * @param users
      * @return
      */
-    @RequestMapping("user/forgetPassWord")
+    @RequestMapping("admins/user/forgetPassWord")
     @ResponseBody
     public APIResult forgetPassWord(@RequestBody Users users){
         String s = registerComponent.sendCodeToEmail(users.getEmail());
@@ -92,12 +94,12 @@ public class UsersController {
      * @param jsonObject
      * @return
      */
-    @RequestMapping("user/updatepassword")
+    @RequestMapping("admins/user/updatepassword")
     @ResponseBody
     public APIResult updatePassWord(@RequestBody JSONObject jsonObject){
         String verificationCode=(String) jsonObject.get("verificationCode");
-        String email = (String) jsonObject.get("email");
-        String password = (String) jsonObject.get("userPassword");
+        String email =jsonObject.get("email").toString();
+        String password =MD5Utils.StringInMd5(jsonObject.get("password").toString());
         String codeByEmail = registerComponent.getCodeByEmail(email);
         if (codeByEmail==null){
             APIResult apiResult=new APIResult(false,200);
@@ -109,6 +111,7 @@ public class UsersController {
             apiResult.setMessage("验证码不正确");
             return apiResult;
         }
+        System.out.println("password" + password);
         Users users=new Users();
         users.setEmail(email);
         users.setUserPassword(password);
@@ -119,6 +122,30 @@ public class UsersController {
         }
         APIResult apiResult=new APIResult(isFlag,200);
         return apiResult;
+    }
+
+
+    /**
+     * 用户注册
+     * @param users
+     * @return
+     */
+    @RequestMapping("admins/user/RegisterUsers")
+    @ResponseBody
+    public APIResult RegisterUsers(@RequestBody(required=false) Users users){
+        if(users == null || users.getUserName()==null||users.getTelphone()==null||
+                users.getUserPassword()==null||users.getEmail()==null||users.getIsDeleted()==null
+                || users.getUserSex()==null){
+            return new APIResult("参数有误",false,400);
+        }
+        users.setUserPassword(MD5Utils.StringInMd5(users.getUserPassword()));
+        int i = usersService.addUser(users);
+        System.out.println("--------"+i);
+        boolean isFlag=false;
+        if (i>0){
+            isFlag=true;
+        }
+        return new APIResult(isFlag,200);
     }
 
     /**
@@ -149,6 +176,7 @@ public class UsersController {
                 || users.getUserSex()==null){
             return new APIResult("参数有误",false,400);
         }
+//        users.setUserPassword(MD5Utils.StringInMd5(users.getUserPassword()));
         int i = usersService.addUser(users);
         System.out.println("--------"+i);
         boolean isFlag=false;
@@ -159,7 +187,7 @@ public class UsersController {
     }
 
     /**
-     * 根据ID查询管理员
+     * 根据ID查询用户
      * @param id
      * @return
      */
@@ -170,9 +198,8 @@ public class UsersController {
         return APIResult.genSuccessApiResponse(users);
     }
 
-
     /**
-     * 删除管理员
+     * 删除用户
      * @param map
      * @return
      */
@@ -193,7 +220,55 @@ public class UsersController {
     @RequestMapping("admins/user/editUsers")
     @ResponseBody
     public APIResult updateUsers(@RequestBody(required=false) Users users){
-        if(users == null || users.getUserName()==null||users.getTelphone()==null||users.getUserPassword()==null||users.getEmail()==null||users.getIsDeleted()==null|| users.getUserSex()==null){
+        if(users == null || users.getUserName()==null||users.getTelphone()==null||
+                users.getEmail()==null||users.getIsDeleted()==null|| users.getUserSex()==null){
+            return new APIResult("参数有误",false,400);
+        }
+        System.out.println("users"+users);
+        boolean b = usersService.updateUser(users);
+        if (b){
+            return APIResult.genSuccessApiResponse("修改成功！");
+        }else {
+            return APIResult.genFailApiResponse500("修改失败！");
+        }
+    }
+
+    /**
+     * 根据用户编号查询用户
+     * @param
+     * @return
+     */
+    @RequestMapping("admins/user/searchUserByUserId")
+    @ResponseBody
+    public APIResult searchUserByUserId(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        Cookie cookie = null;
+        for (Cookie c:cookies){
+            if(c.getName().equals("token")){
+                System.out.println("拿到token");
+                cookie = c;
+            }
+        }
+        String s = cookie.getValue();
+        int tokenValue = (int) TokenUtil.getTokenValue(s, "userId");
+        System.out.println("tokenValue = " + tokenValue);
+        Users users = usersService.searchUsersByUserId(tokenValue);
+        APIResult apiResult = new APIResult();
+        apiResult.setData(users);
+        return apiResult;
+    }
+
+    /**
+     * 修改用户
+     * @param users
+     * @return
+     */
+    @RequestMapping("admins/user/edituser")
+    @ResponseBody
+    public APIResult editUsers(@RequestBody(required=false) Users users){
+        if(users == null || users.getUserName()==null||users.getTelphone()==null
+                ||users.getUserPassword()==null||users.getEmail()==null||users.getUserDescript()==null||
+                users.getUserBrithday()==null|| users.getUserSex()==null){
             return new APIResult("参数有误",false,400);
         }
         System.out.println("users"+users);

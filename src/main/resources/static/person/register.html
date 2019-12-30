@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <!--移动端预览-->
+    <meta name="viewport" content="device-width, initial-scale=1.0">
+
+    <title>前台管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <!--引入自定义CSS-->
+    <link rel="stylesheet" href="../plugins/blog/css/me.css">
+</head>
+<body>
+<br/>
+<br/>
+<br/>
+<div class="m-container-small m-padded-tb-massive" style="max-width: 28em  !important;">
+    <div class="ui container">
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h2 class="ui teal image header">
+                    <!--<img src="assets/images/logo.png" class="image">-->
+                    <div class="content">
+                        前台用户注册
+                    </div>
+                </h2>
+                <div class="ui large form">
+                    <div class="ui  segment">
+                        <div class="form-group">
+                            <label>用户名:</label>
+                            <input style="width: 300px" type="text" class="form-control" id="adduserName">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>密码:</label>
+                            <input type="password" style="width: 300px" class="form-control" id="adduserPassword">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>性别:</label>
+                            <input name="userSex"  type="radio" value="0" checked="checked" id="adduserSex"/>男
+                            <input name="userSex"  type="radio" value="1" />女
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>邮箱:</label>
+                            <input type="email" style="width: 300px" class="form-control" id="addemail">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>电话:</label>
+                            <input type="tel" style="width: 300px" class="form-control" id="addtelphone">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>状态:</label>
+                            <input name="isDeleted"  type="radio" value="false" checked="checked" id="addisDeleted"/>存在
+                            <input name="isDeleted" type="radio" value="true" />禁用
+                        </div>
+                        <div align="left" style="float:left">
+                            <a onclick="RegisterUser()" style="height: 35px;width: 120px" class="ui fluid large teal submit button">注册</a>
+                        </div>
+                        <div align="right">
+                            <a href="login.html" style="height: 35px;width: 120px" class="ui fluid large teal submit button">取消</a>
+                        </div>
+                    </div>
+
+                    <div class="ui error mini message"></div>
+                    <div class="clear">
+                        <span style="color: #9d0000"><label id="error"  style="display: none" >错误信息</label></span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
+<!--引入jQuery-->
+<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--/*/</th:block>/*/-->
+
+<script type="text/javascript">
+
+    function RegisterUser() {
+        var userName = $("#adduserName").val();
+        var userPassword = $("#adduserPassword").val();
+        var userSex =$('input:radio[name="userSex"]:checked').val();
+        var email = $("#addemail").val();
+        var telphone = $("#addtelphone").val();
+        var isDeleted =$('input:radio[name="isDeleted"]:checked').val();
+        console.log(userName+"----"+userPassword+"----"+userSex+"----"+email+"----"+telphone+"----"+isDeleted);
+        if(userName == null || userName == "" || userName == undefined){
+            $("#error").css("display","block");
+            $("#error").html("用户名不能为空");
+            return false;
+        }
+        if(userPassword == null || userPassword == "" || userPassword == undefined){
+            $("#error").css("display","block");
+            $("#error").html("用户密码不能为空");
+            return false;
+        }
+        if(userSex == null || userSex == "" || userSex == undefined){
+            $("#error").css("display","block");
+            $("#error").html("性别不能为空");
+            return false;
+        }
+        if(email==null || email == "" || email == undefined){
+            $("#error").css("display","block");
+            $("#error").html("邮箱不能为空");
+            return false;
+        }
+        if(telphone == null || telphone == "" || telphone == undefined){
+            $("#error").css("display","block");
+            $("#error").html("电话不能为空");
+            return false;
+        }
+        if(isDeleted == null || isDeleted == "" || isDeleted == undefined){
+            $("#error").css("display","block");
+            $("#error").html("状态不能为空");
+            return false;
+        }
+        var data = {"userName" : userName,"userPassword" : userPassword, "userSex":userSex,"email":email ,"telphone":telphone,"isDeleted":isDeleted};
+        $.ajax({
+            //请求方式
+            type : "POST",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "http://localhost:8080/yuanda/admins/user/RegisterUsers",
+            //数据，json字符串
+            data : JSON.stringify(data),
+            success: function (result) {
+                if (result.result) {
+                    alert("注册成功");
+                    window.location.href="http://localhost:8080/yuanda/person/login.html";
+                }
+                else {
+                    $("#error").html(result.message);
+                    console.log(result.message+"--"+result.result);
+                    alert("注册失败");
+                }
+            },
+            error: function () {
+                alert("操作失败");
+            }
+
+        })
+    }
+
+    /*表单校验*/
+    $('.ui.form').form({
+        fields : {
+            email : {
+                identifier: 'email',
+                rules: [{
+                    type : 'empty',
+                    prompt: '请输入用户名'
+                }]
+            },
+            userPassword : {
+                identifier: 'userPassword',
+                rules: [{
+                    type : 'empty',
+                    prompt: '请输入密码'
+                }]
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

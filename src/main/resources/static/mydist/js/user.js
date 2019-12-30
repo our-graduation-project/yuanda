@@ -264,6 +264,72 @@ function UsersDetails(){
     $('#modalEdit').modal('show');
 }
 
+
+function Users(){
+    var userId = getSelectedRow();
+    if(!userId){
+        return;
+    }
+    console.log("id-" + userId);
+
+    //请求数据
+    $.get("/yuanda/admins/user/info/" + userId, function (r) {
+        if (r.code == 200 && r.data != null) {
+            $('#modalEditLabel').text("用户详情");
+            //填充数据至modal
+            $('#edituserId').val(r.data.userId);
+            $('#edituserName').val(r.data.userName);
+            $("input[name='sex'][value="+r.data.userSex+"]").attr("checked",true);
+            $('#editemail').val(r.data.email);
+            $('#edittelphone').val(r.data.telphone);
+            $("input[name='userIsDeleted'][value="+r.data.isDeleted+"]").attr("checked",true);
+        }else {
+            return false
+        }
+    });
+    //显示modal
+    $('#modalEdit').modal('show');
+}
+
+
+
+/**
+ * 用户登录
+ * @returns {boolean}
+ */
+function loginUser(){
+    var email = $('#email').val();
+    var userPassword = $('#userPassword').val();
+
+    console.log(email + "----" + userPassword);
+    var data = {"email": email,"userPassword":userPassword};
+
+    $.ajax({
+        //请求方式
+        type : "POST",
+        //请求的媒体类型
+        contentType: "application/json;charset=UTF-8",
+        //请求地址
+        url : "http://localhost:8080/yuanda/admins/user/loginUser",
+        //数据，json字符串
+        data : JSON.stringify(data),
+        success: function (result) {
+            if (result.result) {
+                alert("登录成功");
+                window.location.href = "http://localhost:8080/yuanda/index.html";
+            }
+            else {
+                console.log(result.message+"--"+result.result);
+            }
+        },
+        error: function () {
+            alert("操作失败");
+        }
+
+    })
+
+}
+
 /**
  * 删除用户
  */

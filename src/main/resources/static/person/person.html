@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <!--移动端预览-->
@@ -13,248 +13,204 @@
 </head>
 <body>
     <!--导航-->
-    <nav th:replace="admin/_fragments :: menu(1)" class="ui inverted attached segment segment m-padded-tb-mini m-shadow-small">
-        <div class="ui container">
-            <div class="ui inverted secondary stackable menu">
-                <h2 class="ui teal header item">个人管理</h2>
-                <a href="../index.html" class="m-item item m-mobile-hide" ><i class="small tags icon"></i>前台</a>
-                <a href="#" class="m-item active item m-mobile-hide"><i class="small home icon"></i>个人中心</a>
-                <div class="right m-item item m-mobile-hide">
-                    <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
-                        <div class="ui icon inverted  input">
-                            <input type="text" name="query" placeholder="Search.." th:value="${query}">
-                            <i onclick="document.forms['static.search'].submit()" class="search icon link"></i>
-                        </div>
-                    </form>
-                </div>
-                <div class="right m-item m-mobile-hide menu">
-                    <div class="ui dropdown item">
-                        <div class="text">
-                            <img class="ui avatar image" src="https://picsum.photos/id/1011/100/100">
-                            叶仁平
-                        </div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <a href="#"  class="item">注销</a>
+    <div id="personApp">
+        <nav replace="admin/_fragments :: menu(1)" class="ui inverted attached segment segment m-padded-tb-mini m-shadow-small">
+            <div class="ui container">
+                <div class="ui inverted secondary stackable menu">
+                    <h2 class="ui teal header item">个人管理</h2>
+                    <a href="../index.html" class="m-item item m-mobile-hide" ><i class="small tags icon"></i>前台</a>
+                    <a href="#" class="m-item active item m-mobile-hide"><i class="small home icon"></i>个人中心</a>
+                    <div class="right m-item item m-mobile-hide">
+                        <form name="search" action="" target="_blank" method="post">
+                            <div class="ui icon inverted  input">
+                                <input type="text" name="query" placeholder="Search.." value="">
+                                <i onclick="document.forms['search'].submit()" class="search icon link"></i>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="right m-item m-mobile-hide menu">
+                        <div class="ui dropdown item">
+                            <div class="text">
+                                <img class="ui avatar image" src="https://picsum.photos/id/1011/100/100">
+                                <span type="text" >{{users.userName}}</span>
+                            </div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <a href="login.html"  class="item">注销</a>
 
-                            <a class="item">编辑个人信息</a>
+                                <a class="item" href="person.html">编辑个人信息</a>
 
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
+            </div>
+            <!--menu toggle无任何显示意思-->
+            <a href="" class="ui icon menu toggle black button m-right-top m-mobile-show">
+                <i class="sidebar icon"></i>
+            </a>
+        </nav><!--二级导航-->
+        <div class="ui attached pointing menu">
+            <div class="ui container">
+                <div class="right menu">
+                    <a href="blogs-input.html" class="item">发布</a>
+                    <a href="blogs.html"  class="item">列表</a>
+                    <a href="person.html"  class="item active">个人中心</a>
+                </div>
             </div>
         </div>
-        <!--menu toggle无任何显示意思-->
-        <a href="" class="ui icon menu toggle black button m-right-top m-mobile-show">
-            <i class="sidebar icon"></i>
-        </a>
-    </nav><!--二级导航-->
-    <div class="ui attached pointing menu">
-        <div class="ui container">
-            <div class="right menu">
-                <a href="blogs-input.html" th:href="@{/admin/blogs/input}" class="item">发布</a>
-                <a href="blogs.html"  th:href="@{/admin/blogs}" class="item">列表</a>
-                <a href="person.html"  th:href="@{/admin/blogs}" class="item active">个人中心</a>
-            </div>
-        </div>
-    </div>
-    <!--中间内容-->
-    <div class="m-container  m-padded-tb-big">
-        <!--适应移动端手机-->
-        <div class="ui container">
+        <!--中间内容-->
+        <div class="m-container  m-padded-tb-big">
+            <!--适应移动端手机-->
+            <div class="ui container" id="userList">
 
-            <form id="blog-form" action="#" th:object="${blog}" th:action="@{/admin/blogs}" method="post" class="ui form">
-                <input type="hidden" name="id" th:value="*{id}">
-                <!--判断是状态-保存、发布....-->
-                <input type="hidden" name="published">
+                <div id="blog-form" action="#" object=""  method="post" class="ui form">
+                    <input type="hidden" name="id" value="">
+                    <!--判断是状态-保存、发布....-->
+                    <input type="hidden" name="published">
 
-                <h4 class="ui horizontal divider header">
-                    <i class="tag icon"></i>
-                    必填信息
-                </h4>
+                    <h4 class="ui horizontal divider header">
+                        <i class="tag icon"></i>
+                        必填信息
+                    </h4>
 
-                <div class="two fields">
-                    <div class="field">
-                        <div class="ui right labeled left icon input">
-                            <i class="tags icon"></i>
-                            <input type="text" placeholder="输入用户名">
-                            <a class="ui tag label">
-                                用户名
-                            </a>
+                    <div class="two fields">
+                        <div class="field">
+                            <div class="ui right labeled left icon input">
+                                <i class="tags icon"></i>
+                                <input type="text" v-model="users.userId" name="userId" id="userId" readonly>
+                                <a class="ui tag label">
+                                    用户编号
+                                </a>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui right labeled left icon input">
+                                <i class="tags icon"></i>
+                                <input type="text" v-model="users.userName" placeholder="输入你的用户名" name="userName" id="userName" />
+                                <a class="ui tag label">
+                                    用户名
+                                </a>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="ui right labeled input">
+                                <i class="tags icon"></i>
+                                <input type="text" v-model="users.email" placeholder="输入你的邮箱"   id="email" name="email">
+                                <a class="ui tag label">
+                                    邮箱
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="field">
-                        <div class="ui right labeled left icon input">
-                            <i class="tags icon"></i>
-                            <input type="password" placeholder="输入密码">
-                            <a class="ui tag label">
-                                密码
-                            </a>
+                    <h4 class="ui horizontal divider header">
+                        <i class="bar chart icon"></i>
+                        基本个人信息
+                    </h4>
+                    <div class="ui form fields">
+
+                        <div class="inline field" style="margin-left: 30px">
+                            <div class="ui calendar brithday" >
+                                <label>生日：</label>
+                                <div class="ui input right icon">
+                                    <i class="calendar icon"></i>
+                                    <input type="text" v-model="users.userBrithday" placeholder="输入你的生日" id="userBrithday" name="userBrithday" >
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="field">
-                        <div class="ui right labeled input">
-                            <input type="text" placeholder="输入你的注册邮箱">
-                            <div class="ui dropdown label">
-                                <div class="text">@qq.com</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <div class="item">.com</div>
-                                    <div class="item">.net</div>
-                                    <div class="item">.org</div>
+
+                        <div class="inline field" style="margin-left: 70px">
+                            <div class="ui" >
+                                <label>电话：</label>
+                                <div class="ui input right icon">
+                                    <i class="phone volume icon"></i>
+                                    <input type="text" v-model="users.telphone" placeholder="请输入电话" id="telphone" name="telphone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ui field right" style="margin-left: 70px">
+                            <div class="inline fields" style="margin-top: 10px">
+                                <div class="field">
+                                    <label class="control-label">性别:</label>
+                                    <input name="userSex" v-model="users.userSex" type="radio" value="0" checked="checked" id="userSex"/>男
+                                    <input name="userSex" v-model="users.userSex" type="radio" value="1" />女
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <h4 class="ui horizontal divider header">
-                    <i class="bar chart icon"></i>
-                    基本个人信息
-                </h4>
-                <div class="ui form fields">
 
-                    <div class="inline field" style="margin-left: 30px">
-                        <div class="ui calendar brithday" >
-                        <label>生日：</label>
-                        <div class="ui input right icon">
-                            <i class="calendar icon"></i>
-                            <input type="text" placeholder="选择开始时间" value="" name="brithday" >
+                    <div class="fields" id="picture">
+
+                        <div class="field" style="margin-top: 100px">
+                            头像:
                         </div>
-                    </div>
-                    </div>
-
-                    <div class="inline field" style="margin-left: 70px">
-                        <div class="ui" >
-                            <label>电话：</label>
-                            <div class="ui input right icon">
-                                <i class="phone volume icon"></i>
-                                <input type="text" placeholder="请输入电话" value=""  >
-                            </div>
+                        <div class="field" style="margin-left: 50px">
+<!--                            <input id="userPicture" type="file" />-->
+<!--                            <input type="button" value="上传" οnclick="submit2()"/>-->
+                            <form id="userPictureAdd" method="post" enctype="multipart/form-data" οnsubmit="return false">
+                                <input id="file" name="file" type="file">
+                                </br>
+                                <input type="button" value="添加" οnclick="checkForm()">
+                            </form>
                         </div>
+
                     </div>
 
-                    <div class="ui field right" style="margin-left: 70px">
-                        <div class="inline fields" style="margin-top: 10px">
-                            <label>请选择你的性别</label>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="frequency" checked="checked">
-                                    <label>男</label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="ui radio checkbox">
-                                    <input type="radio" name="frequency">
-                                    <label>女</label>
-                                </div>
-                            </div>
 
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="fields" id="picture">
-
-                    <div class="field" style="margin-top: 100px">
-                        头像:
-                    </div>
-                    <div class="field" style="margin-left: 50px">
-                        <a class="ui green left ribbon label">点击修改头像</a>
-                        <img class="ui small bordered image" src="../plugins/blog/images/me.jpg">
-                    </div>
-
-                    <div class="field" style="margin-top: 100px;margin-left: 150px">
-                        背景图片:
-                    </div>
-                    <div class="field" style="margin-left: 50px">
-                        <a class="ui green left ribbon label">点击修改背景图片</a>
-                        <img class="ui medium bordered image"  src="../plugins/blog/images/me2.jpg">
-                    </div>
-
-                </div>
-
-
-                <!--文章内容-->
-                <div class="field">
-                    <div id="md-content" style="z-index: 1 !important;">
-                        <textarea placeholder="文章内容" name="editor" style="display: none" th:text="*{content}">
+                    <!--文章内容-->
+                    <div class="field">
+                        <div id="md-content" style="z-index: 1 !important;">
+                        <textarea placeholder="文章内容" name="editor" style="display: none" text="">
                         </textarea>
-                    </div>
-                </div>
-
-
-                <!--博客描述文本域-->
-                <div class="required field">
-                    <label>个人简介：</label>
-                    <textarea name="description" th:text="*{description}" placeholder="个人简介描述..." maxlength="200"></textarea>
-                </div>
-                </div>
-                <!--表单校验-->
-                    <!--错误提示-->
-                <div class="ui error message">
-
-                </div>
-
-                <!--返回、保存、发布-->
-                <div class="ui right aligned container">
-                    <!--onclick="window.history.go(-1)返回上一页面-->
-                    <button type="button" class="ui button" onclick="window.history.go(-1)">返回</button>
-
-                    <button  type="button" id="save-btn" class="ui green button">保存修改</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <div class="content">
-
-        <!-- /.modal -->
-    </div>
-    <br>
-    <br>
-    <!--底部-->
-    <footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive ">
-        <div class="ui center aligned container ">
-            <div class="ui inverted divided stackable grid">
-                <div class="three wide column">
-                    <div class="ui inverted link list">
-                        <h4 class="ui inverted header m-opacity-min">站长微信</h4>
-                        <div class="item">
-                            <img src="../../static/images/WeChat.jpg" CLASS="ui rounded image" alt="" style="width:110px">
                         </div>
                     </div>
-                </div>
-                <div class="three wide column">
-                    <h4 class="ui inverted header m-opacity-min">最新博客</h4>
-                    <div class="ui inverted link list">
-                        <a href="#" class="item">2019一年收获总结</a>
-                        <a href="#" class="item">idea的操作笔记</a>
-                        <a href="#" class="item">SpringBoot学习计划</a>
+
+
+                    <!--博客描述文本域-->
+                    <div class="required field">
+                        <label>个人简介：</label>
+                        <textarea name="userDescript" id="userDescript" text="" v-model="users.userDescript" placeholder="个人简介描述..." maxlength="200"></textarea>
                     </div>
-                </div>
-                <div class="three wide column">
-                    <h4 class="ui inverted header m-opacity-min">联系作者</h4>
-                    <div class="ui inverted link list">
-                        <a href="https://space.bilibili.com/393270022" class="item">b站</a>
-                        <a href="#" class="item">QQ:1515177029</a>
-                        <a href="#" class="item">邮箱:yerenping@aliyun.com</a>
+                    <!--表单校验-->
+                    <!--错误提示-->
+                    <div class="ui error message">
+
                     </div>
-                </div>
-                <div class="seven wide column">
-                    <h4 class="ui inverted header m-opacity-min">关于作者</h4>
-                    <p class="m-text-thin m-text-spaced m-opacity-min m-text-lined">作者是一名springboot爱好者,是一名正在努力奋斗的学生,主要学习JavaEE开发,Web前端等技术.作者是个喜欢旅行的孩子,目标是游遍全世界！</p>
+
+                    <!--返回、保存、发布-->
+                    <div class="ui right aligned container">
+                        <!--onclick="window.history.go(-1)返回上一页面-->
+                        <button type="button" class="ui button" onclick="">返回</button>
+
+                        <a  type="button" onclick="editusers()" id="save-btn" class="ui green button">保存修改</a>
+                    </div>
                 </div>
             </div>
-            <!--分割线-->
-            <div class="ui inverted section divider"></div>
-            <p class="m-text-thin m-text-spaced m-opacity-tiny">Copy © 2019 - 2020 作者:小小叶儿 此站仅供个人所有 如有疑问联系作者</p>
         </div>
-    </footer>
+        <div class="content">
+
+            <!-- /.modal -->
+        </div>
+        <br>
+        <br>
+        <!--底部-->
+        <footer replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive ">
+            <div class="ui center aligned container ">
+
+            </div>
+        </footer>
+
+    </div>
 
 
     <!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
-
+    <script src="../plugins/jquery/jquery.js"></script>
+    <script src="../plugins/axios/ajaxupload.js"></script>
+    <!-- /#right-panel -->
+    <!-- jQuery -->
+    <script src="../plugins/sweetalert/sweetalert.min.js"></script>
     <!--引入jQuery-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <!--引入sementic-ui模板所需要的js-->
@@ -263,12 +219,155 @@
 <!--    <script src="../../static/lib/editormd/editormd.min.js"></script>-->
     <!--    富文本编辑器-->
     <script src="../plugins/ckeditor/ckeditor.js"></script>
+    <script src="../mydist/js/vue.js"></script>
+
     <!--/*/</th:block>/*/-->
 
     <!--声明行内js代码域-->
-    <script>
+    <script type="text/javascript">
+        // function submit2(){
+        //     var type = "file";          //后台接收时需要的参数名称，自定义即可
+        //     var id = "userPicture";            //即input的id，用来寻找值
+        //     var formData = new FormData();
+        //     formData.append(type, $("#"+id)[0].files[0]);    //生成一对表单属性
+        //     $.ajax({
+        //         type: "POST",           //因为是传输文件，所以必须是post
+        //         url: 'http://localhost:8080/yuanda/images/upload',         //对应的后台处理类的地址
+        //         data: formData,
+        //         processData: false,
+        //         contentType: false,
+        //         success: function (data) {
+        //             alert("上传成功"+data);
+        //         },
+        //         error: function () {
+        //             alert("操作失败");
+        //         }
+        //     });
+        // }
 
-        $('.brithday').calendar({
+
+        function checkForm() {
+            var formData = new FormData($("#userPictureAdd")[0]);
+            $.ajax({
+                url : "/images/upload",
+                type : 'POST',
+                data : formData,
+                cache: false,
+                async: false,
+                processData : false,  //必须false才会避开jQuery对 formdata 的默认处理
+                contentType : false,  //必须false才会自动加上正确的Content-Type
+
+                success: function (data) {
+                    console.log("成功");
+                },
+                error: function (data) {
+                    console.log("失败");
+                }
+            });
+        }
+
+
+
+        let personVue = new Vue({
+            el:"#personApp",
+            created(){
+                this.getData()
+            },
+            data:{
+                users:{}
+            },
+            methods:{
+                getData(){
+                    $.ajax({
+                        //请求方式
+                        type : "POST",
+                        //请求的媒体类型
+                        contentType: "application/json;charset=UTF-8",
+                        //请求地址
+                        url : "http://localhost:8080/yuanda/admins/user/searchUserByUserId",
+                        //数据，json字符串
+                        success: function (result) {
+                            personVue.users = result.data;
+                            console.log(personVue.users);
+                        },
+                        error: function () {
+                            alert("操作失败");
+                        }
+
+                    })
+                },
+            }
+        });
+        function editusers(){
+            console.log("进入");
+            var userId = $("#userId").val();
+            var userName = $("#userName").val();
+            var email = $("#email").val();
+            var userBrithday = $("#userBrithday").val();
+            var telphone = $("#telphone").val();
+            var userSex = $('input:radio[name="userSex"]:checked').val();
+            var userDescript = $("#userDescript").val();
+            console.log(userId+"----"+userName+"----"+userSex+"----"+userBrithday+"----"
+                +email+"----"+telphone+"----"+userDescript);
+            if(userName == null || userName == "" || userName.trim()==""){
+                $("#error").css("display","block");
+                $("#error").html("用户名不能为空");
+                return false;
+            }
+            if(userSex == null || userSex == "" || userSex.trim()==""){
+                $("#error").css("display","block");
+                $("#error").html("性别不能为空");
+                return false;
+            }
+            if(email==null || email == "" || email.trim()==""){
+                $("#error").css("display","block");
+                $("#error").html("邮箱不能为空");
+                return false;
+            }
+            if(telphone == null || telphone == "" || telphone.trim()==""){
+                $("#error").css("display","block");
+                $("#error").html("电话不能为空");
+                return false;
+            }
+            if(userDescript == null || userDescript == "" || userDescript.trim()==""){
+                $("#error").css("display","block");
+                $("#error").html("用户描述不能为空");
+                return false;
+            }
+            if(userBrithday == null || userBrithday == "" || userBrithday.trim()==""){
+                $("#error").css("display","block");
+                $("#error").html("生日不能为空");
+                return false;
+            }
+            var data = {"userId":userId,"userBrithday" : userBrithday,"userName" : userName,
+                "userSex":userSex,"email":email ,"telphone":telphone,"userDescript":userDescript};
+            $.ajax({
+                //请求方式
+                type : "POST",
+                //请求的媒体类型
+                contentType: "application/json;charset=UTF-8",
+                //请求地址
+                url : "http://localhost:8080/yuanda/admins/user/edituser",
+                //数据，json字符串
+                data : JSON.stringify(data),
+                success: function (result) {
+                    if (result.result) {
+                        alert("修改成功");
+                        window.location.href="http://localhost:8080/yuanda/person/person.html";
+                    }
+                    else {
+                        console.log(result.message+"--"+result.result);
+                        alert("保存失败");
+                    }
+                },
+                error: function () {
+                    alert("操作失败");
+                }
+
+            })
+        }
+
+        $('.userBrithday').calendar({
             type: 'datetime',//datatime年月日时分  data就是年月日
             ampm: false,//默认会有 上午，下午，或者AM PM，false就会没有默认的PM AM上午下午；文档写的是中文要在text里设置，但是我写的时候本地好好的是英文，但是一上线就成了中文，如 9:00 上午，所以该处设置成了false
             // endCalendar: $('.end_time'),//开始时间选好后，会调起结束时间，而且结束时间不会大于开始时间
