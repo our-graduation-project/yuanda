@@ -1,6 +1,5 @@
 package wang.haogui.yuanda.service.impl;
 
-import com.github.pagehelper.PageInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import wang.haogui.yuanda.YuandaApplication;
 import wang.haogui.yuanda.model.Comment;
 import wang.haogui.yuanda.service.CommentService;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.List;
 
 /**
  * @Author: Zxw
@@ -69,29 +68,39 @@ class CommentServiceImplTest {
         System.out.println(b);
     }
 
-    @Test
-    void selectCommentByArticle() {
-        PageInfo pageInfo = commentService.selectCommentByArticle(1, 1, 2, null, null);
-        System.out.println(pageInfo);
-        System.out.println(pageInfo.getList().get(0));
-    }
-
-    @Test
-    void selectCommentByAnswer() {
-        PageInfo pageInfo = commentService.selectCommentByAnswer(1, 1, 2, null, null);
-        System.out.println(pageInfo);
-        System.out.println(pageInfo.getList().get(0));
-    }
-
-    @Test
-    void selectCommentByComment() {
-        PageInfo pageInfo = commentService.selectCommentByCommentId(1, 1, 2, null, null);
-        System.out.println(pageInfo);
-        System.out.println(pageInfo.getList().get(0));
-    }
+//    @Test
+//    void selectCommentByArticle() {
+//        PageInfo pageInfo = commentService.selectCommentByArticle(1, 1, 2, null, null);
+//        System.out.println(pageInfo);
+//        System.out.println(pageInfo.getList().get(0));
+//    }
+//
+//    @Test
+//    void selectCommentByAnswer() {
+//        PageInfo pageInfo = commentService.selectCommentByAnswer(1, 1, 2, null, null);
+//        System.out.println(pageInfo);
+//        System.out.println(pageInfo.getList().get(0));
+//    }
+//
+//    @Test
+//    void selectCommentByComment() {
+//        PageInfo pageInfo = commentService.selectCommentByCommentId(1, 1, 2, null, null);
+//        System.out.println(pageInfo);
+//        System.out.println(pageInfo.getList().get(0));
+//    }
 
     @Test
     void delComment(){
         commentService.delComment(1);
+    }
+
+    @Test
+    void setComment(){
+        Comment comment = new Comment();
+        comment.setCommentTargetId(1);
+        comment.setCommentType((byte)0);
+        List<Comment> comments = commentService.selectComment(comment);
+        System.out.println(comments);
+        System.out.println(comments.size());
     }
 }

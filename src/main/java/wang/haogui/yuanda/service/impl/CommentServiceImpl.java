@@ -1,19 +1,12 @@
 package wang.haogui.yuanda.service.impl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wang.haogui.yuanda.common.CommentTypeEnum;
-import wang.haogui.yuanda.common.LogEnum;
-import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.mapper.AnswerMapper;
 import wang.haogui.yuanda.mapper.ArticleMapper;
 import wang.haogui.yuanda.mapper.CommentMapper;
 import wang.haogui.yuanda.model.*;
 import wang.haogui.yuanda.service.CommentService;
-import wang.haogui.yuanda.utils.CommonUtils;
 import wang.haogui.yuanda.utils.LogUtils;
 
 import java.util.List;
@@ -180,10 +173,11 @@ public class CommentServiceImpl implements CommentService {
      * @param commentId
      */
     @Override
-    public List<Comment> selectCommentByCommentId(int commentId) {
+    public List<Comment> selectCommentByParentId(List<Integer> commentId) {
         CommentExample commentExample = new CommentExample();
 
-        commentExample.or().andCommentTargetIdEqualTo(commentId).andCommentTypeEqualTo((byte)2).andIsDeletedEqualTo(false);
+        commentExample.or().andParentIdIn(commentId).andCommentTypeEqualTo((byte)2)
+                .andIsDeletedEqualTo(false);
 
         List<Comment> comments = commentMapper.selectByExample(commentExample);
 
@@ -243,5 +237,18 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return true;
+    }
+
+
+    /**
+     *  查询一个文章或者回答的所有评论
+     *
+     * @param comment
+     */
+    @Override
+    public List<Comment> selectComment(Comment comment) {
+        System.out.println(comment);
+        List<Comment> comments = commentMapper.selectComment(comment);
+        return comments;
     }
 }

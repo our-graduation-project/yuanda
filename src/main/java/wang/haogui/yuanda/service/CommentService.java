@@ -1,7 +1,5 @@
 package wang.haogui.yuanda.service;
 
-import com.github.pagehelper.PageInfo;
-import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Comment;
 
 import java.util.List;
@@ -57,7 +55,7 @@ public interface CommentService {
      *  OrderEnum,为排序的枚举
      * @param commentId
      */
-    List<Comment> selectCommentByCommentId(int commentId);
+    List<Comment> selectCommentByParentId(List<Integer> commentId);
 
     /**
      *  删除某一条评论 然后级联删除它下面的所有子评论
@@ -65,5 +63,12 @@ public interface CommentService {
      * @param commentId
      */
     boolean delComment(int commentId);
+
+    /**
+     *  查询一个文章或者回答的所有评论
+     *
+     * @param comment
+     */
+    List<Comment> selectComment(Comment comment);
 
 }

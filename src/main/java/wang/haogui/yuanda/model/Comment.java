@@ -3,6 +3,7 @@ package wang.haogui.yuanda.model;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Comment implements Serializable {
     @ApiModelProperty(value = "评论id")
@@ -26,8 +27,8 @@ public class Comment implements Serializable {
     @ApiModelProperty(value = "评论者的头像")
     private String commentResourcePicture;
 
-    @ApiModelProperty(value = "备用字段1")
-    private String remark;
+    @ApiModelProperty(value = "创建时间")
+    private Date createDate;
 
     @ApiModelProperty(value = "父级id")
     private Integer parentId;
@@ -96,12 +97,12 @@ public class Comment implements Serializable {
         this.commentResourcePicture = commentResourcePicture;
     }
 
-    public String getRemark() {
-        return remark;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public Integer getParentId() {
@@ -141,7 +142,7 @@ public class Comment implements Serializable {
         sb.append(", commentResourceId=").append(commentResourceId);
         sb.append(", commentResourceName=").append(commentResourceName);
         sb.append(", commentResourcePicture=").append(commentResourcePicture);
-        sb.append(", remark=").append(remark);
+        sb.append(", createDate=").append(createDate);
         sb.append(", parentId=").append(parentId);
         sb.append(", commentType=").append(commentType);
         sb.append(", isDeleted=").append(isDeleted);

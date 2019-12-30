@@ -34,4 +34,6 @@ public interface CommentMapper {
     int updateBatchForComment(List<Comment> comments);
 
     int updateForCommentNumber(Comment comment);
+
+    List<Comment> selectComment(Comment comment);
 }
