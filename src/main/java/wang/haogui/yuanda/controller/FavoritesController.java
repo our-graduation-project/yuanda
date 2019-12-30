@@ -30,7 +30,7 @@ public class FavoritesController {
     @Autowired
     private FavoritesConnectionService favoritesConnectionService;
 
-    @GetMapping(value = "loadallfavorites")
+    @GetMapping(value = "user/loadallfavorites")
     public APIResult loadAllFavorites(){
         //通过token获取当前用户的id
         int id = 1;
@@ -38,16 +38,29 @@ public class FavoritesController {
         return APIResult.genSuccessApiResponse(favorites);
     }
 
-    @RequestMapping("addfavorites")
+    @RequestMapping("user/addfavorites")
     public APIResult addFavorites(@RequestBody Map map){
         Favorites favorites = new Favorites();
+        if(map.get("addFavoritesName") == null){
+            return APIResult.genFailApiResponse400("未输入收藏夹名。");
+        }
         String addFavoritesName = (String) map.get("addFavoritesName");
         int userId = 1;
+        //此部分为用户的  获取token是输入
+//                  Cookie[] cookies = request.getCookies();
+//                  Cookie cookie = null;
+//                  for (Cookie c:cookies) {
+//                        if("user".equals(c.getName())){
+//                              cookie = c;
+//                        }
+//                  }
+//                  String string = cookie.getValue().toString();
+//                  int userId = (int) TokenUtil.getTokenValue(string, "userId");
         //通过token获取当前用户的id
         favorites.setFavoritesName(addFavoritesName);
         //默认创建收藏夹是收藏数量为0
         favorites.setFavoritesNumber(0);
-        //默认创阿金收藏夹为启用
+        //默认创建藏夹为启用
         favorites.setIsDeleted(false);
         favorites.setUserId(userId);
 
@@ -58,8 +71,11 @@ public class FavoritesController {
         return APIResult.genFailApiResponse400("收藏夹失败");
     }
 
-    @RequestMapping("searchfavoritdetailbyid")
+    @RequestMapping("user/searchfavoritdetailbyid")
     public APIResult searchFavoritDetailById(@RequestBody Map map){
+        if(map.get("favoritesId") == null){
+            return APIResult.genFailApiResponse400("未输入收藏夹id。");
+        }
         Integer id = Integer.parseInt(map.get("favoritesId").toString());
 
         Favorites favorites = favoritesService.selectFavoritesById(id);
@@ -77,9 +93,11 @@ public class FavoritesController {
     }
 
 
-    @RequestMapping("editfavorites")
+    @RequestMapping("user/editfavorites")
     public APIResult editFavorites(@RequestBody Map map){
-        System.out.println(map);
+        if(map.get("favoritesId") == null){
+            return APIResult.genFailApiResponse400("修改失败");
+        }
         Integer favoritesId = Integer.parseInt(map.get("favoritesId").toString());
         String favoritesName = (String) map.get("editfavoritesName");
         Favorites favorites = new Favorites();
@@ -92,8 +110,11 @@ public class FavoritesController {
         return APIResult.genSuccessApiResponse("修改成功");
     }
 
-    @RequestMapping("delfavorites")
+    @RequestMapping("user/delfavorites")
     public APIResult delFavorites(@RequestBody Map map){
+        if(map.get("favoritesId") == null){
+            return APIResult.genFailApiResponse400("删除失败");
+        }
         Integer favoritesId = Integer.parseInt(map.get("favoritesId").toString());
         System.out.println("delfavorites"+favoritesId);
         boolean b = favoritesService.delFavorties(favoritesId);
@@ -104,8 +125,17 @@ public class FavoritesController {
     }
 
 
-    @RequestMapping("delfavoritesconnection")
+    @RequestMapping("user/delfavoritesconnection")
     public APIResult delFavoritesConnection(@RequestBody Map map){
+        if(map.get("id") == null){
+            return APIResult.genFailApiResponse400("删除失败");
+        }
+        if(map.get("favoritesId") == null){
+            return APIResult.genFailApiResponse400("删除失败");
+        }
+        if(map.get("favoritesNumber") == null){
+            return APIResult.genFailApiResponse400("删除失败");
+        }
         Integer id = Integer.parseInt(map.get("id").toString());
         Integer favoritesId = Integer.parseInt(map.get("favoritesId").toString());
         Integer favoritesNumber = Integer.parseInt(map.get("favoritesNumber").toString());

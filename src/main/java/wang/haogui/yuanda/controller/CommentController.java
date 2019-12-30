@@ -5,7 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import wang.haogui.yuanda.model.Comment;
 import wang.haogui.yuanda.service.CommentService;
 import wang.haogui.yuanda.utils.APIResult;
+import wang.haogui.yuanda.utils.TokenUtil;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -23,56 +27,52 @@ public class CommentController {
       private CommentService commentService;
 
 
-      @RequestMapping(value = "loadcomment")
+      @RequestMapping(value = "user/loadcomment")
       public APIResult loadComment(@RequestBody Map map){
             if(map.get("commentType") == null){
                   return APIResult.genFailApiResponse400("加载评论失败！");
             }
-            Integer commentType = Integer.parseInt(map.get("commentType").toString());
-            List<Comment> comments ;
-            switch (commentType){
-                  case 0:
-                        if(map.get("commentTargetId") == null){
-                              return APIResult.genFailApiResponse400("加载评论失败！");
-                        }
-                        int articleId = Integer.parseInt(map.get("commentTargetId").toString());
-                        comments = commentService.selectCommentByArticle(articleId);
-                        break;
-                  case 1:
-                        if(map.get("commentTargetId") == null){
-                              return APIResult.genFailApiResponse400("加载评论失败！");
-                        }
-                        int answerId = Integer.parseInt(map.get("commentTargetId").toString());
-                        comments = commentService.selectCommentByAnswer(answerId);
-                        break;
-                  case 2:
-                        if(map.get("commentTargetId") == null){
-                              return APIResult.genFailApiResponse400("加载评论失败！");
-                        }
-                        int commentId = Integer.parseInt(map.get("commentTargetId").toString());
-                        comments = commentService.selectCommentByCommentId(commentId);
-                        break;
-                  default:
-                        return APIResult.genFailApiResponse400("加载评论失败");
+            if(map.get("commentTargetId") == null){
+                  return APIResult.genFailApiResponse400("加载评论失败！");
             }
-
+            byte commentType = Byte.parseByte(map.get("commentType").toString());
+            Integer commentTargetId = Integer.parseInt(map.get("commentTargetId").toString());
+            Comment comment = new Comment();
+            comment.setCommentTargetId(commentTargetId);
+            comment.setCommentType(commentType);
+            List<Comment> comments = commentService.selectComment(comment);
             return APIResult.genSuccessApiResponse(comments);
       }
 
-      @PostMapping("addcomment")
-      public APIResult addComment(@RequestBody Map map){
-            if(map.get("commentId") != null || map.get("commentContent") != null){
-                  Byte commentType = (Byte) map.get("commentTYpe");
+      @PostMapping("user/addcomment")
+      public APIResult addComment(@RequestBody Map map, HttpServletRequest request){
+            if(map.get("commentTargetId") != null || map.get("commentContent") != null ||
+                     map.get("commentType") != null || map.get("parentId") != null){
                   Comment comments = new Comment();
-                  comments.setCommentId((Integer) map.get("commentId"));
                   comments.setCommentNumber(0);
-                  comments.setCommentResourceId((Integer) map.get("commentResourceId"));
+                  comments.setParentId((Integer) map.get("parentId"));
+                  //此部分为用户的  获取token是输入
+//                  Cookie[] cookies = request.getCookies();
+//                  Cookie cookie = null;
+//                  for (Cookie c:cookies) {
+//                        if("user".equals(c.getName())){
+//                              cookie = c;
+//                        }
+//                  }
+//                  String string = cookie.getValue().toString();
+//                  int userId = (int) TokenUtil.getTokenValue(string, "userId");
+//                  String userName = (String) TokenUtil.getTokenValue(string,"userName");
+//                  String userPicture = (String)TokenUtil.getTokenValue(string,"userPicture");
+                  comments.setCommentResourceName("1");
+                  comments.setCommentResourcePicture("1");
+                  comments.setCommentResourceId(1);
                   comments.setCommentTargetId((Integer) map.get("commentTargetId"));
-                  comments.setCommentType((Byte) map.get("commentType"));
+                  comments.setCommentType(Byte.parseByte(map.get("commentType").toString()));
                   comments.setIsDeleted(false);
+                  comments.setCreateDate(new Date());
                   comments.setCommentContent((String) map.get("commentContent"));
                   boolean flag ;
-                  switch (commentType){
+                  switch (Byte.parseByte(map.get("commentType").toString())){
                         case 0:
                               flag = commentService.addCommentForArticle(comments);
                               break;
@@ -95,7 +95,7 @@ public class CommentController {
       }
 
 
-      @RequestMapping("delcomment")
+      @RequestMapping("user/delcomment")
       public APIResult delComment(@RequestBody Map map){
             if(map.get("commentId") != null){
 
