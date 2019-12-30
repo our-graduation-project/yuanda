@@ -12,7 +12,7 @@ var vmDetail = new Vue({
             return null;
         }
         var id = getQueryStringChinese("id");
-        if(isNull()){
+        if(isNull(id)){
             alert("加载收藏夹是发生错误！")
         }else{
             this.getData(id);
