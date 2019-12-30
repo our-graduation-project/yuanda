@@ -25,7 +25,7 @@
                     <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
                         <div class="ui icon inverted  input">
                             <input type="text" name="query" placeholder="Search.." th:value="${query}">
-                            <i onclick="document.forms['search'].submit()" class="search icon link"></i>
+                            <i onclick="document.forms['static.search'].submit()" class="search icon link"></i>
                         </div>
                     </form>
                 </div>
@@ -43,204 +43,95 @@
             <div class="ui top attached segment">
                 <div class="ui middle aligned two column grid">
                     <dvi class="column">
-                        <h3 class="ui teal header">分类</h3>
+                        <h3 class="ui teal header">热榜</h3>
                     </dvi>
                     <dvi class="right aligned column">
-                        共 <h2 class="ui orange header m-inline-blok m-text-thin" th:text="${#arrays.length(types)}">14</h2>个
+                        共 <h2 class="ui orange header m-inline-blok m-text-thin">4</h2>个
                     </dvi>
                 </div>
             </div>
             <!--分类列表区域-->
             <div class="ui attached segment m-padded-tb-large   ">
-                <div class="ui labeled button m-margin-tb-tiny" th:each="type : ${types}">
-                    <a href="#" th:href="@{/types/{id}(id=${type.id})}" class="ui basic  button" th:classappend="${type.id==avtiveTypeId }? 'teal'" th:text="${type.name}">学习日志</a>
-                    <div class="ui basic left pointing label"  th:classappend="${type.id==avtiveTypeId }? 'teal'"  th:text="${#arrays.length(type.blogs)}">
-                        12
-                    </div>
-                </div>
                 <!--/*-->
                 <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">学习日志</a>
+                    <a href="#" onclick="selectHotQuestionByType(1)" class="ui basic button">学习</a>
                     <div class="ui basic left pointing label">
-                        11
+                       99+
                     </div>
                 </div>
                 <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">学习日志</a>
+                    <a href="#" onclick="selectHotQuestionByType(2)" class="ui basic button">生活</a>
                     <div class="ui basic left pointing label">
-                        23
+                        99+
                     </div>
                 </div>
                 <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">学习日志</a>
+                    <a href="#" onclick="selectHotQuestionByType(3)" class="ui basic button">旅游</a>
                     <div class="ui basic left pointing label">
-                        26
+                        99+
                     </div>
                 </div>
                 <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">JavaEE学习</a>
+                    <a href="#" onclick="selectHotQuestionByType(4)" class="ui basic button">历史</a>
                     <div class="ui basic left pointing label">
-                        65
+                        99+
                     </div>
                 </div>
-                <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">历史人文</a>
-                    <div class="ui basic left pointing label">
-                        24
-                    </div>
-                </div>
-                <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">生活</a>
-                    <div class="ui basic left pointing label">
-                        24
-                    </div>
-                </div>
-                <div class="ui labeled button m-margin-tb-tiny">
-                    <a href="#" class="ui basic button">旅行</a>
-                    <div class="ui basic left pointing label">
-                        24
-                    </div>
-                </div>
+
                 <!--*/-->
             </div>
             <!--博客列表-->
-            <div class="ui top attached teal segment">
-                <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" th:each="blog : ${page.content}">
+            <div class="ui top attached teal segment" id="hotQuestions">
+                <input type="hidden" v-model="pro.pageNum" id="page">
+                <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="hotQuestion" v-for="(item,index) in pro.list">
                     <!--mobile reversed反序-->
+
                     <div class="ui middle aligned grid mobile reversed stackable" >
                         <div class="eleven wide column">
-                            <h3><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">庐山旅行记录-江西</a></h3>
-                            <p class="m-text" th:text="|${blog.description}.....|">庐山，又名匡山、
-                                匡庐，位于江西省九江市庐山市境内。介于东经115°52′—116°8′，北纬29°26′—29°41′之间。东偎婺源、鄱阳湖，南靠滕王阁，西邻京九铁路大通脉，北枕滔滔长江。 </p>
+                            <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.questionTitle}}</a></h3>
+                            <p class="m-text">{{item.roughQuestionDescript}}</p>
                             <div class="ui grid">
                                 <div class="eleven wide column">
                                     <div class="ui mini horizontal link list">
                                         <div class="item">
-                                            <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image" th:src="@{${blog.user.avatar}}"  >
-                                            <div class="content"> <a href="#" th:href="@{/about}" target="_blank" class="header" th:text="${blog.user.nickname}">叶仁平</a></div>
+                                            <img :src="item.authorPicture" alt="" class="ui avatar image">
+                                            <div class="content"> <a href="#"  target="_blank" class="header">{{item.author}}</a></div>
                                         </div>
                                         <div class="item">
-                                            <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2019-10-01</span>
+                                            <i class="calendar icon"></i><span>{{item.createTimeStr}}</span>
                                         </div>
                                         <div class="item">
-                                            <i class="eye icon"></i><span th:text="${blog.views}">7437</span>
+                                            <i class="eye icon"></i><span>{{item.clickNumber}}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="five wide right aligned column">
-                                    <a href="#"  th:href="@{/types/{id}(id=${blog.type.id})}"  class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.type.name}">认知升级</a>
+                                    <a href="#"    class="ui teal basic label m-padded-tiny m-text-thin">收藏</a>
                                 </div>
                             </div>
                         </div>
+
                         <div class="five wide column">
-                            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
-                                <img src="https://picsum.photos/id/1011/800/400" alt="" th:src="@{${blog.firstPicture}}" class="ui round image">
+                            <a href="#" @click="toDetail(index)" target="_blank">
+                                <img :src="item.pictureSrc" alt="" class="ui round image">
                             </a>
                         </div>
                     </div>
                     <!--/*-->
-                    <div class="ui grid mobile reversed stackable">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">庐山旅行记录-九江</h3>
-                            <p class="m-text">庐山，又名匡山、匡庐，位于江西省九江市庐山市境内。介于东经115°52′—116°8′，北纬29°26′—29°41′之间。东偎婺源、鄱阳湖，南靠滕王阁，西邻京九铁路大通脉，北枕滔滔长江。 </p>
-                            <div class="ui stackable grid">
-                                <div class="eleven wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image">
-                                            <div class="content"> <a href="#" class="header">叶仁平</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar icon"></i>2019-10-01
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>7437
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="five wide right aligned column">
-                                    <a href="#" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="five wide column">
-                            <a href="" target="_blank">
-                                <img src="https://picsum.photos/id/1011/800/400" alt="" class="ui round image">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ui grid mobile reversed stackable">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">庐山旅行记录-九江</h3>
-                            <p class="m-text">庐山，又名匡山、匡庐，位于江西省九江市庐山市境内。介于东经115°52′—116°8′，北纬29°26′—29°41′之间。东偎婺源、鄱阳湖，南靠滕王阁，西邻京九铁路大通脉，北枕滔滔长江。 </p>
-                            <div class="ui stackable grid">
-                                <div class="eleven wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image">
-                                            <div class="content"> <a href="#" class="header">叶仁平</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar icon"></i>2019-10-01
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>7437
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="five wide right aligned column">
-                                    <a href="#"  target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="five wide column">
-                            <a href="" target="_blank">
-                                <img src="https://picsum.photos/id/1011/800/400" alt="" class="ui round image">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ui grid mobile reversed stackable">
-                        <div class="eleven wide column">
-                            <h3 class="ui header">庐山旅行记录-九江</h3>
-                            <p class="m-text">庐山，又名匡山、匡庐，位于江西省九江市庐山市境内。介于东经115°52′—116°8′，北纬29°26′—29°41′之间。东偎婺源、鄱阳湖，南靠滕王阁，西邻京九铁路大通脉，北枕滔滔长江。 </p>
-                            <div class="ui stackable grid">
-                                <div class="eleven wide column">
-                                    <div class="ui mini horizontal link list">
-                                        <div class="item">
-                                            <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image">
-                                            <div class="content"> <a href="#" class="header">叶仁平</a></div>
-                                        </div>
-                                        <div class="item">
-                                            <i class="calendar icon"></i>2019-10-01
-                                        </div>
-                                        <div class="item">
-                                            <i class="eye icon"></i>7437
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="five wide right aligned column">
-                                    <a href="#"  target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="five wide column">
-                            <a href="" target="_blank">
-                                <img src="https://picsum.photos/id/1011/800/400" alt="" class="ui round image">
-                            </a>
-                        </div>
-                    </div>
-                    <!--*/-->
-                </div>
+
             </div>
             <!--分页-->
-            <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+            <div class="ui bottom attached segment" >
                 <div class="ui middle aligned two column grid">
-                    <dvi class="column">
-                        <a href="#" th:href="@{/(page=${page.number}-1)}"  th:unless="${page.first}" class="ui mini teal basic button">上一页</a>
-                    </dvi>
-                    <dvi class="right aligned column">
-                        <a href="#" th:href="@{/(page=${page.number}+1)}"  th:unless="${page.last}" class="ui mini teal basic button">下一页</a>
-                    </dvi>
+                    <div class="column" style="width: 360px">
+                        <a  @click="prePageData()" class="ui mini teal basic button">上一页</a>
+                    </div>
+                    <div style="display: inline;text-align: center;margin-top: 18px">
+                        {{pro.pageNum}}/{{pro.pages}}
+                    </div>
+                    <div class="right aligned column" style="width: 360px">
+                        <a  @click="nextPageData()" class="ui mini teal basic button">下一页</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -290,8 +181,14 @@
         </div>
         <!--*/-->
     </footer>
+    </div>
     <!--引入所需要的JS-->
     <!--引入jQuery-->
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="mydist/js/vue.js"></script>
+    <script src="plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <!--引入semantic-ui的 JS-->
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
@@ -299,10 +196,9 @@
     <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
     <!--引入代码高亮插件 JS-->
     <script src="plugins/blog/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <script src="mydist/js/pageQuestion.js" ></script>
     <!--映入目录生成插件 JS-->
     <script src="plugins/blog/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
-    <!--引入二维码生成插件 JS-->
-    <script src="plugins/blog/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
     <!--引入waypoints插件滚动条-->
     <script src="plugins/blog/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
 

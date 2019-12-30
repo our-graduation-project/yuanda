@@ -16,6 +16,7 @@ import wang.haogui.yuanda.utils.APIResult;
 import wang.haogui.yuanda.utils.CommonUtils;
 import wang.haogui.yuanda.utils.power.AntMatcher;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -134,6 +135,30 @@ public class AnswerController {
             return APIResult.genFailApiResponse500("updateFail");
         }
     }
+
+
+    /**
+     * 增加回答
+     * @param map 回答的具体内容
+     * @return 保存之后的信息
+     */
+    @RequestMapping("/admin/saveAnswer")
+    @ResponseBody
+    public APIResult saveAnswer(@RequestBody Map map){
+        if(map == null||map.get("content") == null||map.get("isNoName") == null){
+            return APIResult.genFailApiResponse500("传入数据为空");
+        }
+        //Answer answer = new Answer(0,0,(byte)0,0,new Date(),1,(byte)map.get("isNoName"),);
+
+        Answer answer = new Answer();
+        boolean b = answerService.addAnswer(answer);
+        if(b){
+            return APIResult.genSuccessApiResponse("保存成功");
+        }
+        return APIResult.genFailApiResponse500("操作失败");
+
+    }
+
 
     /**
      * 批量删除回答

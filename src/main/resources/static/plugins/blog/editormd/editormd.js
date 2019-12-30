@@ -70,7 +70,7 @@
             "h1", "h2", "h3", "h4", "h5", "h6", "|", 
             "list-ul", "list-ol", "hr", "|",
             "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
-            "goto-line", "watch", "preview", "fullscreen", "clear", "search", "|",
+            "goto-line", "watch", "preview", "fullscreen", "clear", "static.search", "|",
             "help", "info"
         ],
         simple : [
@@ -1273,7 +1273,7 @@
                 }
                 
                 if (name !== "link" && name !== "reference-link" && name !== "image" && name !== "code-block" && 
-                    name !== "preformatted-text" && name !== "watch" && name !== "preview" && name !== "search" && name !== "fullscreen" && name !== "info") 
+                    name !== "preformatted-text" && name !== "watch" && name !== "preview" && name !== "static.search" && name !== "fullscreen" && name !== "info")
                 {
                     cm.focus();
                 }

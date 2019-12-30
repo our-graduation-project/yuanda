@@ -1,4 +1,12 @@
+
 $(function () {
+    // 替换 <textarea id="editor1">为CKEditor实例
+    // 使用默认配置
+    editorConfig = {
+        customConfig: './samples/editConfig.js'
+    };
+
+    CKEDITOR.replace( 'editor', editorConfig);
     var thisUrl = location.search;
     if(thisUrl !=null&&thisUrl.indexOf("?") != -1){
         var id = thisUrl.substr(thisUrl.indexOf("=")+1);
@@ -13,6 +21,52 @@ $(function () {
 
     }
 });
+
+
+function saveAnswer(isNoName) {
+    var content =  CKEDITOR.instances.editor.getData();
+    console.log(content)
+    var data = {"content":content,"isNoName":isNoName};
+    $.ajax({
+        //请求方式
+        type : "POST",
+        //请求的媒体类型
+        contentType: "application/json;charset=UTF-8",
+        //请求地址
+        url : "/yuanda/admin/saveAnswer",
+        //数据，json字符串
+        data : JSON.stringify(data),
+        success: function (result) {
+
+            if (result.result) {
+                if(result.message=="操作失败"){
+                    swal({
+                        title: "你的提交有问题，再试试吧",
+                    });
+                    window.location.href="question.html";
+                }
+                var data = result.data;
+                console.log(data);
+                detail.addQuestionData(data);
+            }
+            else {
+                swal({
+                    title: "出错了，怎么想都不是我的错",
+                });
+
+            }
+        },
+        error: function () {
+            swal({
+                title: "出错了，一定是你写了不该写的东西",
+            });
+            window.location.href="question.html"
+        }
+
+
+    });
+    
+}
 
 
 function selectQuestionDetail(questionId) {

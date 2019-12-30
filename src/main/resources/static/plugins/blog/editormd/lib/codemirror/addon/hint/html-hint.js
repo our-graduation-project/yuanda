@@ -165,7 +165,7 @@
         multiple: ["", "multiple"],
         readonly: ["", "readonly"],
         required: ["", "required"],
-        type: ["hidden", "text", "search", "tel", "url", "email", "password", "datetime", "date", "month",
+        type: ["hidden", "text", "static.search", "tel", "url", "email", "password", "datetime", "date", "month",
                "week", "time", "datetime-local", "number", "range", "color", "checkbox", "radio",
                "file", "submit", "image", "reset", "button"]
       }
@@ -327,7 +327,7 @@
     title: null,
     translate: ["yes", "no"],
     onclick: null,
-    rel: ["stylesheet", "alternate", "author", "bookmark", "help", "license", "next", "nofollow", "noreferrer", "prefetch", "prev", "search", "tag"]
+    rel: ["stylesheet", "alternate", "author", "bookmark", "help", "license", "next", "nofollow", "noreferrer", "prefetch", "prev", "static.search", "tag"]
   };
   function populate(obj) {
     for (var attr in globalAttrs) if (globalAttrs.hasOwnProperty(attr))

@@ -3522,7 +3522,7 @@ $.fn.jqGrid = function( pin ) {
 			var cm = ts.p.colModel[index], rules, o1='',v1='',r1='',o2='',v2='', so, op, repstr='',selected, elem,
 			numopts = ['eq','ne', 'lt', 'le', 'gt', 'ge', 'nu', 'nn', 'in', 'ni'],
 			stropts = ['eq', 'ne', 'bw', 'bn', 'ew', 'en', 'cn', 'nc', 'nu', 'nn', 'in', 'ni'],
-			texts = $.jgrid.getRegional(ts, "search"),
+			texts = $.jgrid.getRegional(ts, "static.search"),
 			common = $.jgrid.styleUI[(ts.p.styleUI || 'jQueryUI')].common;
 
 			if(!cm ) {
@@ -3573,7 +3573,7 @@ $.fn.jqGrid = function( pin ) {
 			if( v1 ) {
 				df = v1;
 			}
-			var soptions = $.extend(cm.searchoptions, {name:cm.index || cm.name, id: "sval1_" + ts.p.idPrefix+cm.name, oper:'search'}),
+			var soptions = $.extend(cm.searchoptions, {name:cm.index || cm.name, id: "sval1_" + ts.p.idPrefix+cm.name, oper:'static.search'}),
 			input = $.jgrid.createEl.call(ts, cm.stype, soptions , df, false, $.extend({},$.jgrid.ajaxOptions, ts.p.ajaxSelectOptions || {}));
 			$(input).addClass( colmenustyle.filter_input );
 			str1 = $('<div></div>').append(input);
@@ -3602,7 +3602,7 @@ $.fn.jqGrid = function( pin ) {
 			} else {
 				df = "";
 			}
-			soptions = $.extend(cm.searchoptions, {name:cm.index || cm.name, id: "sval2_" + ts.p.idPrefix+cm.name, oper:'search'});
+			soptions = $.extend(cm.searchoptions, {name:cm.index || cm.name, id: "sval2_" + ts.p.idPrefix+cm.name, oper:'static.search'});
 			input = $.jgrid.createEl.call(ts, cm.stype, soptions , df, false, $.extend({},$.jgrid.ajaxOptions, ts.p.ajaxSelectOptions || {}));
 			$(input).addClass( colmenustyle.filter_input );
 			str1 = $('<div></div>').append(input);
@@ -7197,7 +7197,7 @@ $.extend($.jgrid,{
 								if(cU) {
 									if(options.oper === 'edit') {
 										$($t).jqGrid('setColProp',options.name,{ editoptions: {buildSelect: null, dataUrl : null, value : oV} });
-									} else if(options.oper === 'search') {
+									} else if(options.oper === 'static.search') {
 										$($t).jqGrid('setColProp',options.name,{ searchoptions: {dataUrl : null, value : oV} });
 									} else if(options.oper ==='filter') {
 										if($("#fbox_"+$t.p.id)[0].p) {
@@ -8395,7 +8395,7 @@ $.extend($.jgrid,{
 });
 $.jgrid.extend({
 	filterToolbar : function(p){
-		var regional =  $.jgrid.getRegional(this[0], 'search');
+		var regional =  $.jgrid.getRegional(this[0], 'static.search');
 		p = $.extend({
 			autosearch: true,
 			autosearchDelay: 500,
@@ -8733,7 +8733,7 @@ $.jgrid.extend({
 				if(this.searchoptions.searchOperMenu === undefined) {
 					this.searchoptions.searchOperMenu = true;
 				}
-				soptions = $.extend({},this.searchoptions , {name:cm.index || cm.name, id: "gs_"+$t.p.idPrefix+cm.name, oper:'search'});
+				soptions = $.extend({},this.searchoptions , {name:cm.index || cm.name, id: "gs_"+$t.p.idPrefix+cm.name, oper:'static.search'});
 				if(this.search){
 					if( p.restoreFromFilters && rules) {
 						restores = false;
@@ -8978,7 +8978,7 @@ $.jgrid.extend({
 		});
 	},
 	searchGrid : function (p) {
-		var regional =  $.jgrid.getRegional(this[0], 'search');
+		var regional =  $.jgrid.getRegional(this[0], 'static.search');
 		p = $.extend(true, {
 			recreateFilter: false,
 			drag: true,
@@ -9579,7 +9579,7 @@ $.jgrid.extend({
 						if( $.inArray(this.edittype, 
 							['text','textarea','password','select', 
 							'color', 'date', 'datetime', 'datetime-local','email','month',
-							'number','range', 'search', 'tel', 'time', 'url','week'] ) > -1) {
+							'number','range', 'static.search', 'tel', 'time', 'url','week'] ) > -1) {
 							$(elc).addClass( styles.inputClass );
 						}
 						ffld = true;
