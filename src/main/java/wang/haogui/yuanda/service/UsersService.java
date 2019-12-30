@@ -1,6 +1,7 @@
 package wang.haogui.yuanda.service;
 
 import com.github.pagehelper.PageInfo;
+import wang.haogui.yuanda.common.IsDeletedEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Users;
 
@@ -42,7 +43,7 @@ public interface UsersService {
      * @param isDeleted
      * @return
      */
-    int updateisDeleted(Integer userId, Boolean isDeleted);
+    int updateisDeleted(Integer userId,Boolean isDeleted);
 
 
     /**
@@ -65,7 +66,7 @@ public interface UsersService {
      * @param limit
      * @return
      */
-    PageInfo<Users> searchUsers(int page, int limit);
+    PageInfo<Users> searchUsers(int page,int limit);
 
     /**
      * 根据ID查询用户
@@ -90,7 +91,7 @@ public interface UsersService {
      * @param userName
      * @return
      */
-    PageInfo<Users> searchUsersByName(int page, int limit, String userName);
+    PageInfo<Users> searchUsersByName(int page,int limit,String userName);
 
     /**
      *根据邮箱查询用户
@@ -99,6 +100,22 @@ public interface UsersService {
      * @param email
      * @return
      */
-    PageInfo<Users> searchUsersByEmail(int page, int limit, String email);
+    PageInfo<Users> searchUsersByEmail(int page,int limit,String email);
 
+
+    /**
+     * 通过用户id改变状态码
+     * @param id
+     * @param isDeletedEnum
+     * @return
+     */
+    Boolean changeIsDeletedById(int id, IsDeletedEnum isDeletedEnum);
+
+    /**
+     * 通过用户ID将其状态码全部改为false
+     * @param list
+     * @param status
+     * @return
+     */
+    Boolean changeIsDeletedByList(List list, Boolean status);
 }

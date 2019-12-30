@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="_fragments :: head(~{::title})">
+    <meta charset="UTF-8">
+    <!--移动端预览-->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博客详情</title>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+    <!--引入页面排版CSS-->
+    <link rel="stylesheet" href="plugins/blog/css/typo.css">
+    <!--引入动画插件CSS-->
+    <link rel="stylesheet" href="plugins/blog/css/animate.css">
+    <!--引入代码高亮插件CSS-->
+    <link rel="stylesheet" href="plugins/blog/prism/prism.css">
+    <!--引入目录生成插件CSS-->
+    <link rel="stylesheet" href="plugins/blog/tocbot/tocbot.css">
+    <!--引入自定义CSS-->
+    <link rel="stylesheet" href="plugins/blog/css/me.css">
+</head>
+<body >
+    <!--导航-->
+    <nav th:replace="_fragments :: menu(1)" class="ui inverted attached segment segment m-padded-tb-mini m-shadow-small">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu">
+                <h2 class="ui teal header item">源来如此</h2>
+                <a href="index.html" th:href="@{/}" class="m-item item m-mobile-hide active"><i class="small home icon"></i><span th:text="#{index.home}">首页</span></a>
+                <a href="types.html" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2}? 'active'"><i class="small idea icon"></i><span th:text="#{index.type}">热榜</span></a>
+                <a href="tags.html" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3}? 'active'" ><i class="small tags icon" ></i><span th:text="#{index.tag}">关注</span></a>
+                <a href="archives.html" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4}? 'active'" ><i class="small clone icon" ></i><span th:text="#{index.archive}">归档</span></a>
+                <a href="person/index.html" th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${n==5}? 'active'"><i class="small info icon"></i><span th:text="#{index.aboutme}">个人管理</span></a>
+                <div class="right m-item item m-mobile-hide">
+                    <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
+                        <div class="ui icon inverted  input">
+                            <input type="text" name="query" placeholder="Search.." th:value="${query}">
+                            <i onclick="document.forms['static.search'].submit()" class="search icon link"></i>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--menu toggle无任何显示意思-->
+        <a href="" class="ui icon menu toggle black button m-right-top m-mobile-show">
+            <i class="sidebar icon"></i>
+        </a>
+    </nav>
+
+    <!--中间内容-->
+    <div id="waypoint" class="m-container-small m-padded-tb-big animated fadeIn">
+        <div class="ui container" id="questiondetail">
+            <!--用户信息-->
+            <div class="ui top attached segment" >
+                <div class="ui horizontal link list">
+                    <div class="item">
+                        <img :src="questionData.authorPicture"  alt="" class="ui avatar image">
+                        <div class="content"> <a href="#" class="header" >{{questionData.author}}</a></div>
+                    </div>
+                    <div class="item">
+                        <i class="calendar icon"></i>
+                        <span>{{questionData.createTimeStr}}</span>
+                    </div>
+                    <div class="item">
+                        <i class="eye icon"></i><span>{{questionData.clickNumber}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ui attached segment">
+                <!--封面图片-->
+                <img :src="questionData.pictureSrc"  alt="" class="ui fluid image">
+            </div>
+            <div class="ui attached padding segment">
+            <!--主要内容-->
+            <div class="ui right aligned basic segment">
+                <div class="ui orange basic label" >收藏</div>
+            </div>
+            <h2 class="ui center aligned header" >{{questionData.questionTitle}}</h2>
+            <br>
+            <div id="content" class="typo typo-selection js-toc-content m-padding-lr-responsive m-padded-tb-large" th:utext="${blog.content}">
+                <h2>&nbsp;</h2>
+
+
+                <p class="typo-first">{{questionData.questionDescript}}</p>
+            </div>
+            </div>
+            </div>
+            <div id="conmment-container" class="ui bottom attached segment" >
+                    <!--留言区域列表-->
+                <div class="ui top attached teal segment" id="answersData">
+                    <input type="hidden" v-model="answerData.pageNum" id="page">
+                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="answerData" v-for="(item,index) in answerData.list" >
+                        <!--mobile reversed反序-->
+
+                        <div class="ui middle aligned grid mobile reversed stackable" style="border:1px solid rgba(51,170,158,0.97)">
+                            <div class="eleven wide column">
+<!--                                <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.questionTitle}}</a></h3>-->
+                                <p class="m-text">{{item.answerContent}}</p>
+                                <div class="ui grid">
+                                    <div class="eleven wide column">
+                                        <div class="ui mini horizontal link list">
+                                            <div class="item">
+                                                <img :src="item.authorPicture"  class="ui avatar image">
+                                                <div class="content"> <a href="#"  target="_blank" class="header">{{item.autherName}}</a></div>
+                                            </div>
+                                            <div class="item">
+                                                <i class="calendar icon"></i><span>{{item.createTimeStr}}</span>
+                                            </div>
+                                            <div class="item">
+                                                <i class="eye icon"></i><span>{{item.clickNumber}}</span>
+                                            </div>
+                                            <div class="item">
+                                                <i class="thumbs up outline icon"></i><span>{{item.agreeNumber}}</span>
+                                            </div>
+                                            <div class="item">
+                                                <i class="thumbs down outline icon"></i><span>{{item.disagreeNumber}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="five wide column">
+                            </div>
+                        </div>
+                <!--提交留言表单-->
+                    </div>
+                    <div class="ui bottom attached segment" >
+                        <div class="ui middle aligned two column grid">
+                            <div class="column"  style="width: 360px">
+                                <a @click="prePageData()" class="ui mini teal basic button">上一页</a>
+                            </div>
+                            <div style="display: inline;text-align: center;margin-top: 18px">
+                                {{answerData.pageNum}}/{{answerData.pages}}
+                            </div>
+
+                            <div class="right aligned column" style="width: 360px">
+                                <a  @click="nextPageData()" class="ui mini teal basic button">下一页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--                <div id="comment-form" class="ui form" style="margin-top: 30px">-->
+
+
+<!--                    <div class="field">-->
+<!--                        <textarea name="content"  cols="30" rows="10" placeholder="请输入评论信息"></textarea>-->
+<!--                    </div>-->
+<!--                    <div class="fields">-->
+<!--                        <div class="field m-mobile-wide m-margin-bottom-small">-->
+<!--                            <div class="ui left icon input">-->
+<!--                                <i class="user icon"></i>-->
+<!--                                <input name="nickname" type="text" placeholder="姓名" th:value="${session.user}!=null?${session.user.nickname}">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="field m-mobile-wide m-margin-bottom-small">-->
+<!--                            <div class="ui left icon input">-->
+<!--                                <i class="mail icon"></i>-->
+<!--                                <input name="email" type="email" placeholder="邮箱" th:value="${session.user}!=null?${session.user.email}">-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="field  m-margin-bottom-small m-mobile-wide">-->
+<!--                            <button id="commentpost-btn"  type="button" class="ui teal button m-mobile-wide"><i class="edit icon"></i>发布</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    -->
+
+<!--                    &lt;!&ndash;表单校验&ndash;&gt;-->
+<!--                    &lt;!&ndash;错误提示&ndash;&gt;-->
+<!--                    <div class="ui error message">-->
+
+<!--                    </div>-->
+<!--                </div>-->
+
+                <div class="modal fade" id="articleModal" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel">
+                    <div class="modal-dialog" role="document" >
+                        <div class="modal-content" style="width: 800px;height: 960px;">
+                            <div class="modal-body">
+                                <form>
+                                    <input type="hidden" id="articleId" value="0">
+                                    <div class="form-group" style="margin-top: 30px">
+                                        <i class="edit outline icon">></i>
+                                        <label class="control-label" style="color: #33aa9e">我也来回答:</label>
+                                        <div style="margin-top: 30px">
+                                        <textarea class="form-control" id="editor"
+                                                  style="width:700px;height:300px"></textarea>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer" style="margin-top: 20px">
+
+                                <!--<a data-dismiss="modal"> 点这里</a>    这个data-dismiss="modal"  关闭modal-->
+                                <button type="button" class="ui teal button" id="saveButton" onclick="saveAnswer(0)" style="float: right;margin-right: 40px">回答</button>
+                                <button type="button" class="ui teal button" id="anonymousSaveButton" onclick="saveAnswer(1)" style="float: right;margin-right: 40px">匿名回答</button>
+                                <button type="button" class="ui grey button" id="cancel" style="float: right;margin-right: 40px">取消</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    </div>
+    <!--工具条-->
+    <div id="toolbar" class="m-fixed m-right-button m-padded" style="display: none">
+        <div  class="ui vertical icon buttons" >
+            <button id="tocButton" type="button" class="ui teal button">目录</button>
+            <a href="#conmment-container" class="ui teal button">留言</a>
+            <button type="iconbutton" class="ui wc icon button"><i class="weixin icon"></i></button>
+            <div id="toTop" href="#nav_menu" class="ui  icon button"><i class="chevron up icon"></i></div>
+        </div>
+    </div>
+    <!--目录页面详情-->
+    <div class="ui toc-container flowing popup transition hidden" style="width: 270px;border-radius: 6%; padding-right: 20px; background-color:#fffdf5 ">
+        <!--js-toc目录生成地点-->
+       <ol class="js-toc"></ol>
+    </div>
+
+
+            </div>
+    <br>
+    <br>
+    <!--底部-->
+
+            </div>
+        </div>
+        <footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive ">
+        </footer>
+    </div>
+
+
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="mydist/js/vue.js"></script>
+    <script src="plugins/sweetalert/sweetalert.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="mydist/js/pageQuestionDetail.js"></script>
+    <script src="plugins/ckeditor/ckeditor.js"></script>
+    <script src="mydist/js/public.js"></script>
+    <!--引入jQuery-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+    <!--引入semantic-ui的 JS-->
+    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+    <!--引入平滑滚动插件CDN-->
+    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
+    <!--引入代码高亮插件 JS-->
+    <script src="/blog/prism/prism.js" ></script>
+
+    <!--引入waypoints插件滚动条-->
+    <script src=" scplugins/blog/waypoints/jquery.waypoints.min.js" ></script>
+</body>
+</html>

@@ -147,6 +147,8 @@ function updateAnswerStatus(status) {
 
         })
 
+
+        $('#questionModal').modal('hide');
         reload();
     }
 
@@ -154,11 +156,48 @@ function updateAnswerStatus(status) {
 
 }
 
+
 function deleteAnswer() {
     var rows=[];
     rows= getSelectedRows();
+    if(rows == null){
+    swal({
+        title: "请选择要删除的数据",
+    });
+}
+    var title = "你确定要删除这"+rows.length+"条回答吗？";
+    console.log(title);
+    swal(title, {
+        buttons: {
+            fuck: {
+                text:"取消",
+                value:"cancel"
+            },
+            catch: {
+                text: "确认",
+                value: "ensure",
+            },
+        },
+    }).then((value) => {
+        switch (value) {
+            case "cancel":
+                swal("取消成功");
+                return false;
+            case "ensure":
+                deleteAnswers();
+                break;
+        }
+    });
+}
 
-    if(rows != null){
+
+/**
+ * 删除操作
+ */
+function deleteAnswers() {
+    var rows=[];
+    rows= getSelectedRows();
+
         console.log(rows);
         var data = {"answerIds":rows};
         $.ajax({
@@ -193,14 +232,11 @@ function deleteAnswer() {
 
 
         })
-    }else {
-        swal({
-            title: "请选择要删除的数据",
-        });
-    }
+
+
+    $('#answerModal').modal('hide');
     reset();
     reload();
-    $('#answerModal').modal('hide');
 }
 
 function detailsAnswer() {

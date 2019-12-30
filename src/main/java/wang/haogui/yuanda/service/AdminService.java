@@ -1,6 +1,7 @@
 package wang.haogui.yuanda.service;
 
 import com.github.pagehelper.PageInfo;
+import wang.haogui.yuanda.common.IsDeletedEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Admin;
 
@@ -43,13 +44,13 @@ public interface AdminService {
      */
     int updateRight(Integer adminId, Byte right);
 
-    /**
-     * 根据ID修改状态
-     * @param adminId
-     * @param isDeleted
-     * @return
-     */
-    int updateisDeleted(Integer adminId, Boolean isDeleted);
+//    /**
+//     * 根据ID修改状态
+//     * @param adminId
+//     * @param isDeleted
+//     * @return
+//     */
+//    int updateisDeleted(Integer adminId, Boolean isDeleted);
 
     /**
      * 通过邮箱修改密码
@@ -105,5 +106,21 @@ public interface AdminService {
      * @param email
      * @return
      */
-    PageInfo<Admin> searchAdminByEmail(int page, int limit, String email);
+    PageInfo<Admin> searchAdminByEmail(int page,int limit,String email);
+
+    /**
+     * 通过管理员id改变状态码
+     * @param id
+     * @param isDeletedEnum
+     * @return
+     */
+    Boolean changeIsDeletedById(int id, IsDeletedEnum isDeletedEnum);
+
+    /**
+     * 通过管理员ID将其状态码全部改为false
+     * @param list
+     * @param status
+     * @return
+     */
+    Boolean changeIsDeletedByList(List list, Boolean status);
 }

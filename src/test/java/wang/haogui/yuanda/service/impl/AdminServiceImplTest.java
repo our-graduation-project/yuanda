@@ -74,11 +74,11 @@ class AdminServiceImplTest {
         System.out.println(adminService.updateRight(1,right));
     }
 
-    @Test
-    void updateisDeleted() {
-        Byte isDeleted=0;
-        System.out.println(adminService.updateisDeleted(1,true));
-    }
+//    @Test
+//    void updateisDeleted() {
+//        Byte isDeleted=0;
+//        System.out.println(adminService.updateisDeleted(1,true));
+//    }
 
     @Test
     void updatePasswordByMailbox() {

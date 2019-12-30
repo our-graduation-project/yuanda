@@ -288,4 +288,15 @@
       #{admin.isDeleted,jdbcType=BIT})
     </foreach>
   </insert>
+
+  <update id="updateIsDeletedByList" >
+    update admin
+    set is_deleted = #{status}
+    where admin_id in
+    (
+    <foreach collection="list"  item="id" separator="," >
+      #{id}
+    </foreach>
+    )
+  </update>
 </mapper>

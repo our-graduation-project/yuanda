@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import wang.haogui.yuanda.common.IsDeletedEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.mapper.AdminMapper;
 import wang.haogui.yuanda.model.Admin;
@@ -90,22 +91,19 @@ public class AdminServiceImpl implements AdminService {
         return i;
     }
 
-    /**
-     * 根据ID修改状态
-     * @param adminId
-     * @param isDeleted
-     * @return
-     */
-    @Override
-    public int updateisDeleted(Integer adminId, Boolean isDeleted) {
-        int i=0;
-        Admin admin=searchAdminByAdminId(adminId);
-        if (admin!=null){
-            admin.setIsDeleted(isDeleted);
-            i =mapper.updateByPrimaryKey(admin);
-        }
-        return i;
-    }
+//    /**
+//     * 根据ID修改状态
+//     * @param adminId
+//     * @return
+//     */
+//    @Override
+//    public int updateisDeleted(Integer adminId) {
+//        Admin admin=new Admin();
+//        admin.setAdminId(adminId);
+//        admin.setIsDeleted(true);
+//        int i = mapper.updateByPrimaryKeySelective(admin);
+//        return i;
+//    }
 
     /**
      * 根据邮箱修改密码
@@ -213,5 +211,32 @@ public class AdminServiceImpl implements AdminService {
         List<Admin> admins = mapper.selectByExample(adminExample);
         PageInfo pageInfo=new PageInfo(admins,3);
         return pageInfo;
+    }
+
+    /**
+     * 根据管理员ID修改状态码
+     * @param id
+     * @param isDeletedEnum
+     * @return
+     */
+    @Override
+    public Boolean changeIsDeletedById(int id, IsDeletedEnum isDeletedEnum) {
+        Admin admin=new Admin();
+        admin.setIsDeleted(isDeletedEnum.getStatus());
+        admin.setAdminId(id);
+        int i = mapper.updateByPrimaryKeySelective(admin);
+        return i > 0 ? true : false;
+    }
+
+    /**
+     * 通过管理员ID将其状态码全部改为false
+     * @param list
+     * @param status
+     * @return
+     */
+    @Override
+    public Boolean changeIsDeletedByList(List list, Boolean status) {
+        int i = mapper.updateIsDeletedByList(list,status);
+        return i > 0 ? true : false;
     }
 }

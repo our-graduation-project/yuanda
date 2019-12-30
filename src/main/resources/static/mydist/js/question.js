@@ -12,6 +12,7 @@ $(function () {
     $("#jqGrid").jqGrid({
         //请求后台 JSON 数据的 URL
         url: '/yuanda/admin/selectQuestionList',
+        mtype: 'POST',
         //后台返回的数据格式
         datatype: "json",
 
@@ -160,6 +161,8 @@ function updateCheckStatus(status) {
 
     })
 
+
+        $('#questionModal').modal('hide');
         reload();
 }
 
@@ -168,6 +171,39 @@ function updateCheckStatus(status) {
 }
 
 function deleteQuestion() {
+    var rows=[];
+    rows= getSelectedRows();
+    if(rows == null){
+        swal({
+            title: "请选择要删除的数据",
+        });
+    }
+    var title = "你确定要删除这"+rows.length+"个问题吗？";
+    console.log(title);
+    swal(title, {
+        buttons: {
+            fuck: {
+                text:"取消",
+                value:"cancel"
+            },
+            catch: {
+                text: "确认",
+                value: "ensure",
+            },
+        },
+    }).then((value) => {
+        switch (value) {
+            case "cancel":
+                swal("取消成功");
+                return false;
+            case "ensure":
+                deleteQuestions();
+                break;
+        }
+    });
+}
+
+function deleteQuestions() {
     var rows=[];
     rows= getSelectedRows();
 
@@ -210,9 +246,10 @@ function deleteQuestion() {
             title: "请选择要删除的数据",
         });
     }
+
+    $('#questionModal').modal('hide');
     reset();
     reload();
-    $('#questionModal').modal('hide');
 }
 
 function details() {

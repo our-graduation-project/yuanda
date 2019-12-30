@@ -40,7 +40,7 @@ CodeMirror.defineMode("tiddlywiki", function () {
       "allTags": kw('allTags'), "closeAll": kw('closeAll'), "list": kw('list'),
       "newJournal": kw('newJournal'), "newTiddler": kw('newTiddler'),
       "permaview": kw('permaview'), "saveChanges": kw('saveChanges'),
-      "search": kw('search'), "slider": kw('slider'),   "tabs": kw('tabs'),
+      "search": kw('static.search'), "slider": kw('slider'),   "tabs": kw('tabs'),
       "tag": kw('tag'), "tagging": kw('tagging'),       "tags": kw('tags'),
       "tiddler": kw('tiddler'), "timeline": kw('timeline'),
       "today": kw('today'), "version": kw('version'),   "option": kw('option'),
