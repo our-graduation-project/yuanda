@@ -13,14 +13,18 @@ public enum QueueEnum {
     /**
      * 消息通知队列
      */
-    QUEUE_SENT_EAILL("book_manager_direct", "book_manager_sent_email", "book_manager_sent_email"),
+    QUEUE_SENT_EAILL("yuanda_direct", "yuanda_sent_email", "yuanda_sent_email"),
 
 
     /**
      * 注册码发送队列
      */
-    QUEUE_SENT_REGISTER_CODE("book_manager_register_direct","book_manager_sent_register","book_manager_sent_register");
+    QUEUE_SENT_REGISTER_CODE("yuanda_register_direct","yuanda_sent_register","yuanda_sent_register"),
 
+    /**
+     * esarticle的发送队列
+     */
+    QUEUE_SENT_ES_ARTICLE_DATA("yuanda_es_article_direct","yuanda_sent_es_article","yuanda_sent_es__article");
 
     /**
      * 交换名称

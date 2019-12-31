@@ -19,7 +19,7 @@ import wang.haogui.yuanda.utils.SendMail;
 public class HandlerRegisterCodeQueue {
 
     @RabbitHandler
-    @RabbitListener(queues = "book_manager_sent_register")
+    @RabbitListener(queues = "yuanda_sent_register")
     public void handle(Message message) {
         byte[] body = message.getBody();
         String s = new String(body);

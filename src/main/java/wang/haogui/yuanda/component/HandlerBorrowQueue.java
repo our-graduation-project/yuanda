@@ -22,7 +22,7 @@ import java.util.Date;
 public class HandlerBorrowQueue {
 
     @RabbitHandler
-    @RabbitListener(queues = "book_manager_sent_email")
+    @RabbitListener(queues = "yuanda_sent_email")
     public void handle(Message message) {
         byte[] body = message.getBody();
         String s = new String(body);
