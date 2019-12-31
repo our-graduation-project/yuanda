@@ -255,8 +255,7 @@ public class UsersController {
     @RequestMapping("admins/user/edituser")
     @ResponseBody
     public APIResult editUsers(@RequestBody(required=false) Users users){
-        if(users == null || users.getUserName()==null||users.getTelphone()==null
-                ||users.getUserPassword()==null||users.getEmail()==null||users.getUserDescript()==null||
+        if(users == null || users.getUserName()==null||users.getTelphone()==null||users.getEmail()==null||users.getUserDescript()==null||
                 users.getUserBrithday()==null|| users.getUserSex()==null){
             return new APIResult("参数有误",false,400);
         }
