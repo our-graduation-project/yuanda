@@ -140,35 +140,30 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="fields" id="picture">
 
                         <div class="field" style="margin-top: 100px">
                             头像:
                         </div>
                         <div class="field" style="margin-left: 50px">
-<!--                            <input id="userPicture" type="file" />-->
-<!--                            <input type="button" value="上传" οnclick="submit2()"/>-->
-                            <form id="userPictureAdd" method="post" enctype="multipart/form-data" οnsubmit="return false">
-                                <input id="file" name="file" type="file">
-                                </br>
-                                <input type="button" value="添加" οnclick="checkForm()">
-                            </form>
+                            <a class="ui green left ribbon label">点击修改头像</a>
+                            <img id="personPicture" class="ui small bordered image" src="../plugins/blog/images/me.jpg">
+                            <div id="personPicturePath" style="display: none"></div>
+                        </div>
+
+                        <div class="field" style="margin-top: 100px;margin-left: 150px">
+                            背景图片:
+                        </div>
+                        <div class="field" style="margin-left: 50px">
+                            <a class="ui green left ribbon label">点击修改背景图片</a>
+                            <img id="bgPicture" class="ui medium bordered image"  src="../plugins/blog/images/me2.jpg">
+                            <div id="bgPicturePath" style="display: none"></div>
+
                         </div>
 
                     </div>
 
-
-                    <!--文章内容-->
-                    <div class="field">
-                        <div id="md-content" style="z-index: 1 !important;">
-                        <textarea placeholder="文章内容" name="editor" style="display: none" text="">
-                        </textarea>
-                        </div>
-                    </div>
-
-
-                    <!--博客描述文本域-->
+                    <!--个人简介描述文本域-->
                     <div class="required field">
                         <label>个人简介：</label>
                         <textarea name="userDescript" id="userDescript" text="" v-model="users.userDescript" placeholder="个人简介描述..." maxlength="200"></textarea>
@@ -216,35 +211,71 @@
     <!--引入sementic-ui模板所需要的js-->
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
     <!--引入Markdown插件需要引入的js-->
-<!--    <script src="../../static/lib/editormd/editormd.min.js"></script>-->
-    <!--    富文本编辑器-->
-    <script src="../plugins/ckeditor/ckeditor.js"></script>
     <script src="../mydist/js/vue.js"></script>
+<!--    引入服务器文件上传所需js-->
+    <script src="../plugins/ajaxupload"></script>
+<!--    <script src="../plugins/plupload-2.1.2/js/plupload.full.min.js"></script>-->
+<!--    <script src="../mydist/js/upload.js"></script>-->
 
-    <!--/*/</th:block>/*/-->
 
     <!--声明行内js代码域-->
     <script type="text/javascript">
-        // function submit2(){
-        //     var type = "file";          //后台接收时需要的参数名称，自定义即可
-        //     var id = "userPicture";            //即input的id，用来寻找值
-        //     var formData = new FormData();
-        //     formData.append(type, $("#"+id)[0].files[0]);    //生成一对表单属性
-        //     $.ajax({
-        //         type: "POST",           //因为是传输文件，所以必须是post
-        //         url: 'http://localhost:8080/yuanda/images/upload',         //对应的后台处理类的地址
-        //         data: formData,
-        //         processData: false,
-        //         contentType: false,
-        //         success: function (data) {
-        //             alert("上传成功"+data);
-        //         },
-        //         error: function () {
-        //             alert("操作失败");
-        //         }
-        //     });
-        // }
-
+        $(function () {
+            new AjaxUpload("#personPicture",{
+                action: "/yuanda/images",
+                name: 'upload',
+                autoSubmit: true,
+                responseType: "json",
+                onSubmit: function (file, extension) {
+                    if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))) {
+                        alert('只支持jpg、png、gif格式的图片！', {
+                            icon: "error",
+                        });
+                        return false;
+                    }
+                },
+                onComplete: function (file, r) {
+                    if (r.uploaded == 1) {
+                        alert("上传成功");
+                        //$("#img").attr('src',r.date);
+                        $("#picturePath").val(r.fileName);
+                        $("#personPicture").attr("src", r.fileName);
+                        console.log("src:" + r.fileName);
+                        // $("#img").attr("style", "width: 100px;height: 100px;display:block;");
+                        return false;
+                    } else {
+                        alert("上传失败");
+                    }
+                }
+            });
+            new AjaxUpload("#bgPicture",{
+                action: "/yuanda/images",
+                name: 'upload',
+                autoSubmit: true,
+                responseType: "json",
+                onSubmit: function (file, extension) {
+                    if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))) {
+                        alert('只支持jpg、png、gif格式的图片！', {
+                            icon: "error",
+                        });
+                        return false;
+                    }
+                },
+                onComplete: function (file, r) {
+                    if (r.uploaded == 1) {
+                        alert("上传成功");
+                        //$("#img").attr('src',r.date);
+                        $("#bgPicturePath").val(r.fileName);
+                        $("#personPicture").attr("src", r.fileName);
+                        console.log("src:" + r.fileName);
+                        // $("#img").attr("style", "width: 100px;height: 100px;display:block;");
+                        return false;
+                    } else {
+                        alert("上传失败");
+                    }
+                }
+            });
+        })
 
         function checkForm() {
             var formData = new FormData($("#userPictureAdd")[0]);
@@ -307,6 +338,7 @@
             var telphone = $("#telphone").val();
             var userSex = $('input:radio[name="userSex"]:checked').val();
             var userDescript = $("#userDescript").val();
+
             console.log(userId+"----"+userName+"----"+userSex+"----"+userBrithday+"----"
                 +email+"----"+telphone+"----"+userDescript);
             if(userName == null || userName == "" || userName.trim()==""){
