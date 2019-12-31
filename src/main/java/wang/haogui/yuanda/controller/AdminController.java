@@ -42,7 +42,7 @@ public class AdminController {
      * @param response
      * @return
      */
-    @RequestMapping("admins/loginAdmin")
+    @RequestMapping("admin/loginAdmin")
     @ResponseBody
     public APIResult loginAdmin(@RequestParam(value = "page",defaultValue = "0") int page
                                , @RequestParam(value = "limit",defaultValue = "3") int limit,
@@ -80,7 +80,7 @@ public class AdminController {
      * @param admin
      * @return
      */
-    @RequestMapping("admins/forgetPassWord")
+    @RequestMapping("admin/forgetPassWord")
     @ResponseBody
     public APIResult forgetPassWord(@RequestBody Admin admin){
         String s = registerComponent.sendCodeToEmail(admin.getEmail());
@@ -94,7 +94,7 @@ public class AdminController {
      * @param jsonObject
      * @return
      */
-    @RequestMapping("admins/updatepassword")
+    @RequestMapping("admin/updatepassword")
     @ResponseBody
     public APIResult updatePassWord(@RequestBody JSONObject jsonObject){
         String verificationCode=jsonObject.get("verificationCode").toString();
@@ -127,7 +127,7 @@ public class AdminController {
      * 加载所有管理员
      * @return
      */
-    @RequestMapping("admins/loadAdmin")
+    @RequestMapping("admin/loadAdmin")
     @ResponseBody
     public APIResult searchAdmins(@RequestParam Map map){
         System.out.println("加载管理员");
@@ -143,7 +143,7 @@ public class AdminController {
      * @param admin
      * @return
      */
-    @RequestMapping("admins/addAdmin")
+    @RequestMapping("admin/addAdmin")
     @ResponseBody
     public APIResult addAdmin(@RequestBody(required=false) Admin admin){
         if(admin == null || admin.getAdminName()==null||admin.getAdminPassword()==null||
@@ -164,7 +164,7 @@ public class AdminController {
      * @param id
      * @return
      */
-    @GetMapping("/admins/info/{id}")
+    @GetMapping("/admin/info/{id}")
     @ResponseBody
     public APIResult searchAdminById(@PathVariable("id") Integer id){
         Admin admin= adminService.searchAdminByAdminId(id);
@@ -177,7 +177,7 @@ public class AdminController {
      * @param map
      * @return
      */
-    @RequestMapping("admins/changeIsDeleted")
+    @RequestMapping("admin/changeIsDeleted")
     public APIResult changeIsDeleted(@RequestBody Map<String,Object> map){
         List list = (List) map.get("list");
         Boolean status = Boolean.parseBoolean(map.get("status").toString());
@@ -191,11 +191,11 @@ public class AdminController {
      * @param admin
      * @return
      */
-    @RequestMapping("admins/editAdmin")
+    @RequestMapping("admin/editAdmin")
     @ResponseBody
     public APIResult updateUsers(@RequestBody(required=false) Admin admin){
-        if(admin == null ||admin.getAdminName()==null||admin.getRight()==null||admin.getPhone()==null
-                ||admin.getAdminPassword()==null||admin.getEmail()==null||admin.getIsDeleted()==null||
+        if(admin == null ||admin.getAdminName()==null||admin.getRight()==null||
+                admin.getPhone()==null ||admin.getEmail()==null||admin.getIsDeleted()==null||
                 admin.getSex()==null){
             return new APIResult("参数有误",false,400);
         }

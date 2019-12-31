@@ -11,7 +11,7 @@ $(function () {
 
     $("#jqGrid").jqGrid({
         //请求后台 JSON 数据的 URL
-        url: 'http://localhost:8080/yuanda/admins/loadAdmin',
+        url: 'http://localhost:8080/yuanda/admin/loadAdmin',
         //后台返回的数据格式
         datatype: "json",
         //列表信息，包括表头、宽度、是否显示、渲染参数等属性
@@ -210,7 +210,7 @@ function swalAlterForCheck(list,title,status){
 function changeAdminIsDeleted(list,status) {
     console.log("要将状态改为：" + status);
     var data = {"list": list, "status": status};
-    var url = 'http://localhost:8080/yuanda/admins/changeIsDeleted';
+    var url = 'http://localhost:8080/yuanda/admin/changeIsDeleted';
     $.ajax({
         type: 'POST',//方法类型
         dataType: "json",//预期服务器返回的数据类型
@@ -257,7 +257,7 @@ function adminDetails(){
     console.log("id-" + adminId);
 
     //请求数据
-    $.get("/yuanda/admins/info/" + adminId, function (r) {
+    $.get("/yuanda/admin/info/" + adminId, function (r) {
         if (r.code == 200 && r.data != null) {
             $('#modalEditLabel').text("管理员详情");
             //填充数据至modal
@@ -365,7 +365,7 @@ function addAdmin() {
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
         //请求地址
-        url : "http://localhost:8080/yuanda/admins/addAdmin",
+        url : "http://localhost:8080/yuanda/admin/addAdmin",
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {
@@ -395,6 +395,7 @@ function loginAdmin(){
     var adminPassword = $('#adminPassword').val();
 
     console.log(email + "----" + adminPassword);
+
     var data = {"email": email,"adminPassword":adminPassword};
 
     $.ajax({
@@ -403,7 +404,7 @@ function loginAdmin(){
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
         //请求地址
-        url : "http://localhost:8080/yuanda/admins/loginAdmin",
+        url : "http://localhost:8080/yuanda/admin/loginAdmin",
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {
@@ -412,6 +413,12 @@ function loginAdmin(){
                 window.location.href = "http://localhost:8080/yuanda/admin/user.html";
             }
             else {
+                if (result.result!=email){
+                    alert("邮箱错误！")
+                }
+                if (result.result!=adminPassword){
+                    alert("密码错误！")
+                }
                 console.log(result.message+"--"+result.result);
             }
         },
@@ -435,22 +442,16 @@ function editAdmin(){
     console.log("进入");
     var adminId = $("#editadminId").val();
     var adminName = $("#editadminName").val();
-    var adminPassword= $("#editadminPassword").val();
     var right =$('input:radio[name="adminright"]:checked').val();
     var sex = $('input:radio[name="sex"]:checked').val();
     var email = $("#editemail").val();
     var phone = $("#editphone").val();
     var isDeleted = $('input:radio[name="adminIsDeleted"]:checked').val();
-    console.log(adminId+"----"+adminName+"----"+adminPassword+"----"+right+"----"+sex+"----"
+    console.log(adminId+"----"+adminName+"----"+right+"----"+sex+"----"
         +email+"----"+phone+"----"+isDeleted);
     if(adminName == null || adminName == "" || adminName.trim()==""){
         $("#error").css("display","block");
         $("#error").html("用户名不能为空");
-        return false;
-    }
-    if(adminPassword == null || adminPassword == "" || adminPassword.trim()==""){
-        $("#error").css("display","block");
-        $("#error").html("用户密码不能为空");
         return false;
     }
     if(right==null|| right == ""|| right.trim()==""){
@@ -479,7 +480,7 @@ function editAdmin(){
         return false;
     }
     console.log("sex:" + sex);
-    var data = {"adminId" : adminId,"adminName" : adminName,"adminPassword" : adminPassword,"right":right,
+    var data = {"adminId" : adminId,"adminName" : adminName,"right":right,
         "sex":sex,"email":email ,"phone":phone,"isDeleted":isDeleted};
     $.ajax({
         //请求方式
@@ -487,7 +488,7 @@ function editAdmin(){
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
         //请求地址
-        url : "http://localhost:8080/yuanda/admins/editAdmin",
+        url : "http://localhost:8080/yuanda/admin/editAdmin",
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {

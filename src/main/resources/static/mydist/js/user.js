@@ -13,7 +13,7 @@ $(function () {
 
     $("#jqGrid").jqGrid({
         //请求后台 JSON 数据的 URL
-        url: 'http://localhost:8080/yuanda/admins/user/loadUsers',
+        url: 'http://localhost:8080/yuanda/admin/user/loadUsers',
         //后台返回的数据格式
         datatype: "json",
         //列表信息，包括表头、宽度、是否显示、渲染参数等属性
@@ -199,7 +199,7 @@ function swalAlterForCheck(list,title,status){
 function changeIsDeleted(list,status) {
     console.log("要将状态改为：" + status);
     var data = {"list": list, "status": status};
-    var url = 'http://localhost:8080/yuanda/admins/user/changeIsDeleted';
+    var url = 'http://localhost:8080/yuanda/admin/user/changeIsDeleted';
     $.ajax({
         type: 'POST',//方法类型
         dataType: "json",//预期服务器返回的数据类型
@@ -264,8 +264,10 @@ function UsersDetails(){
     $('#modalEdit').modal('show');
 }
 
-
-function Users(){
+/**
+ * 用户信息
+ */
+function usersDetail(){
     var userId = getSelectedRow();
     if(!userId){
         return;
@@ -273,15 +275,15 @@ function Users(){
     console.log("id-" + userId);
 
     //请求数据
-    $.get("/yuanda/admins/user/info/" + userId, function (r) {
+    $.get("/yuanda/admin/user/info/" + userId, function (r) {
         if (r.code == 200 && r.data != null) {
             $('#modalEditLabel').text("用户详情");
             //填充数据至modal
             $('#edituserId').val(r.data.userId);
             $('#edituserName').val(r.data.userName);
+            $('#edittelphone').val(r.data.telphone);
             $("input[name='sex'][value="+r.data.userSex+"]").attr("checked",true);
             $('#editemail').val(r.data.email);
-            $('#edittelphone').val(r.data.telphone);
             $("input[name='userIsDeleted'][value="+r.data.isDeleted+"]").attr("checked",true);
         }else {
             return false
@@ -310,7 +312,7 @@ function loginUser(){
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
         //请求地址
-        url : "http://localhost:8080/yuanda/admins/user/loginUser",
+        url : "http://localhost:8080/yuanda/persons/user/loginUser",
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {
@@ -319,6 +321,9 @@ function loginUser(){
                 window.location.href = "http://localhost:8080/yuanda/index.html";
             }
             else {
+                if (result.result.userPassword!=userPassword){
+                    alert("密码错误！")
+                }
                 console.log(result.message+"--"+result.result);
             }
         },
@@ -370,21 +375,15 @@ function edituser(){
     console.log("进入");
     var userId = $("#edituserId").val();
     var userName = $("#edituserName").val();
-    var userPassword= $("#edituserPassword").val();
     var userSex =$('input:radio[name="sex"]:checked').val();
     var email = $("#editemail").val();
     var telphone = $("#edittelphone").val();
     var isDeleted =$('input:radio[name="userIsDeleted"]:checked').val();
-    console.log(userId+"----"+userName+"----"+userPassword+"----"+userSex+"----"
+    console.log(userId+"----"+userName+"----"+userSex+"----"
         +email+"----"+telphone+"----"+isDeleted);
     if(userName == null || userName == "" || userName.trim()==""){
         $("#error").css("display","block");
         $("#error").html("用户名不能为空");
-        return false;
-    }
-    if(userPassword == null || userPassword == "" || userPassword.trim()==""){
-        $("#error").css("display","block");
-        $("#error").html("用户密码不能为空");
         return false;
     }
     if(userSex == null || userSex == "" || userSex.trim()==""){
@@ -407,15 +406,15 @@ function edituser(){
         $("#error").html("状态不能为空");
         return false;
     }
-    var data = {"userId" : userId,"userName" : userName,"userPassword" : userPassword,
-        "userSex":userSex,"email":email ,"telphone":telphone,"isDeleted":isDeleted};
+    var data = {"userId" : userId,"userName" : userName, "userSex":userSex,
+        "email":email ,"telphone":telphone,"isDeleted":isDeleted};
     $.ajax({
         //请求方式
         type : "POST",
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
         //请求地址
-        url : "http://localhost:8080/yuanda/admins/user/editUsers",
+        url : "http://localhost:8080/yuanda/admin/user/editUsers",
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {
@@ -485,7 +484,7 @@ function addUsers() {
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
         //请求地址
-        url : "http://localhost:8080/yuanda/admins/user/addUsers",
+        url : "http://localhost:8080/yuanda/admin/user/addUsers",
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {

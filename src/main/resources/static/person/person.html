@@ -31,7 +31,7 @@
                     <div class="right m-item m-mobile-hide menu">
                         <div class="ui dropdown item">
                             <div class="text">
-                                <img class="ui avatar image" src="https://picsum.photos/id/1011/100/100">
+                                <img class="ui avatar image"  :src="users.userPicture">
                                 <span type="text" >{{users.userName}}</span>
                             </div>
                             <i class="dropdown icon"></i>
@@ -147,7 +147,7 @@
                         </div>
                         <div class="field" style="margin-left: 50px">
                             <a class="ui green left ribbon label">点击修改头像</a>
-                            <img id="personPicture" class="ui small bordered image" src="../plugins/blog/images/me.jpg">
+                            <img id="personPicture" class="ui small bordered image" :src="users.userPicture">
                             <div id="personPicturePath" style="display: none"></div>
                         </div>
 
@@ -156,7 +156,7 @@
                         </div>
                         <div class="field" style="margin-left: 50px">
                             <a class="ui green left ribbon label">点击修改背景图片</a>
-                            <img id="bgPicture" class="ui medium bordered image"  src="../plugins/blog/images/me2.jpg">
+                            <img id="bgPicture" class="ui medium bordered image"  :src="users.userBackground">
                             <div id="bgPicturePath" style="display: none"></div>
 
                         </div>
@@ -238,7 +238,7 @@
                     if (r.uploaded == 1) {
                         alert("上传成功");
                         //$("#img").attr('src',r.date);
-                        $("#picturePath").val(r.fileName);
+                        $("#personPicturePath").val(r.fileName);
                         $("#personPicture").attr("src", r.fileName);
                         console.log("src:" + r.fileName);
                         // $("#img").attr("style", "width: 100px;height: 100px;display:block;");
@@ -266,7 +266,7 @@
                         alert("上传成功");
                         //$("#img").attr('src',r.date);
                         $("#bgPicturePath").val(r.fileName);
-                        $("#personPicture").attr("src", r.fileName);
+                        $("#bgPicture").attr("src", r.fileName);
                         console.log("src:" + r.fileName);
                         // $("#img").attr("style", "width: 100px;height: 100px;display:block;");
                         return false;
@@ -315,7 +315,7 @@
                         //请求的媒体类型
                         contentType: "application/json;charset=UTF-8",
                         //请求地址
-                        url : "http://localhost:8080/yuanda/admins/user/searchUserByUserId",
+                        url : "http://localhost:8080/yuanda/persons/user/searchUserByUserId",
                         //数据，json字符串
                         success: function (result) {
                             personVue.users = result.data;
@@ -334,13 +334,16 @@
             var userId = $("#userId").val();
             var userName = $("#userName").val();
             var email = $("#email").val();
+            var userPicture = $("#personPicturePath").val();
+            var userBackground = $("#bgPicturePath").val();
             var userBrithday = $("#userBrithday").val();
             var telphone = $("#telphone").val();
             var userSex = $('input:radio[name="userSex"]:checked').val();
             var userDescript = $("#userDescript").val();
 
-            console.log(userId+"----"+userName+"----"+userSex+"----"+userBrithday+"----"
-                +email+"----"+telphone+"----"+userDescript);
+            console.log(userId+"----"+userName+"----"+userSex+"----"+userBrithday+"----"+
+                userPicture+"----"+userBackground+"----" +email+"----"+telphone+"----"+
+                userDescript);
             if(userName == null || userName == "" || userName.trim()==""){
                 $("#error").css("display","block");
                 $("#error").html("用户名不能为空");
@@ -354,6 +357,16 @@
             if(email==null || email == "" || email.trim()==""){
                 $("#error").css("display","block");
                 $("#error").html("邮箱不能为空");
+                return false;
+            }
+            if(userPicture==null || userPicture == "" || userPicture.trim()==""){
+                $("#error").css("display","block");
+                $("#error").html("头像不能为空");
+                return false;
+            }
+            if(userBackground==null || userBackground == "" || userBackground.trim()==""){
+                $("#error").css("display","block");
+                $("#error").html("背景图片不能为空");
                 return false;
             }
             if(telphone == null || telphone == "" || telphone.trim()==""){
@@ -372,14 +385,15 @@
                 return false;
             }
             var data = {"userId":userId,"userBrithday" : userBrithday,"userName" : userName,
-                "userSex":userSex,"email":email ,"telphone":telphone,"userDescript":userDescript};
+                "userPicture":userPicture,"userBackground":userBackground, "userSex":userSex,
+                "email":email ,"telphone":telphone,"userDescript":userDescript};
             $.ajax({
                 //请求方式
                 type : "POST",
                 //请求的媒体类型
                 contentType: "application/json;charset=UTF-8",
                 //请求地址
-                url : "http://localhost:8080/yuanda/admins/user/edituser",
+                url : "http://localhost:8080/yuanda/persons/user/edituser",
                 //数据，json字符串
                 data : JSON.stringify(data),
                 success: function (result) {
