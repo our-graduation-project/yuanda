@@ -174,16 +174,7 @@ public class AnswerController {
             return APIResult.genFailApiResponse500("传入数据为空");
         }
 
-        Cookie[] cookies = request.getCookies();
-        Cookie cookie = null;
-        for (Cookie c:cookies){
-            if(c.getName().equals("token")){
-                System.out.println("拿到token");
-                cookie = c;
-            }
-        }
-        String s = cookie.getValue();
-        int tokenValue = (int) TokenUtil.getTokenValue(s, "userId");
+        int tokenId = CommonUtils.getTokenId(request);
 
         //Answer answer = new Answer(0,0,(byte)0,0,new Date(),1,(byte)map.get("isNoName"),);
 

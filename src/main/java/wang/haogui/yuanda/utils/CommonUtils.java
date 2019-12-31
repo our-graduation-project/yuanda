@@ -2,6 +2,9 @@ package wang.haogui.yuanda.utils;
 
 import wang.haogui.yuanda.common.OrderEnum;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author 向清润
  * @createTime 2019.12.23.9:59
@@ -41,5 +44,26 @@ public class CommonUtils {
             orderEnum =OrderEnum.DESC;
         }
         return orderEnum;
+    }
+
+    /**
+     *拿出request里面toke存储的id
+     * @param request 传入的request
+     * @return 返回用户id
+     */
+    public static int getTokenId(HttpServletRequest request){
+        Cookie[] cookies = request.getCookies();
+        Cookie cookie = null;
+        for (Cookie c:cookies){
+            if(c.getName().equals("token")){
+                cookie = c;
+            }
+        }
+        String s = cookie.getValue();
+        if(s==null ||"".equals(s)){
+            return 0;
+        }
+        int tokenValue = (int) TokenUtil.getTokenValue(s, "userId");
+        return tokenValue;
     }
 }

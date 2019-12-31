@@ -11,10 +11,7 @@ import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.component.RegisterComponent;
 import wang.haogui.yuanda.model.Users;
 import wang.haogui.yuanda.service.UsersService;
-import wang.haogui.yuanda.utils.APIResult;
-import wang.haogui.yuanda.utils.LogUtils;
-import wang.haogui.yuanda.utils.MD5Utils;
-import wang.haogui.yuanda.utils.TokenUtil;
+import wang.haogui.yuanda.utils.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -241,18 +238,9 @@ public class UsersController {
     @RequestMapping("admins/user/searchUserByUserId")
     @ResponseBody
     public APIResult searchUserByUserId(HttpServletRequest request){
-        Cookie[] cookies = request.getCookies();
-        Cookie cookie = null;
-        for (Cookie c:cookies){
-            if(c.getName().equals("token")){
-                System.out.println("拿到token");
-                cookie = c;
-            }
-        }
-        String s = cookie.getValue();
-        int tokenValue = (int) TokenUtil.getTokenValue(s, "userId");
-        System.out.println("tokenValue = " + tokenValue);
-        Users users = usersService.searchUsersByUserId(tokenValue);
+        int tokenId = CommonUtils.getTokenId(request);
+        System.out.println("tokenValue = " + tokenId);
+        Users users = usersService.searchUsersByUserId(tokenId);
         APIResult apiResult = new APIResult();
         apiResult.setData(users);
         return apiResult;
