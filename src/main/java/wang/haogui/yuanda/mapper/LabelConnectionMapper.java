@@ -37,4 +37,11 @@ public interface LabelConnectionMapper {
      * @return
      */
     int deleteBatchByLabelId(LabelConnection labelConnection);
+
+    /**
+     * 批量插入
+     * @param labelConnectionList
+     * @return
+     */
+    int insertBatch(List<LabelConnection> labelConnectionList);
 }

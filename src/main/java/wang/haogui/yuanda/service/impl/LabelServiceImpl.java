@@ -101,4 +101,32 @@ public class LabelServiceImpl implements LabelService {
         PageInfo pageInfo = new PageInfo(labels,5);
         return pageInfo;
     }
+
+    /**
+     * 批量增加label
+     *
+     * @param list
+     * @return
+     */
+    @Override
+    public int addBatchLabel(List list) {
+        if(list == null || list.isEmpty()){
+            return 0;
+        }
+        return labelMapper.insertBatch(list);
+    }
+
+    /**
+     * 通过标签名查找id
+     *
+     * @param labelName
+     * @return
+     */
+    @Override
+    public List getIdByLabelName(String labelName) {
+        LabelExample labelExample = new LabelExample();
+        labelExample.or().andLabelNameEqualTo(labelName);
+        List<Label> labels = labelMapper.selectByExample(labelExample);
+        return labels;
+    }
 }

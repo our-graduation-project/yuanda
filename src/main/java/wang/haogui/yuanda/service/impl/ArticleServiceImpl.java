@@ -234,5 +234,23 @@ public class ArticleServiceImpl implements ArticleService {
         return i > 0 ? true : false;
     }
 
+    /**
+     * 批量增加入文章
+     *
+     * @param list
+     * @return
+     */
+    @Override
+    public List<Article> addBatchAritcle(List list) {
+        if(list == null){
+            return null;
+        }
+        Integer i = articleMapper.batchInsert(list);
+        if(i > 0){
+            return list;
+        }
+        return null;
+    }
+
 
 }

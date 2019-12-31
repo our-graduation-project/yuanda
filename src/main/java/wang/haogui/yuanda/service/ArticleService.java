@@ -114,4 +114,11 @@ public interface ArticleService {
      * @return
      */
     Boolean changeCheckStatusByList(List list, Integer status);
+
+    /**
+     * 批量增加入文章
+     * @param list
+     * @return
+     */
+    List addBatchAritcle(List list);
 }

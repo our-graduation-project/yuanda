@@ -1,7 +1,10 @@
 package wang.haogui.yuanda.service;
 
 import com.github.pagehelper.PageInfo;
+import org.hibernate.validator.constraints.EAN;
 import wang.haogui.yuanda.model.Label;
+
+import java.util.List;
 
 /**
  * @author whg
@@ -41,4 +44,17 @@ public interface LabelService {
      */
     PageInfo<Label> selectLabelByIdAndType(int page, int limit, int connectionId, int connectionType);
 
+    /**
+     * 批量增加label
+     * @param list
+     * @return
+     */
+    int addBatchLabel(List list);
+
+    /**
+     * 通过标签名查找id
+     * @param labelName
+     * @return
+     */
+    List<Label> getIdByLabelName(String labelName);
 }

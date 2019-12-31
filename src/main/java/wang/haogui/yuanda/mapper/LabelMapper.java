@@ -38,4 +38,11 @@ public interface LabelMapper {
      * @return
      */
     List<Label> selectLabelNameByConnectionId(@Param("connectId") int connectId,@Param("connectionType") int connectionType);
+
+    /**
+     * 批量插入label
+     * @param list
+     * @return
+     */
+    int insertBatch(List list);
 }

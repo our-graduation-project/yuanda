@@ -9,6 +9,8 @@ import wang.haogui.yuanda.model.LabelConnectionExample;
 import wang.haogui.yuanda.model.LabelExample;
 import wang.haogui.yuanda.service.LabelConnectionService;
 
+import java.util.List;
+
 /**
  * @author whg
  * @date 2019/12/23 12:06
@@ -62,5 +64,19 @@ public class LabelConnectionServiceImpl implements LabelConnectionService {
 //        int i = labelConnectionMapper.deleteBatchByLabelId(labelConnection);
 //        return i > 0 ? true : false;
         return true;
+    }
+
+    /**
+     * 批量加入LabelConnection
+     *
+     * @param labelConnectionList
+     * @return
+     */
+    @Override
+    public int addBatch(List<LabelConnection> labelConnectionList) {
+        if(labelConnectionList == null || labelConnectionList.isEmpty()){
+            return 0;
+        }
+        return labelConnectionMapper.insertBatch(labelConnectionList);
     }
 }

@@ -241,9 +241,23 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
+
   <update id="deleteBatchByLabelId" parameterType="wang.haogui.yuanda.model.LabelConnection">
     update label_connection
     set is_deleted = #{isDeleted,jdbcType=BIT}
     where label_id = #{labelId,jdbcType=INTEGER}
   </update>
+
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into label_connection
+    ( label_id, connect_id, connect_type,
+      remark, remark2, is_deleted
+      )
+    values
+    <foreach collection="list" separator="," item="labelConnection">
+        (   #{labelConnection.labelId,jdbcType=INTEGER}, #{labelConnection.connectId,jdbcType=INTEGER}, #{labelConnection.connectType,jdbcType=BIT},
+            #{labelConnection.remark,jdbcType=VARCHAR}, #{labelConnection.remark2,jdbcType=VARCHAR}, #{labelConnection.isDeleted,jdbcType=BIT}
+        )
+    </foreach>
+  </insert>
 </mapper>

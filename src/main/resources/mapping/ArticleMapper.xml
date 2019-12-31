@@ -522,6 +522,25 @@
     )
   </update>
 
+  <insert id="batchInsert" useGeneratedKeys="true" keyProperty="articleId" parameterType="java.util.List">
+      insert into article (article_title, create_time, update_time,
+      author_id, check_status, click_number,
+      hot_number, agreement_number, disagreement_number,
+      comment_number, recommend_number, check_admin_id,
+      check_time, picture_src, is_deleted,
+      author_name, author_picture, article_content
+      ) values
+    <foreach collection="list" separator="," item="article">
+      ( #{article.articleTitle,jdbcType=VARCHAR}, #{article.createTime,jdbcType=TIMESTAMP}, #{article.updateTime,jdbcType=TIMESTAMP},
+        #{article.authorId,jdbcType=INTEGER}, #{article.checkStatus,jdbcType=TINYINT}, #{article.clickNumber,jdbcType=INTEGER},
+        #{article.hotNumber,jdbcType=INTEGER}, #{article.agreementNumber,jdbcType=INTEGER}, #{article.disagreementNumber,jdbcType=INTEGER},
+        #{article.commentNumber,jdbcType=INTEGER}, #{article.recommendNumber,jdbcType=INTEGER}, #{article.checkAdminId,jdbcType=INTEGER},
+        #{article.checkTime,jdbcType=TIMESTAMP}, #{article.pictureSrc,jdbcType=VARCHAR}, #{article.isDeleted,jdbcType=BIT},
+        #{article.authorName,jdbcType=VARCHAR}, #{article.authorPicture,jdbcType=VARCHAR}, #{article.articleContent,jdbcType=LONGVARCHAR}
+      )
+    </foreach>
+  </insert>
+
 
   <select id="selectArticleByLabelId" parameterType="Map" resultMap="ResultMapWithBLOBs">
     select article_id articleId, article_content articleContent,article_title articleTitle, create_time createTime,

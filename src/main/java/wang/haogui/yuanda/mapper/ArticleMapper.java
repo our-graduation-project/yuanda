@@ -40,7 +40,20 @@ public interface ArticleMapper {
 
     int updateForCommentNumber(Article record);
 
+    /**
+     * 将list中的数据的status变为传入的status
+     * @param list
+     * @param status
+     * @return
+     */
     int updateCheckStatusByList(@Param("list") List list,@Param("status") Integer status);
 
     List<Article> selectArticleByLabelId(Map map);
+
+    /**
+     * 批量插入文章，id在传入的list中
+     * @param articles
+     * @return
+     */
+    int batchInsert(List<Article> articles);
 }

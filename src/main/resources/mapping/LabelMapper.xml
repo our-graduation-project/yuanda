@@ -221,4 +221,16 @@
         and connect_id=#{connectId}
     )
   </select>
+
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into label (label_name, remark, remark2,
+      is_deleted)
+    values
+    <foreach collection="list" separator="," item="label">
+      (
+        #{label.labelName,jdbcType=VARCHAR}, #{label.remark,jdbcType=VARCHAR}, #{label.remark2,jdbcType=VARCHAR},
+        #{label.isDeleted,jdbcType=BIT}
+      )
+    </foreach>
+  </insert>
 </mapper>

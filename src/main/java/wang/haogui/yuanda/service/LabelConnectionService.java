@@ -2,6 +2,8 @@ package wang.haogui.yuanda.service;
 
 import wang.haogui.yuanda.model.LabelConnection;
 
+import java.util.List;
+
 /**
  * 标签联系表
  * @author whg
@@ -30,4 +32,10 @@ public interface LabelConnectionService {
     Boolean deleteBatchByLabelId(int labelId);
 
 
+    /**
+     * 批量加入LabelConnection
+     * @param labelConnectionList
+     * @return
+     */
+    int addBatch(List<LabelConnection> labelConnectionList);
 }
