@@ -10,13 +10,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
+import wang.haogui.yuanda.model.Label;
+import wang.haogui.yuanda.model.LabelConnection;
 import wang.haogui.yuanda.model.Question;
+import wang.haogui.yuanda.model.Users;
+import wang.haogui.yuanda.service.impl.LabelConnectionServiceImpl;
 import wang.haogui.yuanda.service.impl.LabelServiceImpl;
 import wang.haogui.yuanda.service.impl.QuestionServiceImpl;
+import wang.haogui.yuanda.service.impl.UsersServiceImpl;
 import wang.haogui.yuanda.utils.APIResult;
+import wang.haogui.yuanda.utils.CommonUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +37,12 @@ public class QuestionController {
     QuestionServiceImpl questionService;
     @Autowired
     LabelServiceImpl labelService;
+
+    @Autowired
+    LabelConnectionServiceImpl labelConnectionService;
+
+    @Autowired
+    UsersServiceImpl usersService;
 
 
     /**
@@ -209,16 +222,25 @@ public class QuestionController {
 
     }
 
-    /**
-     * 增加问题
-     * @param question 问题的信息
-     * @return 处理后的信息
-     */
+
     @RequestMapping("/admin/addQuestion")
     @ResponseBody
-    public APIResult addQuestion(@RequestBody Question question){
+    public APIResult addQuestion(@RequestBody Map map,HttpServletRequest request){
 
-        boolean result = questionService.addQuestion(question);
+        int tokenId = CommonUtils.getTokenId(request);
+        Users user = usersService.searchUsersByUserId(tokenId);
+
+
+        Question question = new Question((String)map.get("title"),(String)map.get("questionDescript"),0,0,0,(byte)0,
+                false,user.getUserName(),0,new Date(),user.getUserId());
+        question.setAuthorPicture(user.getUserPicture());
+        question.setPictureSrc((String) map.get("pictureStr"));
+        System.out.println(question);
+        boolean result=questionService.addQuestion(question) ;
+        Integer questionId = question.getQuestionId();
+        int labelid = Integer.valueOf((String) map.get("label"));
+        LabelConnection labelConnection = new LabelConnection(labelid,questionId,false,false);
+        labelConnectionService.addLabelConnection(labelConnection);
         if(result){
             return APIResult.genSuccessApiResponse("success");
         }else {

@@ -69,8 +69,8 @@ let article = new Vue({
     methods:{
         addArticleData(data){
             this.articleData = data;
-            this.articleData.authorPicture = 'aa.jpg';
-            this.articleData.pictureSrc = 'aa.jpg';
+            this.articleData.authorPicture = 'classification.jpg';
+            this.articleData.pictureSrc = 'classification.jpg';
             console.log(this.articleData);
         },
         addPic(){

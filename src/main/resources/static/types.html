@@ -137,15 +137,23 @@
                                     <div class="ui grid">
                                         <div class="eleven wide column">
                                             <div class="ui mini horizontal link list">
-                                                <div class="item">
-                                                    <img :src="item.authorPicture" alt="" class="ui avatar image">
-                                                    <div class="content"> <a href="#"  target="_blank" class="header">{{item.authorName}}</a></div>
+                                                <div>
+                                                    <div class="item">
+                                                        <img :src="item.authorPicture" alt="" class="ui avatar image">
+                                                        <div class="content"> <a href="#"  target="_blank" class="header">{{item.authorName}}</a></div>
+                                                    </div>
                                                 </div>
                                                 <div class="item">
                                                     <i class="calendar icon"></i><span>{{item.createTimeStr}}</span>
                                                 </div>
                                                 <div class="item">
                                                     <i class="eye icon"></i><span>{{item.clickNumber}}</span>
+                                                </div>
+                                                <div class="item">
+                                                    <i class="thumbs up outline icon"></i><span>{{item.agreementNumber}}</span>
+                                                </div>
+                                                <div class="item">
+                                                    <i class="thumbs down outline icon"></i><span>{{item.disagreementNumber}}</span>
                                                 </div>
                                             </div>
                                         </div>

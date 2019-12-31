@@ -1,6 +1,7 @@
 package wang.haogui.yuanda.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import wang.haogui.yuanda.utils.CommonUtils;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -95,10 +96,14 @@ public class Question implements Serializable {
     }
 
     public String getRoughQuestionDescript() {
-        if(questionDescript.length()>20){
-            return questionDescript.substring(0,20)+"......";
+        String s = CommonUtils.delHTMLTag(questionDescript);
+        if(s==null||s.length() == 0){
+            return "这个问题可能出错了，请稍后再看";
+        } else if(s.length()<=40){
+            return s+"......";
+        }else {
+            return s.substring(0,40)+"......";
         }
-        return questionDescript;
     }
 
     public void setQuestionDescript(String questionDescript) {

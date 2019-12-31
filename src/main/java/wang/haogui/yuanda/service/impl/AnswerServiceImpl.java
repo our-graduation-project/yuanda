@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.mapper.AnswerMapper;
+import wang.haogui.yuanda.mapper.QuestionMapper;
 import wang.haogui.yuanda.model.Answer;
 import wang.haogui.yuanda.model.AnswerExample;
 import wang.haogui.yuanda.model.Question;
@@ -29,7 +30,9 @@ public class AnswerServiceImpl implements AnswerService {
     @Resource(type = AnswerMapper.class)
     AnswerMapper answerMapper;
 
-
+    @Autowired
+    @Resource(type = QuestionMapper.class)
+    QuestionMapper questionMapper;
 
 
     /**
@@ -44,7 +47,16 @@ public class AnswerServiceImpl implements AnswerService {
         int len = 0;
         len = answerMapper.insert(answer);
         if(len > 0){
-            return true;
+            Question question = questionMapper.selectByPrimaryKey(answer.getQuestionId());
+            question.setAnswerNumber(question.getAnswerNumber()+1);
+            int i = questionMapper.updateByPrimaryKeySelective(question);
+            if(i == 1){
+                return true;
+            }else {
+                throw new RuntimeException("问题的回答数增加出错");
+            }
+
+
         }
         return false;
     }

@@ -112,7 +112,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="wang.haogui.yuanda.model.Question">
+  <insert id="insert"  useGeneratedKeys="true" keyProperty="articleId" parameterType="wang.haogui.yuanda.model.Question">
     <selectKey keyProperty="questionId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>

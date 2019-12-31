@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
     <!--引入自定义CSS-->
     <link rel="stylesheet" href="plugins/blog/css/me.css">
+    <link href="../plugins/jqgrid-5.3.0/ui.jqgrid-bootstrap4.css" rel="stylesheet"/>
 </head>
 <body>
     <!--导航-->
@@ -179,8 +180,109 @@
                         </div>
                     </div>
                 </div>
+
+
+
+<!--模态框-->
+                <div class="ui modal">
+                    <div id="error" style="height: 20px;color: red ">
+
+                    </div>
+                    <div style="margin: 20px">
+                    <form id="blog-form" action="#" method="post" class="ui form">
+                        <input type="hidden" name="id" >
+                        <!--判断是状态-保存、发布....-->
+                        <input type="hidden" name="published">
+
+                        <div class="required field">
+                            <div class="ui left labeled input">
+
+                                <input type="text" id="title" name="title" placeholder="问题标题" >
+                            </div>
+                        </div>
+                        <!--问题内容-->
+                        <div class="field">
+                            <div id="md-content" style="z-index: 1 !important;">
+                                <textarea placeholder="问题内容" id="content"></textarea>
+                            </div>
+                        </div>
+                        <!--博客分类-->
+                        <div class="two fields">
+                            <div class="field">
+                                <div class="ui left labeled action input">
+                                    <label class="ui compact teal basic label">分类</label>
+                                        <select class="ui dropdown" id="label">
+                                            <option value="1">学习</option>
+                                            <option value="2">生活</option>
+                                            <option value="3">旅游</option>
+                                            <option value="4">历史</option>
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="field">
+
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="ui left labeled input">
+                                <label class="ui teal basic label">首图</label>
+                                <img id="firstPicture" class="ui small bordered image" src="plugins/blog/images/me.jpg" style="width: 100px;height: 100px">
+                                <input type="hidden" id = "pictureStr" value="plugins/blog/images/me.jpg">
+                            </div>
+                        </div>
+
+                        <div class="ui error message">
+
+                        </div>
+
+                        <!--返回、保存、发布-->
+                        <div class="ui right aligned container">
+                            <!--onclick="window.history.go(-1)返回上一页面-->
+                            <button type="button" class="ui button" onclick="modelClose()">返回</button>
+
+<!--                            <button  type="button" id="save-btn" class="ui green button">保存</button>-->
+
+                            <button type="button"  id="publish-btn" onclick="addQuestion()" class="ui teal button">发布</button>
+                        </div>
+                    </form>
+
+                    </div>
+                    <div style="height: 20px;">
+
+                    </div>
+                </div>
+
+
                 <div class="five wide column">
                     <!--分类-->
+
+                    <div class="ui segments">
+                        <div class="ui secondary segment">
+                            <div class="ui two column grid">
+                                <div class="column">
+                                    <i class="idea icon"></i>我也来写
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="ui teal segment">
+                            <div class="ui fluid vertical menu" >
+                                <a href="person/blogs-input.html"  class="item" >
+                                    <span>文章撰写</span>
+                                    <div class="ui teal basic left pointing label"></div>
+                                </a>
+                                <!--/*-->
+                                <a href="#" onclick="addQustionModal()" class="item">
+                                    <span>我也要问</span>
+                                    <div class="ui teal basic left pointing label"></div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <div class="ui segments">
                         <div class="ui secondary segment">
                             <div class="ui two column grid">
@@ -192,6 +294,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="ui teal segment">
                             <div class="ui fluid vertical menu" >
                                 <a href="#" th:href="@{/types/{id}(id=${type.id})}" class="item" th:each="type : ${types}">
@@ -330,6 +434,7 @@
     </div>
     <br>
     <br>
+
     <!--底部-->
     <footer class="ui inverted vertical segment m-padded-tb-massive ">
         <div class="ui center aligned container ">
@@ -378,17 +483,20 @@
 
     <!--引入所需要的JS-->
     <!--引入jQuery-->
+
+    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="mydist/js/vue.js"></script>
+    <script src="plugins/axios/ajaxupload.js"></script>
+    <script src="plugins/sweetalert/sweetalert.min.js"></script>
+
+    <script src="plugins/ckeditor/ckeditor.js"></script>
+    <script src="mydist/js/utils.js"></script>
+    <script src="mydist/js/public.js"></script>
+    <script src="plugins/ajaxupload"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <!--引入semantic-ui的 JS-->
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-    <!--引入平滑滚动插件CDN-->
-    <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
-    <!--引入代码高亮插件 JS-->
-    <script src="plugins/blog/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
-    <!--映入目录生成插件 JS-->
-    <script src="plugins/blog/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
-    <!--引入二维码生成插件 JS-->
-    <script src="plugins/blog/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
     <!--引入waypoints插件滚动条-->
     <script src="plugins/blog/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}">
         $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog");
@@ -397,6 +505,8 @@
     <!--引入jQuery-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
+    <script src="mydist/js/addQuestion.js"></script>
 
     <!--声明行内js代码域-->
     <script>

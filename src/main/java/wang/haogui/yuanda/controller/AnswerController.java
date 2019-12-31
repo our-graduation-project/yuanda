@@ -11,7 +11,9 @@ import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Answer;
 import wang.haogui.yuanda.model.Question;
+import wang.haogui.yuanda.model.Users;
 import wang.haogui.yuanda.service.impl.AnswerServiceImpl;
+import wang.haogui.yuanda.service.impl.UsersServiceImpl;
 import wang.haogui.yuanda.utils.APIResult;
 import wang.haogui.yuanda.utils.CommonUtils;
 import wang.haogui.yuanda.utils.TokenUtil;
@@ -32,6 +34,9 @@ import java.util.Map;
 public class AnswerController {
     @Autowired
     AnswerServiceImpl answerService;
+
+    @Autowired
+    UsersServiceImpl usersService;
 
 
 
@@ -173,13 +178,16 @@ public class AnswerController {
         if(map == null||map.get("content") == null||map.get("isNoName") == null){
             return APIResult.genFailApiResponse500("传入数据为空");
         }
-
         int tokenId = CommonUtils.getTokenId(request);
+        Users user = usersService.searchUsersByUserId(tokenId);
 
-        //Answer answer = new Answer(0,0,(byte)0,0,new Date(),1,(byte)map.get("isNoName"),);
+        Answer answer = new Answer(0,0,(byte)0,0,new Date(),1,
+                Byte.valueOf((String) map.get("isNoName")),user.getUserName(),false,user.getUserId(),Integer.valueOf((Integer)map.get("questionId")),
+                (String)map.get("question"),user.getUserPicture(),(String)map.get("content"));
 
-        Answer answer = new Answer();
+
         boolean b = answerService.addAnswer(answer);
+        System.out.println(b);
         if(b){
             return APIResult.genSuccessApiResponse("保存成功");
         }

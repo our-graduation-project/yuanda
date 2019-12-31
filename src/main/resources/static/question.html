@@ -80,11 +80,11 @@
                 </div>
 <!--            <h2 class="ui center aligned header" >{{questionData.questionTitle}}</h2>-->
             <br>
-            <div id="content" class="typo typo-selection js-toc-content m-padding-lr-responsive m-padded-tb-large" th:utext="${blog.content}">
-                <h2>&nbsp;</h2>
+            <div id="content" class="typo typo-selection js-toc-content m-padding-lr-responsive m-padded-tb-large" v-html="questionData.questionDescript">
+<!--                <h2>&nbsp;</h2>-->
 
 
-                <p class="typo-first">{{questionData.questionDescript}}</p>
+<!--                <p class="typo-first">{{questionData.questionDescript}}</p>-->
             </div>
             </div>
             </div>
@@ -99,7 +99,7 @@
                         <div class="ui middle aligned grid mobile reversed stackable" style="border:1px solid rgba(51,170,158,0.97)">
                             <div class="eleven wide column">
 <!--                                <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.questionTitle}}</a></h3>-->
-                                <p class="m-text">{{item.answerContent}}</p>
+                                <div class="m-text" v-html="item.answerContent"></div>
                                 <div class="ui grid">
                                     <div class="eleven wide column">
                                         <div class="ui mini horizontal link list">
@@ -146,37 +146,6 @@
                         </div>
                     </div>
                 </div>
-<!--                <div id="comment-form" class="ui form" style="margin-top: 30px">-->
-
-
-<!--                    <div class="field">-->
-<!--                        <textarea name="content"  cols="30" rows="10" placeholder="请输入评论信息"></textarea>-->
-<!--                    </div>-->
-<!--                    <div class="fields">-->
-<!--                        <div class="field m-mobile-wide m-margin-bottom-small">-->
-<!--                            <div class="ui left icon input">-->
-<!--                                <i class="user icon"></i>-->
-<!--                                <input name="nickname" type="text" placeholder="姓名" th:value="${session.user}!=null?${session.user.nickname}">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="field m-mobile-wide m-margin-bottom-small">-->
-<!--                            <div class="ui left icon input">-->
-<!--                                <i class="mail icon"></i>-->
-<!--                                <input name="email" type="email" placeholder="邮箱" th:value="${session.user}!=null?${session.user.email}">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="field  m-margin-bottom-small m-mobile-wide">-->
-<!--                            <button id="commentpost-btn"  type="button" class="ui teal button m-mobile-wide"><i class="edit icon"></i>发布</button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    -->
-
-<!--                    &lt;!&ndash;表单校验&ndash;&gt;-->
-<!--                    &lt;!&ndash;错误提示&ndash;&gt;-->
-<!--                    <div class="ui error message">-->
-
-<!--                    </div>-->
-<!--                </div>-->
 
                 <div class="modal fade" id="articleModal" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel">
                     <div class="modal-dialog" role="document" >
@@ -198,8 +167,8 @@
                             <div class="modal-footer" style="margin-top: 20px">
 
                                 <!--<a data-dismiss="modal"> 点这里</a>    这个data-dismiss="modal"  关闭modal-->
-                                <button type="button" class="ui teal button" id="saveButton" onclick="saveAnswer(0)" style="float: right;margin-right: 40px">回答</button>
-                                <button type="button" class="ui teal button" id="anonymousSaveButton" onclick="saveAnswer(1)" style="float: right;margin-right: 40px">匿名回答</button>
+                                <button type="button" class="ui teal button" id="saveButton" onclick="saveAnswer('0')" style="float: right;margin-right: 40px">回答</button>
+                                <button type="button" class="ui teal button" id="anonymousSaveButton" onclick="saveAnswer('1')" style="float: right;margin-right: 40px">匿名回答</button>
                                 <button type="button" class="ui grey button" id="cancel" style="float: right;margin-right: 40px">取消</button>
                             </div>
                         </div>
@@ -239,9 +208,11 @@
     <script src="plugins/sweetalert/sweetalert.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="mydist/js/pageQuestionDetail.js"></script>
+
     <script src="plugins/ckeditor/ckeditor.js"></script>
+    <script src="mydist/js/utils.js"></script>
     <script src="mydist/js/public.js"></script>
+    <script src="mydist/js/pageQuestionDetail.js"></script>
     <!--引入jQuery-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <!--引入semantic-ui的 JS-->

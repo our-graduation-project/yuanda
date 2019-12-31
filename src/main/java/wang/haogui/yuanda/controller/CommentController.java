@@ -51,23 +51,23 @@ public class CommentController {
                      map.get("commentType") != null || map.get("parentId") != null){
                   Comment comments = new Comment();
                   comments.setCommentNumber(0);
-                  comments.setParentId((Integer) map.get("parentId"));
+                  comments.setParentId(Integer.parseInt(map.get("parentId").toString()));
                   //此部分为用户的  获取token是输入
-//                  Cookie[] cookies = request.getCookies();
-//                  Cookie cookie = null;
-//                  for (Cookie c:cookies) {
-//                        if("user".equals(c.getName())){
-//                              cookie = c;
-//                        }
-//                  }
-//                  String string = cookie.getValue().toString();
-//                  int userId = (int) TokenUtil.getTokenValue(string, "userId");
-//                  String userName = (String) TokenUtil.getTokenValue(string,"userName");
-//                  String userPicture = (String)TokenUtil.getTokenValue(string,"userPicture");
-                  comments.setCommentResourceName("1");
-                  comments.setCommentResourcePicture("1");
-                  comments.setCommentResourceId(1);
-                  comments.setCommentTargetId((Integer) map.get("commentTargetId"));
+                  Cookie[] cookies = request.getCookies();
+                  Cookie cookie = null;
+                  for (Cookie c:cookies) {
+                        if("token".equals(c.getName())){
+                              cookie = c;
+                        }
+                  }
+                  String string = cookie.getValue().toString();
+                  int userId = (int) TokenUtil.getTokenValue(string, "userId");
+                  String userName = (String) TokenUtil.getTokenValue(string,"userName");
+                  String userPicture = (String)TokenUtil.getTokenValue(string,"userPicture");
+                  comments.setCommentResourceName(userName);
+                  comments.setCommentResourcePicture(userPicture);
+                  comments.setCommentResourceId(userId);
+                  comments.setCommentTargetId(Integer.parseInt(map.get("commentTargetId").toString()));
                   comments.setCommentType(Byte.parseByte(map.get("commentType").toString()));
                   comments.setIsDeleted(false);
                   comments.setCreateDate(new Date());

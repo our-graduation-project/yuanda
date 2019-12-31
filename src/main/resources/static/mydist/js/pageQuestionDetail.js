@@ -25,13 +25,18 @@ $(function () {
 
 function saveAnswer(isNoName) {
     var content =  CKEDITOR.instances.editor.getData();
-    console.log(content)
-    var data = {"content":content,"isNoName":isNoName};
+
+
+    var data = {"content":content,"isNoName":isNoName,"questionId":detail.questionData.questionId,"question":detail.questionData.questionTitle};
     $.ajax({
         //请求方式
         type : "POST",
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
+        beforeSend : function(request){
+          request.setRequestHeader("token",getCookie("token"));
+          console.log("token" + getCookie("token"));
+        },
         //请求地址
         url : "/yuanda/admin/saveAnswer",
         //数据，json字符串
@@ -41,9 +46,12 @@ function saveAnswer(isNoName) {
             if (result.result) {
                 if(result.message=="操作失败"){
                     swal({
-                        title: "你的提交有问题，再试试吧",
+                        title: "你的提交有问题，待会儿再试试吧",
                     });
-                    window.location.href="question.html";
+                     }else {
+                    swal({
+                        title: "操作成功",
+                    });
                 }
                 var data = result.data;
                 console.log(data);
@@ -60,12 +68,15 @@ function saveAnswer(isNoName) {
             swal({
                 title: "出错了，一定是你写了不该写的东西",
             });
-            window.location.href="question.html"
+            // window.location.href="question.html"
         }
 
 
     });
-    
+    window.location.href="question.html?questionId="+detail.questionData.questionId;
+    //answers(detail.questionData.questionId,1,5,"desc","create_time");
+
+
 }
 
 
@@ -176,7 +187,14 @@ let detail = new Vue(
         methods:{
 
             addQuestionData(data){
+
                 this.questionData = data;
+                if(questionData.authorPicture == null||questionData.authorPicture==""){
+                    questionData.authorPicture="plugins/blog/images/classification.jpg";
+                }
+                if(questionData.authorPicture == null||questionData.authorPicture==""){
+                    questionData.authorPicture="plugins/blog/images/classification.jpg";
+                }
             },
 
 
