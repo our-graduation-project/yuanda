@@ -42,7 +42,7 @@ public class UsersController {
     @ResponseBody
     public APIResult loginUser(@RequestParam(value = "page",defaultValue = "0") int page
                               ,@RequestParam(value = "limit",defaultValue = "3") int limit,
-                               @RequestBody Map map,HttpServletResponse response){
+                               @RequestBody Map map,HttpServletResponse response,HttpServletRequest request){
         System.out.println("用户登录");
         Logger logger = LogUtils.getBussinessLogger();
         Users users=new Users();
@@ -58,6 +58,7 @@ public class UsersController {
             map1.put("right","users");
             String s = TokenUtil.becomeToken(map1);
             Cookie token=new Cookie("token",s);
+            token.setPath(request.getContextPath() + "/");
             response.addCookie(token);
             logger.info("getBussissnessLogger===用户登录");
             LogUtils.getControllerLogger().info("getControllerLogger===用户登录成功");
