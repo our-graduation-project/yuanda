@@ -14,8 +14,11 @@ import wang.haogui.yuanda.model.Question;
 import wang.haogui.yuanda.service.impl.AnswerServiceImpl;
 import wang.haogui.yuanda.utils.APIResult;
 import wang.haogui.yuanda.utils.CommonUtils;
+import wang.haogui.yuanda.utils.TokenUtil;
 import wang.haogui.yuanda.utils.power.AntMatcher;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +83,27 @@ public class AnswerController {
 
     }
 
+    /**
+     * 根据id查询问题的数据
+     * @param map 传入的id信息
+     * @return 查询出来的数据
+     */
+    @RequestMapping("/admin/selectAnswerById")
+    @ResponseBody
+    public APIResult selectAnswerById(@RequestBody Map map){
+        if(map.get("answerId") == null){
+            return APIResult.genFailApiResponse500("传入信息为空");
+        }
+        int answerId = Integer.valueOf((String) map.get("answerId"));
+        Answer answer = answerService.selectAnswerById(answerId);
+        System.out.println("查询出来的数据："+answer);
+        if(answer == null){
+            return APIResult.genFailApiResponse500("查询数据为空");
+        }else {
+            return APIResult.genSuccessApiResponse("查询成功",answer);
+        }
+
+    }
 
     /**
      * 根据问题的id分页查询问题的所有回答
@@ -96,6 +120,7 @@ public class AnswerController {
         String orderName = (String) map.get("orderName");
 
         OrderEnum orderEnum =CommonUtils.isOrderEnum(order);
+        System.out.println(questionId);
         PageInfo<Answer> answerPageInfo = answerService.selectAnswerByQuestionId(questionId, page, limit, orderName, orderEnum);
         if(answerPageInfo!=null ){
             System.out.println(answerPageInfo.getList().size());
@@ -144,10 +169,22 @@ public class AnswerController {
      */
     @RequestMapping("/admin/saveAnswer")
     @ResponseBody
-    public APIResult saveAnswer(@RequestBody Map map){
+    public APIResult saveAnswer(@RequestBody Map map, HttpServletRequest request){
         if(map == null||map.get("content") == null||map.get("isNoName") == null){
             return APIResult.genFailApiResponse500("传入数据为空");
         }
+
+        Cookie[] cookies = request.getCookies();
+        Cookie cookie = null;
+        for (Cookie c:cookies){
+            if(c.getName().equals("token")){
+                System.out.println("拿到token");
+                cookie = c;
+            }
+        }
+        String s = cookie.getValue();
+        int tokenValue = (int) TokenUtil.getTokenValue(s, "userId");
+
         //Answer answer = new Answer(0,0,(byte)0,0,new Date(),1,(byte)map.get("isNoName"),);
 
         Answer answer = new Answer();

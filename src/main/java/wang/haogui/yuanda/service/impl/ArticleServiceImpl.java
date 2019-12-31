@@ -12,7 +12,9 @@ import wang.haogui.yuanda.model.ArticleExample;
 import wang.haogui.yuanda.service.ArticleService;
 import wang.haogui.yuanda.utils.CommonUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author whg
@@ -134,7 +136,19 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public PageInfo selectArticleByLabelId(int labelId, int page, int limit, String order, OrderEnum orderEnum) {
 
-        return null;
+        Map map = new HashMap<>();
+        map.put("labelId",labelId);
+        String orderStr = null;
+        if(order != null&& !"".equals(order)){
+            orderStr = CommonUtils.orderStr(order,orderEnum);
+        }
+
+        map.put("str",orderStr);
+        PageHelper.startPage(page,limit);
+        List<Article> articles = articleMapper.selectArticleByLabelId(map);
+        PageInfo<Article> pageInfo = new PageInfo<>(articles,5);
+
+        return pageInfo;
     }
 
     /**

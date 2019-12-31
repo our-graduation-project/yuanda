@@ -6,6 +6,7 @@ import wang.haogui.yuanda.model.Article;
 import wang.haogui.yuanda.model.ArticleExample;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ArticleMapper {
@@ -40,4 +41,6 @@ public interface ArticleMapper {
     int updateForCommentNumber(Article record);
 
     int updateCheckStatusByList(@Param("list") List list,@Param("status") Integer status);
+
+    List<Article> selectArticleByLabelId(Map map);
 }

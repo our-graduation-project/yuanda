@@ -76,7 +76,7 @@ $(function () {
         // onSelectRow : function(ids) {
         //     console.log(ids);
         //     if(ids != null){
-        //         var url = '/answer.html?questionId='+ids;
+        //         var url = '/answerDetail.html?questionId='+ids;
         //         window.location = url;
         //     }
         // }
@@ -289,8 +289,8 @@ function answerByQuestion(){
         return false;
     }
     var rowData = $("#jqGrid").jqGrid('getRowData',rows[0]);
-    console.log("answer.html?questionId="+rowData.questionId);
-    window.location = "answer.html?questionId="+rowData.questionId;
+    console.log("answerDetail.html?questionId="+rowData.questionId);
+    window.location = "answerDetail.html?questionId="+rowData.questionId;
 }
 
 let vm = new Vue(

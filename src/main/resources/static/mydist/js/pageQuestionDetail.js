@@ -179,6 +179,7 @@ let detail = new Vue(
                 this.questionData = data;
             },
 
+
         }
     }
 );
@@ -191,6 +192,12 @@ let answersData = new Vue({
     methods:{
         addAnswerDatas(data){
             this.answerData = data;
+        },
+        toAnswerDetail(index){
+            console.log(index);
+            let id = answersData.answerData.list[index].questionId;
+            console.log(id);
+            window.location.href="answerDetail.html?answerId="+id;
         },
 
 

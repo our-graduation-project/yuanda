@@ -16,7 +16,7 @@ function formatDate(date, fmt) {
         }
     }
     return fmt;
-};
+}
 
 function padLeftZero(str) {
     return ('00' + str).substr(str.length);
@@ -149,6 +149,8 @@ let vmComment = new Vue({
                     data: JSON.stringify(data),
                     success: function (result) {
                         vmComment.comments = result.data;
+                        console.log("开始");
+                        console.log(vmComment.comments);
                     },
                     error: function () {
                         alert("操作失败");
@@ -161,8 +163,23 @@ let vmComment = new Vue({
     }
 
 });
-let commentTargetId = 1;
-let commentType = 0;
-// let userId = getUserId();
-let userId = 1;
-vmComment.getData(commentTargetId,commentType,userId);
+
+$(function () {
+    var thisUrl = location.search;
+    if(thisUrl !=null&&thisUrl.indexOf("?") != -1) {
+        var commentTargetId = thisUrl.substr(thisUrl.indexOf("=") + 1);
+        let userId = 1;
+        let commentType = $("input[name='commentDataType']").val();
+        console.log(commentTargetId);
+        console.log(commentType);
+        vmComment.getData(commentTargetId,commentType,userId);
+    }else {
+        swal({
+            title: "一定是哪里出了问题，待会儿再看吧",
+        });
+        //window.location.href="types.html"
+    }
+});
+
+
+

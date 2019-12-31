@@ -3,6 +3,7 @@ package wang.haogui.yuanda.model;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Article implements Serializable {
@@ -111,12 +112,25 @@ public class Article implements Serializable {
         return createTime;
     }
 
+    public String getCreateTimeStr() {
+        String createTimeStr = dateStr(createTime);
+       return createTimeStr;
+    }
+
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
     public Date getUpdateTime() {
         return updateTime;
+    }
+
+    public String getUpdateTimeStr() {
+        if(updateTime == null){
+            return "时间未存在";
+        }
+        String updateTimeStr = dateStr(updateTime);
+        return updateTimeStr;
     }
 
     public void setUpdateTime(Date updateTime) {
@@ -199,6 +213,19 @@ public class Article implements Serializable {
         return checkTime;
     }
 
+    private String dateStr(Date date){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateString = formatter.format(date);
+        return dateString;
+    }
+
+    public String getCheckTimeStr() {
+        if(createTime == null){
+            return "时间未存在";
+        }
+        return dateStr(createTime);
+    }
+
     public void setCheckTime(Date checkTime) {
         this.checkTime = checkTime;
     }
@@ -237,6 +264,11 @@ public class Article implements Serializable {
 
     public String getArticleContent() {
         return articleContent;
+    }
+
+    public String getRoughArticleContent() {
+        return "这个文章不错哦，可以点进去看看哦";
+
     }
 
     public void setArticleContent(String articleContent) {

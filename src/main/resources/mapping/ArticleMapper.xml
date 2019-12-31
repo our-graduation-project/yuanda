@@ -521,4 +521,20 @@
       </foreach>
     )
   </update>
+
+
+  <select id="selectArticleByLabelId" parameterType="Map" resultMap="ResultMapWithBLOBs">
+    select article_id articleId, article_content articleContent,article_title articleTitle, create_time createTime,
+    update_time updateTime, author_id authorId,check_status checkStatus, click_number clickNumber,hot_number hotNumber,
+     agreement_number agreementNumber,disagreement_number disagreementNumber,comment_number commentNumber, recommend_number recommendNumber,
+    check_admin_id checkAdminId, check_time checkTime,picture_src pictureSrc,is_deleted isDeleted, author_name authorName,author_picture authorPicture
+    from article where article_id in
+    (
+    select connect_id  from label_connection
+    WHERE connect_type = 1 and is_deleted=0  and label_id =#{typeId}
+    )
+    <if test="str != null">
+      order by ${str}
+    </if>
+  </select>
 </mapper>

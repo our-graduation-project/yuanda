@@ -1,27 +1,46 @@
 $(
     function () {
-        selectHotQuestion(1,5,"desc",null);
+        selectHot(1,5,"desc",null);
     }
 );
 
-
-function selectHotQuestionByType(label) {
-    var page = 1;
-    selectHotQuestion(page,5,"desc",label);
+function select(page,limite,order,label) {
+        selectHot(page,limite,order,label);
 
 }
 
 
-function selectHotQuestion(page,limit,order,label){
+// 标签，搜索标签有关的热榜
+function selectHotQuestionByType(label) {
+    var page = 1;
+    selectHot(page,5,"desc",label);
 
-    if(label == null||label == ""){
-        var url = "admin/pageSelectQuestions";
-        var data = {"page":page,"limit":limit,"orderName":"hot","order":order};
+}
+
+
+// 通用搜索热榜
+function selectHot(page,limit,order,label){
+    console.log(hot.status.status+"label:"+label);
+    if(hot.status.status ==1){
+        if(label == null||label == ""){
+            var url = "admin/pageArticleList";
+            var data = {"page":page,"limit":limit,"orderName":"hot_number","order":order};
+        }else {
+            hot.addLabel(label);
+            var url = "admin/selectArticleByLabelId";
+            var data = {"page":page,"limit":limit,"orderName":"hot_number","order":order,"label":label};
+        }
     }else {
-        hot.addLabel(label);
-        var url = "admin/pageSelectQuestionsByType";
-        var data = {"page":page,"limit":limit,"orderName":"hot","order":order,"label":label};
+        if(label == null||label == ""){
+            var url = "admin/pageSelectQuestions";
+            var data = {"page":page,"limit":limit,"orderName":"hot","order":order};
+        }else {
+            hot.addLabel(label);
+            var url = "admin/pageSelectQuestionsByType";
+            var data = {"page":page,"limit":limit,"orderName":"hot","order":order,"label":label};
+        }
     }
+
 
     console.log(data);
     $.ajax({
@@ -44,7 +63,7 @@ function selectHotQuestion(page,limit,order,label){
                 }
                 var data = result.data;
                 console.log(data);
-                hot.addDatas(data);
+                hot.addQuestionDatas(data);
             }
             else {
                 swal({
@@ -65,17 +84,33 @@ function selectHotQuestion(page,limit,order,label){
 
 }
 
+
 let hot = new Vue(
     {
-        el: '#hotQuestions',
+        el: '#hot',
         data:{
             pro:{},
             label:{},
+            status:{"status":1},
         },
         methods:{
-            addDatas(data){
+            //增加数据
+            addQuestionDatas(data){
                 this.pro = data;
             },
+            //修改状态（1，文章 2，问题）,并且重新查询
+            updateState(){
+                if(this.status == null||this.status.status == undefined||this.status.status == 2){
+                    this.status = {"status":1};
+                }else {
+                    this.status = {"status":2};
+                }
+                console.log("状态"+this.status.status);
+                selectHot(1,5,"desc",null)
+
+            },
+
+            //修改或增加标签分类
             addLabel(labe){
                 if(this.label!=null){
                     this.label.label=labe;
@@ -83,12 +118,24 @@ let hot = new Vue(
                     this.label={"label":labe};
                 }
 
-                console.log(this.label);
+
             },
+
+            //跳转到详细页面
             toDetail(index){
-                let id = hot.pro.list[index].questionId;
-                window.location.href="question.html?questionId="+id;
+                var url="";
+                if(this.status.status == 1){
+                    url = "blog.html?articleId="+hot.pro.list[index].articleId;
+                }else {
+                    let id = hot.pro.list[index].questionId;
+                    url = "question.html?questionId="+id;
+                }
+
+
+                window.location.href = url;
             },
+
+            // 下一页
             nextPageData(){
                 let nextPage = hot.pro.nextPage;
                 console.log(nextPage);
@@ -97,15 +144,21 @@ let hot = new Vue(
                     oldLabel = hot.label.label;
                 }
 
-                selectHotQuestion(nextPage,5,"desc",oldLabel);
+                selectHot(nextPage,5,"desc",oldLabel);
             },
+
+            //上一页
             prePageData(){
                 let prePage = hot.pro.prePage;
                 let oldLabel = null;
                 if(hot.label.label!== null){
                     oldLabel = hot.label.label;
                 }
-                selectHotQuestion(prePage,5,"desc",oldLabel);
+                selectHot(prePage,5,"desc",oldLabel);
+            },
+            //获取状态数据（1，文章 2，问题）
+            getStatus(){
+                return this.status.status;
             }
         }
     }

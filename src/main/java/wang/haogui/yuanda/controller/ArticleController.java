@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Article;
 import wang.haogui.yuanda.service.ArticleService;
+import wang.haogui.yuanda.service.impl.ArticleServiceImpl;
 import wang.haogui.yuanda.utils.APIResult;
+import wang.haogui.yuanda.utils.CommonUtils;
 
 import java.util.*;
 
@@ -23,14 +25,36 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+
+    @RequestMapping("/admin/pageArticleList")
+    @ResponseBody
+    public APIResult pageArticleList(@RequestBody Map map){
+
+        APIResult apiResult = articleList(map);
+        return apiResult;
+    }
+
+
+
     @RequestMapping("/admin/articleList")
     @ResponseBody
     public APIResult articleList(@RequestParam Map<String,Object> map){
+        if(map == null){
+            return APIResult.genFailApiResponse500("传入数据为空");
+        }
         Integer limit = Integer.parseInt(map.get("limit").toString());
         Integer page = Integer.parseInt(map.get("page").toString());
-
-        PageInfo pageInfo = articleService.selectArticleByPage(page, limit, null, OrderEnum.ASC);
-        APIResult apiResult = APIResult.genSuccessApiResponse(pageInfo);
+        String order = (String) map.get("order");
+        OrderEnum orderEnum = OrderEnum.DESC;
+        if(order != null){
+            orderEnum = CommonUtils.isOrderEnum(order);
+        }
+        String orderName = (String) map.get("orderName");
+        PageInfo pageInfo = articleService.selectArticleByPage(page, limit, orderName, orderEnum);
+        if(pageInfo == null){
+            APIResult apiResult = APIResult.genFailApiResponse500("查询失败");
+        }
+        APIResult apiResult = APIResult.genSuccessApiResponse("查询成功",pageInfo);
         return apiResult;
     }
 
@@ -66,5 +90,28 @@ public class ArticleController {
         Boolean aBoolean = articleService.changeCheckStatusByList(list, status);
 
         return new APIResult(aBoolean);
+    }
+
+    @RequestMapping("/admin/selectArticleByLabelId")
+    @ResponseBody
+    public APIResult selectArticleByLabelId(@RequestBody Map map){
+        if(map == null){
+            return APIResult.genFailApiResponse500("传入数据为空");
+        }
+        int page = (int) map.get("page");
+        int limit = (int) map.get("limit");
+        int labelId = (int) map.get("label");
+        String order = (String) map.get("order");
+        String orderName = (String) map.get("orderName");
+        OrderEnum orderEnum = CommonUtils.isOrderEnum(order);
+        PageInfo pageInfo = articleService.selectArticleByLabelId(labelId, page, limit, orderName, orderEnum);
+
+        if(pageInfo == null){
+            return APIResult.genFailApiResponse500("查询失败");
+        }else {
+            return APIResult.genSuccessApiResponse("查询成功",pageInfo);
+        }
+
+
     }
 }

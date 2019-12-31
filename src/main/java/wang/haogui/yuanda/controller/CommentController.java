@@ -41,6 +41,7 @@ public class CommentController {
             comment.setCommentTargetId(commentTargetId);
             comment.setCommentType(commentType);
             List<Comment> comments = commentService.selectComment(comment);
+            System.out.println(comments);
             return APIResult.genSuccessApiResponse(comments);
       }
 

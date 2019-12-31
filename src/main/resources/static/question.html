@@ -75,7 +75,10 @@
             <div class="ui right aligned basic segment">
                 <div class="ui orange basic label" >收藏</div>
             </div>
-            <h2 class="ui center aligned header" >{{questionData.questionTitle}}</h2>
+                <div v-html="questionData.questionTitle">
+
+                </div>
+<!--            <h2 class="ui center aligned header" >{{questionData.questionTitle}}</h2>-->
             <br>
             <div id="content" class="typo typo-selection js-toc-content m-padding-lr-responsive m-padded-tb-large" th:utext="${blog.content}">
                 <h2>&nbsp;</h2>
@@ -92,6 +95,7 @@
                     <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="answerData" v-for="(item,index) in answerData.list" >
                         <!--mobile reversed反序-->
 
+                        <a href="#" @click="toAnswerDetail(index)">
                         <div class="ui middle aligned grid mobile reversed stackable" style="border:1px solid rgba(51,170,158,0.97)">
                             <div class="eleven wide column">
 <!--                                <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.questionTitle}}</a></h3>-->
@@ -124,6 +128,7 @@
                             <div class="five wide column">
                             </div>
                         </div>
+                        </a>
                 <!--提交留言表单-->
                     </div>
                     <div class="ui bottom attached segment" >

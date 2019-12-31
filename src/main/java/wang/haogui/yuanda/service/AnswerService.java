@@ -79,6 +79,12 @@ public interface AnswerService {
     PageInfo<Answer> selectAnswers(int page, int limit, String order, OrderEnum orderEnum);
 
     /**
+     * 根据id查询回答
+     * @param answerId 回答的id
+     * @return 查询出来的数据
+     */
+    Answer selectAnswerById(int answerId);
+    /**
      * 批量审核
      * @param answerId 需要审核的答案的Id
      * @return 返回是否成功

@@ -141,7 +141,6 @@ public class AnswerServiceImpl implements AnswerService {
 
         if(order!=null&&!"".equals(order)){
             String str = CommonUtils.orderStr(order, orderEnum);
-            System.out.println(str);
             answerExample.setOrderByClause(str);
         }
         PageInfo<Answer> pageInfo = select(page, limit, answerExample);
@@ -190,6 +189,18 @@ public class AnswerServiceImpl implements AnswerService {
         }
         PageInfo<Answer> pageInfo = select(page, limit, answerExample);
         return pageInfo;
+    }
+
+    /**
+     * 根据id查询回答
+     *
+     * @param answerId 回答的id
+     * @return 查询出来的数据
+     */
+    @Override
+    public Answer selectAnswerById(int answerId) {
+        Answer answer = answerMapper.selectByPrimaryKey(answerId);
+        return answer;
     }
 
     /**
