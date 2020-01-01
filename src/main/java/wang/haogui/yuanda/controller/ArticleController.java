@@ -8,11 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Article;
+import wang.haogui.yuanda.model.Users;
 import wang.haogui.yuanda.service.ArticleService;
 import wang.haogui.yuanda.service.impl.ArticleServiceImpl;
+import wang.haogui.yuanda.service.impl.UsersServiceImpl;
 import wang.haogui.yuanda.utils.APIResult;
 import wang.haogui.yuanda.utils.CommonUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -24,6 +27,9 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+
+    @Autowired
+    private UsersServiceImpl usersService;
 
 
     @RequestMapping("/admin/pageArticleList")
@@ -113,5 +119,25 @@ public class ArticleController {
         }
 
 
+    }
+    @RequestMapping("/admin/saveArticle")
+    @ResponseBody
+    public APIResult saveArticle(@RequestBody Map map, HttpServletRequest request){
+        int tokenId = CommonUtils.getTokenId(request);
+        Users user = usersService.searchUsersByUserId(tokenId);
+        if(map.get("title")==null||"".equals(map.get("title"))||
+                map.get("pictureStr")==null||"".equals(map.get("pictureStr"))||
+                map.get("articleDescript")==null||"".equals(map.get("articleDescript"))){
+
+            return APIResult.genFailApiResponse500("传入值为空");
+        }
+        Article article = new Article((String)map.get("title"),new Date(),user.getUserId(),(byte)0,1,1,1,0,0,0,(String)map.get("pictureStr"),false,user.getUserName(),user.getUserPicture(),(String)map.get("articleDescript"));
+
+        boolean b = articleService.addArticle(article);
+        if(b){
+            return APIResult.genSuccessApiResponse("增加文章成功");
+        }else {
+            return APIResult.genFailApiResponse500("增加文章失败");
+        }
     }
 }

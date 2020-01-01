@@ -43,142 +43,158 @@
                 <!--左边博客列表-->
                 <div class="eleven wide column">
                     <!--header-->
-                    <div class="ui top attached segment">
-                        <div class="ui middle aligned two column grid">
-                            <div class="column">
-                                <h3 class="ui teal header">文章-></h3>
-                            </div>
-                            <div class="right aligned column">
-                                共 <h2 class="ui orange header m-inline-blok m-text-thin" th:text="${page.totalElements}">14</h2>条搜索结果
+                    <div class="ui container" id = "hot">
+                        <!--header-->
+                        <div class="ui top attached segment">
+                            <div class="ui middle aligned two column grid">
+                                <div class="column" v-if="getStatus()==1 ">
+                                    <h3 class="ui teal header" @click="updateState()">问题-></h3>
+                                </div>
+                                <div class="column" v-else>
+                                    <h3 class="ui teal header" @click="updateState()">文章-></h3>
+                                </div>
+                                <div class="right aligned column">
+                                    共 <h2 class="ui orange header m-inline-blok m-text-thin">4</h2>个
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--content-->
-<!--                    文章信息展示-->
-                    <div class="ui attached segment">
-                        <div class="ui padded vertical segment m-padded-tb-large" th:each="blog : ${page.content}">
-                            <!--mobile reversed反序-->
-                            <div class="ui middle aligned grid mobile reversed stackable" >
-                                <div class="eleven wide column">
-                                    <h3><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">庐山旅行记录-江西</a></h3>
-                                    <p class="m-text" th:text="|${blog.description}.....|">庐山，又名匡山、
-                                        匡庐，位于江西省九江市庐山市境内。介于东经115°52′—116°8′，北纬29°26′—29°41′之间。东偎婺源、鄱阳湖，南靠滕王阁，西邻京九铁路大通脉，北枕滔滔长江。 </p>
-                                    <div class="ui grid">
-                                        <div class="eleven wide column">
-                                            <div class="ui mini horizontal link list">
-                                                <div class="item">
-                                                    <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image" th:src="@{${blog.user.avatar}}"  >
-                                                    <div class="content"> <a href="#" th:href="@{/about}" class="header" th:text="${blog.user.nickname}">叶仁平</a></div>
-                                                </div>
-                                                <div class="item">
-                                                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2019-10-01</span>
-                                                </div>
-                                                <div class="item">
-                                                    <i class="eye icon"></i><span th:text="${blog.views}">7437</span>
+                        <!--分类列表区域-->
+                        <div class="ui attached segment m-padded-tb-large   ">
+                            <!--/*-->
+                            <div class="ui labeled button m-margin-tb-tiny">
+                                <a href="#" onclick="selectHotQuestionByType(1)" class="ui basic button">学习</a>
+                                <div class="ui basic left pointing label">
+                                    99+
+                                </div>
+                            </div>
+                            <div class="ui labeled button m-margin-tb-tiny">
+                                <a href="#" onclick="selectHotQuestionByType(2)" class="ui basic button">生活</a>
+                                <div class="ui basic left pointing label">
+                                    99+
+                                </div>
+                            </div>
+                            <div class="ui labeled button m-margin-tb-tiny">
+                                <a href="#" onclick="selectHotQuestionByType(3)" class="ui basic button">旅游</a>
+                                <div class="ui basic left pointing label">
+                                    99+
+                                </div>
+                            </div>
+                            <div class="ui labeled button m-margin-tb-tiny">
+                                <a href="#" onclick="selectHotQuestionByType(4)" class="ui basic button">历史</a>
+                                <div class="ui basic left pointing label">
+                                    99+
+                                </div>
+                            </div>
+
+                            <!--*/-->
+                        </div>
+                        <!--博客列表-->
+                        <div class="ui top attached teal segment" id="hotQuestions">
+                            <input type="hidden" v-model="pro.pageNum" id="page">
+                            <div>
+                                <div v-if="getStatus()==2">
+                                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="hotQuestion" v-for="(item,index) in pro.list">
+                                        <!--mobile reversed反序-->
+
+                                        <div class="ui middle aligned grid mobile reversed stackable" >
+                                            <div class="eleven wide column">
+                                                <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.questionTitle}}</a></h3>
+                                                <p class="m-text">{{item.roughQuestionDescript}}</p>
+                                                <div class="ui grid">
+                                                    <div class="eleven wide column">
+                                                        <div class="ui mini horizontal link list">
+                                                            <div class="item">
+                                                                <img :src="item.authorPicture" alt="" class="ui avatar image">
+                                                                <div class="content"> <a href="#"  target="_blank" class="header">{{item.author}}</a></div>
+                                                            </div>
+                                                            <div class="item">
+                                                                <i class="calendar icon"></i><span>{{item.createTimeStr}}</span>
+                                                            </div>
+                                                            <div class="item">
+                                                                <i class="eye icon"></i><span>{{item.clickNumber}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="five wide right aligned column">
+                                                        <a href="#"    class="ui teal basic label m-padded-tiny m-text-thin">收藏</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="five wide right aligned column">
-                                            <a href="#"  th:href="@{/types/{id}(id=${blog.type.id})}" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.type.name}">认知升级</a>
-                                        </div>
-                                    </div>
-                                </div>
-<!--                                <div class="five wide column">-->
 
-<!--                                    <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">-->
-<!--                                        <img src="https://picsum.photos/id/1011/800/400" alt="" th:src="@{${blog.firstPicture}}" class="ui round image">-->
-<!--                                    </a>-->
-<!--                                </div>-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ui attached segment">
-                        <div class="ui padded vertical segment m-padded-tb-large" th:each="blog : ${page.content}">
-                            <!--mobile reversed反序-->
-                            <div class="ui middle aligned grid mobile reversed stackable" >
-                                <div class="eleven wide column">
-                                    <h3><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">庐山旅行记录-江西</a></h3>
-                                    <p class="m-text" th:text="|${blog.description}.....|">庐山，又名匡山、
-                                        匡庐，位于江西省九江市庐山市境内。介于东经115°52′—116°8′，北纬29°26′—29°41′之间。东偎婺源、鄱阳湖，南靠滕王阁，西邻京九铁路大通脉，北枕滔滔长江。 </p>
-                                    <div class="ui grid">
-                                        <div class="eleven wide column">
-                                            <div class="ui mini horizontal link list">
-                                                <div class="item">
-                                                    <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image" th:src="@{${blog.user.avatar}}"  >
-                                                    <div class="content"> <a href="#" th:href="@{/about}" class="header" th:text="${blog.user.nickname}">叶仁平</a></div>
-                                                </div>
-                                                <div class="item">
-                                                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2019-10-01</span>
-                                                </div>
-                                                <div class="item">
-                                                    <i class="eye icon"></i><span th:text="${blog.views}">7437</span>
-                                                </div>
+                                            <div class="five wide column">
+                                                <a href="#" @click="toDetail(index)" target="_blank">
+                                                    <img :src="item.pictureSrc" alt="" class="ui round image">
+                                                </a>
                                             </div>
                                         </div>
-                                        <div class="five wide right aligned column">
-                                            <a href="#"  th:href="@{/types/{id}(id=${blog.type.id})}" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.type.name}">认知升级</a>
-                                        </div>
+                                        <!--/*-->
+
                                     </div>
                                 </div>
-                                <div class="five wide column">
+                                <div v-else>
+                                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="hotAnswer" v-for="(item,index) in pro.list">
+                                        <!--mobile reversed反序-->
 
-                                    <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
-                                        <img src="https://picsum.photos/id/1011/800/400" alt="" th:src="@{${blog.firstPicture}}" class="ui round image">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-<!--                    文章信息展示-->
-                    <div class="ui attached segment">
-                        <div class="ui padded vertical segment m-padded-tb-large" th:each="blog : ${page.content}">
-                            <!--mobile reversed反序-->
-                            <div class="ui middle aligned grid mobile reversed stackable" >
-                                <div class="eleven wide column">
-                                    <h3><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">庐山旅行记录-江西</a></h3>
-                                    <p class="m-text" th:text="|${blog.description}.....|">庐山，又名匡山、
-                                        匡庐，位于江西省九江市庐山市境内。介于东经115°52′—116°8′，北纬29°26′—29°41′之间。东偎婺源、鄱阳湖，南靠滕王阁，西邻京九铁路大通脉，北枕滔滔长江。 </p>
-                                    <div class="ui grid">
-                                        <div class="eleven wide column">
-                                            <div class="ui mini horizontal link list">
-                                                <div class="item">
-                                                    <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image" th:src="@{${blog.user.avatar}}"  >
-                                                    <div class="content"> <a href="#" th:href="@{/about}" class="header" th:text="${blog.user.nickname}">叶仁平</a></div>
-                                                </div>
-                                                <div class="item">
-                                                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2019-10-01</span>
-                                                </div>
-                                                <div class="item">
-                                                    <i class="eye icon"></i><span th:text="${blog.views}">7437</span>
+                                        <div class="ui middle aligned grid mobile reversed stackable" >
+                                            <div class="eleven wide column">
+                                                <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.articleTitle}}</a></h3>
+                                                <p class="m-text">{{item.roughArticleContent}}</p>
+                                                <div class="ui grid">
+                                                    <div class="eleven wide column">
+                                                        <div class="ui mini horizontal link list">
+                                                            <div>
+                                                                <div class="item">
+                                                                    <img :src="item.authorPicture" alt="" class="ui avatar image">
+                                                                    <div class="content"> <a href="#"  target="_blank" class="header">{{item.authorName}}</a></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="item">
+                                                                <i class="calendar icon"></i><span>{{item.createTimeStr}}</span>
+                                                            </div>
+                                                            <div class="item">
+                                                                <i class="eye icon"></i><span>{{item.clickNumber}}</span>
+                                                            </div>
+                                                            <div class="item">
+                                                                <i class="thumbs up outline icon"></i><span>{{item.agreementNumber}}</span>
+                                                            </div>
+                                                            <div class="item">
+                                                                <i class="thumbs down outline icon"></i><span>{{item.disagreementNumber}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="five wide right aligned column">
+                                                        <a href="#"    class="ui teal basic label m-padded-tiny m-text-thin">收藏</a>
+                                                    </div>
                                                 </div>
                                             </div>
+
+                                            <div class="five wide column">
+                                                <a href="#" @click="toDetail(index)" target="_blank">
+                                                    <img :src="item.pictureSrc" alt="" class="ui round image">
+                                                </a>
+                                            </div>
                                         </div>
-                                        <div class="five wide right aligned column">
-                                            <a href="#"  th:href="@{/types/{id}(id=${blog.type.id})}" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.type.name}">认知升级</a>
-                                        </div>
+                                        <!--/*-->
+
                                     </div>
                                 </div>
-                                <div class="five wide column">
-
-                                    <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
-                                        <img src="https://picsum.photos/id/1011/800/400" alt="" th:src="@{${blog.firstPicture}}" class="ui round image">
-                                    </a>
+                            </div>
+                        </div>
+                        <!--分页-->
+                        <div class="ui bottom attached segment" >
+                            <div class="ui middle aligned two column grid">
+                                <div class="column" style="width: 360px">
+                                    <a  @click="prePageData()" class="ui mini teal basic button">上一页</a>
+                                </div>
+                                <div style="display: inline;text-align: center;margin-top: 18px">
+                                    {{pro.pageNum}}/{{pro.pages}}
+                                </div>
+                                <div class="right aligned column" style="width: 360px">
+                                    <a  @click="nextPageData()" class="ui mini teal basic button">下一页</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!--footer-->
-                    <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
-                        <div class="ui middle aligned two column grid">
-                            <div class="column">
-                                <a href="#" th:href="@{/(page=${page.number}-1)}"  th:unless="${page.first}" class="ui mini teal basic button">上一页</a>
-                            </div>
-                            <div class="right aligned column">
-                                <a href="#" th:href="@{/(page=${page.number}+1)}"  th:unless="${page.last}" class="ui mini teal basic button">下一页</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </div></div>
                 <div class="five wide column">
                     <!--分类-->
                     <div class="ui segments">
@@ -351,6 +367,9 @@
 
     <!--引入所需要的JS-->
     <!--引入jQuery-->
+
+    <script src="mydist/js/vue.js"></script>
+    <script src="plugins/sweetalert/sweetalert.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <!--引入semantic-ui的 JS-->
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>

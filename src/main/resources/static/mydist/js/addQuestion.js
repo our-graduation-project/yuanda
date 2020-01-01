@@ -51,6 +51,8 @@ function addQuestion() {
     var pictureStr ="";
         pictureStr = $("#pictureStr").val();
     if(content==null||content.trim()==null||content==""||title==null||title.trim()==null||title==""){
+        console.log("开始");
+        alert("传入的信息存在空值");
         $("#error").attr("存在为空的信息");
 
            return false;

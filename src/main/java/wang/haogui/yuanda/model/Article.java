@@ -12,6 +12,25 @@ public class Article implements Serializable {
     public Article() {
     }
 
+    public Article(String articleTitle, Date createTime, Integer authorId, Byte checkStatus, Integer clickNumber, Integer hotNumber, Integer agreementNumber, Integer disagreementNumber, Integer commentNumber, Integer recommendNumber,  String pictureSrc, Boolean isDeleted, String authorName, String authorPicture, String articleContent) {
+
+        this.articleTitle = articleTitle;
+        this.createTime = createTime;
+        this.authorId = authorId;
+        this.checkStatus = checkStatus;
+        this.clickNumber = clickNumber;
+        this.hotNumber = hotNumber;
+        this.agreementNumber = agreementNumber;
+        this.disagreementNumber = disagreementNumber;
+        this.commentNumber = commentNumber;
+        this.recommendNumber = recommendNumber;
+        this.pictureSrc = pictureSrc;
+        this.isDeleted = isDeleted;
+        this.authorName = authorName;
+        this.authorPicture = authorPicture;
+        this.articleContent = articleContent;
+    }
+
     public Article(Integer articleId, String articleTitle, Date createTime, Date updateTime, Integer authorId, Byte checkStatus, Integer clickNumber, Integer hotNumber, Integer agreementNumber, Integer disagreementNumber, Integer commentNumber, Integer recommendNumber, Integer checkAdminId, Date checkTime, String pictureSrc, Boolean isDeleted, String authorName, String authorPicture, String articleContent) {
         this.articleId = articleId;
         this.articleTitle = articleTitle;
