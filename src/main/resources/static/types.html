@@ -24,8 +24,8 @@
                 <div class="right m-item item m-mobile-hide">
                     <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
                         <div class="ui icon inverted  input">
-                            <input type="text" name="query" placeholder="Search.." th:value="${query}">
-                            <i onclick="document.forms['static.search'].submit()" class="search icon link"></i>
+                            <input type="text" name="query" id="searchValue" placeholder="Search.." th:value="${query}">
+                            <i onclick="inSearch()" class="search icon link"></i>
                         </div>
                     </form>
                 </div>
@@ -252,6 +252,7 @@
     <!--引入代码高亮插件 JS-->
     <script src="plugins/blog/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
     <script src="mydist/js/pageQuestion.js" ></script>
+    <script src="mydist/js/inSearch.js" ></script>
     <!--映入目录生成插件 JS-->
     <script src="plugins/blog/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
     <!--引入waypoints插件滚动条-->

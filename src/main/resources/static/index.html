@@ -24,8 +24,8 @@
                 <div class="right m-item item m-mobile-hide">
                     <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
                         <div class="ui icon inverted  input">
-                            <input type="text" name="query" placeholder="Search.." th:value="${query}">
-                            <i onclick="document.forms['static.search'].submit()" class="search icon link"></i>
+                            <input type="text" name="query" id="searchValue" placeholder="Search..">
+                            <i onclick="inSearch()" class="search icon link"></i>
                         </div>
                     </form>
                 </div>
@@ -493,6 +493,7 @@
     <script src="mydist/js/utils.js"></script>
     <script src="mydist/js/public.js"></script>
     <script src="plugins/ajaxupload/ajaxupload.js"></script>
+    <script src="mydist/js/inSearch.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <!--引入semantic-ui的 JS-->

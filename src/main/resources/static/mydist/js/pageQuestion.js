@@ -85,6 +85,8 @@ function selectHot(page,limit,order,label){
 }
 
 
+
+
 let hot = new Vue(
     {
         el: '#hot',

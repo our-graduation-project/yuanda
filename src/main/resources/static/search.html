@@ -23,8 +23,8 @@
                 <div class="right m-item item m-mobile-hide">
                     <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
                         <div class="ui icon inverted  input">
-                            <input type="text" name="query" placeholder="Search.." th:value="${query}">
-                            <i onclick="document.forms['static.search'].submit()" class="search icon link"></i>
+                            <input type="text" name="query" id="searchValue" placeholder="Search.." th:value="${query}">
+                            <i onclick="inSearch()" class="search icon link"></i>
                         </div>
                     </form>
                 </div>
@@ -43,96 +43,17 @@
                 <!--左边博客列表-->
                 <div class="eleven wide column">
                     <!--header-->
-                    <div class="ui container" id = "hot">
-                        <!--header-->
-                        <div class="ui top attached segment">
-                            <div class="ui middle aligned two column grid">
-                                <div class="column" v-if="getStatus()==1 ">
-                                    <h3 class="ui teal header" @click="updateState()">问题-></h3>
-                                </div>
-                                <div class="column" v-else>
-                                    <h3 class="ui teal header" @click="updateState()">文章-></h3>
-                                </div>
-                                <div class="right aligned column">
-                                    共 <h2 class="ui orange header m-inline-blok m-text-thin">4</h2>个
-                                </div>
-                            </div>
-                        </div>
-                        <!--分类列表区域-->
-                        <div class="ui attached segment m-padded-tb-large   ">
-                            <!--/*-->
-                            <div class="ui labeled button m-margin-tb-tiny">
-                                <a href="#" onclick="selectHotQuestionByType(1)" class="ui basic button">学习</a>
-                                <div class="ui basic left pointing label">
-                                    99+
-                                </div>
-                            </div>
-                            <div class="ui labeled button m-margin-tb-tiny">
-                                <a href="#" onclick="selectHotQuestionByType(2)" class="ui basic button">生活</a>
-                                <div class="ui basic left pointing label">
-                                    99+
-                                </div>
-                            </div>
-                            <div class="ui labeled button m-margin-tb-tiny">
-                                <a href="#" onclick="selectHotQuestionByType(3)" class="ui basic button">旅游</a>
-                                <div class="ui basic left pointing label">
-                                    99+
-                                </div>
-                            </div>
-                            <div class="ui labeled button m-margin-tb-tiny">
-                                <a href="#" onclick="selectHotQuestionByType(4)" class="ui basic button">历史</a>
-                                <div class="ui basic left pointing label">
-                                    99+
-                                </div>
-                            </div>
+                    <div class="ui container" id = "searchData">
 
-                            <!--*/-->
-                        </div>
                         <!--博客列表-->
                         <div class="ui top attached teal segment" id="hotQuestions">
-                            <input type="hidden" v-model="pro.pageNum" id="page">
+<!--                            <input type="hidden" v-model="pro.pageNum" id="page">-->
                             <div>
-                                <div v-if="getStatus()==2">
-                                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="hotQuestion" v-for="(item,index) in pro.list">
-                                        <!--mobile reversed反序-->
-
-                                        <div class="ui middle aligned grid mobile reversed stackable" >
-                                            <div class="eleven wide column">
-                                                <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.questionTitle}}</a></h3>
-                                                <p class="m-text">{{item.roughQuestionDescript}}</p>
-                                                <div class="ui grid">
-                                                    <div class="eleven wide column">
-                                                        <div class="ui mini horizontal link list">
-                                                            <div class="item">
-                                                                <img :src="item.authorPicture" alt="" class="ui avatar image">
-                                                                <div class="content"> <a href="#"  target="_blank" class="header">{{item.author}}</a></div>
-                                                            </div>
-                                                            <div class="item">
-                                                                <i class="calendar icon"></i><span>{{item.createTimeStr}}</span>
-                                                            </div>
-                                                            <div class="item">
-                                                                <i class="eye icon"></i><span>{{item.clickNumber}}</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="five wide right aligned column">
-                                                        <a href="#"    class="ui teal basic label m-padded-tiny m-text-thin">收藏</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="five wide column">
-                                                <a href="#" @click="toDetail(index)" target="_blank">
-                                                    <img :src="item.pictureSrc" alt="" class="ui round image">
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <!--/*-->
-
-                                    </div>
+                                <div v-if="getData()">
+                                    <p>你要找的内容为空哦</p>
                                 </div>
                                 <div v-else>
-                                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="hotAnswer" v-for="(item,index) in pro.list">
+                                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="hotAnswer" v-for="(item, index) in dataShow" :class="{ 'alt': index%5==1 }">
                                         <!--mobile reversed反序-->
 
                                         <div class="ui middle aligned grid mobile reversed stackable" >
@@ -183,14 +104,15 @@
                         <!--分页-->
                         <div class="ui bottom attached segment" >
                             <div class="ui middle aligned two column grid">
-                                <div class="column" style="width: 360px">
-                                    <a  @click="prePageData()" class="ui mini teal basic button">上一页</a>
+                                <div class="column" style="width: 200px">
+                                    <a v-on:click="prePage" class="ui mini teal basic button">上一页</a>
                                 </div>
                                 <div style="display: inline;text-align: center;margin-top: 18px">
-                                    {{pro.pageNum}}/{{pro.pages}}
+<!--                                    {{pro.pageNum}}/{{pro.pages}}-->
+                                    {{currentPage+1}}/{{pageNum}}
                                 </div>
-                                <div class="right aligned column" style="width: 360px">
-                                    <a  @click="nextPageData()" class="ui mini teal basic button">下一页</a>
+                                <div class="right aligned column" style="width: 200px">
+                                    <a   v-on:click="nextPage" class="ui mini teal basic button">下一页</a>
                                 </div>
                             </div>
                         </div>
@@ -210,7 +132,7 @@
                         </div>
                         <div class="ui teal segment">
                             <div class="ui fluid vertical menu" >
-                                <a href="#" th:href="@{/types/{id}(id=${type.id})}" class="item" th:each="type : ${types}">
+                                <a href="#" onclick="seletctData()" class="item" th:each="type : ${types}">
                                     <span th:text="${type.name}">学习日志</span>
                                     <div class="ui teal basic left pointing label" th:text="${#arrays.length(type.blogs)}">10</div>
                                 </a>
@@ -389,7 +311,8 @@
     <!--引入jQuery-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
-
+    <script src="mydist/js/search.js" ></script>
+    <script src="mydist/js/inSearch.js"></script>
     <!--声明行内js代码域-->
     <script>
         $('.menu.toggle').click(function () {
