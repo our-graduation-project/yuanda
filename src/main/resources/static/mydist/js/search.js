@@ -103,7 +103,11 @@ let searchData = new Vue(
             toPage: function(page){
                 var vm = this;
                 vm.currentPage = page
-            }
+            },
+            toDetail(index){
+                var url = "blog.html?articleId="+hot.pro.list[index].articleId;
+                window.location.href=url;
+            },
 
 
 
