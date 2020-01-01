@@ -49,7 +49,12 @@ public class CommentServiceImpl implements CommentService {
 
         //先通过id查询到这条文章
         Article article = articleMapper.selectByPrimaryKey(comment.getCommentTargetId());
-        article.setCommentNumber(article.getCommentNumber()+1);
+        if(article.getCommentNumber() == null){
+            article.setCommentNumber(1);
+        }else{
+            article.setCommentNumber(article.getCommentNumber() + 1);
+        }
+
         //在将文章的评论数量加一
         int i = articleMapper.updateByPrimaryKey(article);
 

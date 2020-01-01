@@ -2,12 +2,7 @@ package wang.haogui.yuanda.utils.power.handler;
 
 import org.springframework.util.AntPathMatcher;
 import wang.haogui.yuanda.utils.TokenUtil;
-import wang.haogui.yuanda.utils.power.AntMatcher;
-import wang.haogui.yuanda.utils.power.AntMatchers;
-import wang.haogui.yuanda.utils.power.ForwardPathToLogin;
-import wang.haogui.yuanda.utils.power.Matcher;
-
-
+import wang.haogui.yuanda.utils.power.*;
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -33,8 +28,8 @@ import java.util.concurrent.atomic.AtomicReference;
 //@AntMatcher(path = "/restUsers.do",hasAnyRight = {"root1","lll"})
 @AntMatcher(path = "/admin/**",hasAnyRight = "root")
 @AntMatcher(path = "/person/**",hasAnyRight = "user")
-//@AntMatcher(path = "/rest*.do",hasAnyRight = {"root1","lll"})
-@ForwardPathToLogin(path = "/person/login.html")
+@ForwardPathToUserLogin(path = "/person/login.html")
+@ForwardPathToAdminLogin(path = "/admin/login.html")
 public class RightFilter implements Filter {
 
     Map<String, Matcher> rightMap = new HashMap<>();
@@ -42,7 +37,9 @@ public class RightFilter implements Filter {
     AtomicReference<AntPathMatcher> antPathMatcher = new AtomicReference<>();
 
     //跳转路径
-    String pathToLogin = null;
+    String pathToUserLogin = null;
+
+    String pathToAdminLogin = null;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -55,8 +52,10 @@ public class RightFilter implements Filter {
                         myMatchers.value()) {
                     rightMap.put(matcher.path(),new Matcher(matcher.hasAnyRole(),matcher.hasAnyRight(),matcher.hasRole(),matcher.hasRight()));
                 }
-            }else if(annotations[i] instanceof ForwardPathToLogin){
-                pathToLogin = ((ForwardPathToLogin)annotations[i]).path();
+            }else if(annotations[i] instanceof ForwardPathToUserLogin){
+                pathToUserLogin = ((ForwardPathToUserLogin)annotations[i]).path();
+            }else if(annotations[i] instanceof ForwardPathToAdminLogin){
+                pathToAdminLogin = ((ForwardPathToAdminLogin)annotations[i]).path();
             }
         }
         System.out.println("map初始化成功：" + rightMap.size());
@@ -64,6 +63,7 @@ public class RightFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("进行过滤");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String contextPath = request.getContextPath();
@@ -96,7 +96,7 @@ public class RightFilter implements Filter {
             request.setAttribute("lastPage", request.getRequestURL());
             //跳到后台登陆的界面
             //重定向，可自行更改页面，这里跳转的是方法,因为thyplate不能直接访问
-            request.getRequestDispatcher(pathToLogin).forward(request, response);
+            request.getRequestDispatcher(pathToUserLogin).forward(request, response);
             //转发
             //response.sendRedirect("login");
             return;

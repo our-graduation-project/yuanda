@@ -10,8 +10,10 @@ import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.model.Article;
 import wang.haogui.yuanda.model.Users;
 import wang.haogui.yuanda.service.ArticleService;
+import wang.haogui.yuanda.service.LikeService;
 import wang.haogui.yuanda.service.impl.ArticleServiceImpl;
 import wang.haogui.yuanda.service.impl.UsersServiceImpl;
+import wang.haogui.yuanda.service.search.SearchServiceImpl;
 import wang.haogui.yuanda.utils.APIResult;
 import wang.haogui.yuanda.utils.CommonUtils;
 
@@ -31,6 +33,11 @@ public class ArticleController {
     @Autowired
     private UsersServiceImpl usersService;
 
+    @Autowired
+    private SearchServiceImpl searchService;
+
+    @Autowired
+    private LikeService likeService;
 
     @RequestMapping("/admin/pageArticleList")
     @ResponseBody
@@ -139,5 +146,20 @@ public class ArticleController {
         }else {
             return APIResult.genFailApiResponse500("增加文章失败");
         }
+    }
+
+
+    /**
+     * 找到于标题相匹配的文章
+     * @param map
+     * @return
+     */
+    @RequestMapping("/search")
+    @ResponseBody
+    public APIResult searchArticleByEs(@RequestBody Map<String,Object> map){
+        Object title = map.get("title");
+        List<Article> list = searchService.searchArticleByTitle(title.toString());
+        likeService.getLikeAndDisLikeNumber(1,list);
+        return APIResult.genSuccessApiResponse(list);
     }
 }

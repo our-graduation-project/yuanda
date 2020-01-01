@@ -11,7 +11,9 @@ import wang.haogui.yuanda.YuandaApplication;
 import wang.haogui.yuanda.common.CheckEnum;
 import wang.haogui.yuanda.model.Article;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,5 +51,27 @@ class ArticleServiceImplTest {
     @Test
     void changeCheckStuatsById(){
         Assert.assertTrue(articleService.changeCheckStuatsById(1,CheckEnum.CHECKPASS));
+    }
+
+    @Test
+    void addBatchAritcle(){
+        List<Article> list = new ArrayList<>();
+        for (int i = 5; i < 10; i++) {
+            Article article = new Article();
+            article.setAgreementNumber(10);
+            article.setArticleContent("批量测试"+i);
+            article.setArticleTitle("批量测试" + i);
+            article.setAuthorName("whgi" + i);
+            article.setAuthorPicture("/images/1.png");
+            article.setAuthorId(1);
+            article.setCreateTime(new Date());
+            article.setCheckStatus((byte) 0);
+            article.setIsDeleted(false);
+            list.add(article);
+        }
+        List<Article> list1 = articleService.addBatchAritcle(list);
+        list1.forEach(article -> {
+            System.out.println(article.getArticleId());
+        });
     }
 }

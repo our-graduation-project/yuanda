@@ -50,9 +50,9 @@ $(function () {
         //jsonReader 对象定义了如何对后端返回的 JSON 数据进行解析，
         jsonReader: {
             root: "data.list",           //数据列表模型
-            page: "data.currPage",       //数据页码
-            total: "data.totalPage",     //数据总页码
-            records: "data.totalCount",  //数据总记录数
+            page: "data.pageNum",       //数据页码
+            total: "data.pages",     //数据总页码
+            records: "data.total",  //数据总记录数
         },
         // 向后台请求的参数
         prmNames: {

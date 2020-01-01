@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Target(ElementType.TYPE)
-public @interface ForwardPathToLogin {
+public @interface ForwardPathToUserLogin {
 
     String path() default "";
 }
