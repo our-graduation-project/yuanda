@@ -135,12 +135,15 @@ public class UsersController {
     @RequestMapping("persons/user/RegisterUsers")
     @ResponseBody
     public APIResult RegisterUsers(@RequestBody(required = false) Users users) {
-        if (users == null || users.getUserName() == null || users.getTelphone() == null ||
-                users.getUserPassword() == null || users.getEmail() == null || users.getIsDeleted() == null
+        if (users == null || users.getUserName() == null || users.getTelphone() == null
+                || users.getUserPassword() == null || users.getEmail() == null
                 || users.getUserSex() == null) {
             return new APIResult("参数有误", false, 400);
         }
         users.setUserPassword(MD5Utils.StringInMd5(users.getUserPassword()));
+        users.setUserPicture("../plugins/blog/images/me.jpg");
+        users.setUserBackground("../plugins/blog/images/me2.jpg");
+        users.setIsDeleted(false);
         int i = usersService.addUser(users);
         System.out.println("--------" + i);
         boolean isFlag = false;

@@ -26,37 +26,51 @@
                 </h2>
                 <div class="ui large form">
                     <div class="ui  segment">
+                        <br>
+                        <br>
                         <div class="form-group">
                             <label>用户名:</label>
-                            <input style="width: 300px" type="text" class="form-control" id="adduserName">
+                            <input style="width: 300px ;height: 40px" type="text" class="form-control" id="adduserName">
                         </div>
                         <br>
-                        <div class="form-group">
-                            <label>密码:</label>
-                            <input type="password" style="width: 300px" class="form-control" id="adduserPassword">
-                        </div>
                         <br>
                         <div class="form-group">
-                            <label>性别:</label>
+                            <label>&nbsp;&nbsp;&nbsp;密码:</label>
+                            <input type="password" style="width: 300px ;height: 40px" class="form-control" id="adduserPassword">
+                        </div>
+                        <br>
+                        <br>
+                        <div class="form-group" style="float:left">
+                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;性别:</label>
+                            &nbsp;&nbsp;&nbsp;
                             <input name="userSex"  type="radio" value="0" checked="checked" id="adduserSex"/>男
+                            &nbsp;&nbsp;&nbsp;
                             <input name="userSex"  type="radio" value="1" />女
                         </div>
                         <br>
-                        <div class="form-group">
-                            <label>邮箱:</label>
-                            <input type="email" style="width: 300px" class="form-control" id="addemail">
-                        </div>
+                        <br>
                         <br>
                         <div class="form-group">
-                            <label>电话:</label>
-                            <input type="tel" style="width: 300px" class="form-control" id="addtelphone">
+                            <label>&nbsp;&nbsp;&nbsp;邮箱:</label>
+                            <input type="email" name="addemail" id="addemail" style="width: 300px;height: 40px" class="form-control" id="addemail">
                         </div>
                         <br>
+                        <br>
                         <div class="form-group">
-                            <label>状态:</label>
-                            <input name="isDeleted"  type="radio" value="false" checked="checked" id="addisDeleted"/>存在
-                            <input name="isDeleted" type="radio" value="true" />禁用
+                            <label>验证码:</label>
+                            <input type="text" style="width: 300px;height: 40px" id="verificationCode" name="verificationCode" class="dfinput" />
+                            <br>
+                            <a class="ui fluid large teal submit button" id="b1" style="height: 35px;width: 135px;display: inline-block;float:right" onclick="sendCode()" >生成验证码</a><br>
                         </div>
+                        <br>
+                        <br>
+                        <br>
+                        <div class="form-group">
+                            <label>&nbsp;&nbsp;&nbsp;电话:</label>
+                            <input type="tel" style="width: 300px;height: 40px" class="form-control" id="addtelphone">
+                        </div>
+                        <br>
+                        <br>
                         <div align="left" style="float:left">
                             <a onclick="RegisterUser()" style="height: 35px;width: 120px" class="ui fluid large teal submit button">注册</a>
                         </div>
@@ -82,9 +96,94 @@
 <script src="../plugins/jquery/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
+<script src="../plugins/ajaxupload"></script>
+
 <!--/*/</th:block>/*/-->
 
 <script type="text/javascript">
+
+    time1=60;
+
+    function countDown($obj){
+        var time;
+        //有几个按钮写几个类似的。
+        if($obj.attr("id")=="b1")
+        {
+            time=--time1;
+            if(time<=0){
+                time1=60;
+                $obj[0].disabled=!$obj[0].disabled
+                clearInterval(inter1)
+                $obj.text("点击发送")
+                return
+            }
+        }
+        $obj.text(time+"秒后重新发送")
+    }
+
+    $(function(){
+        $(".cd").bind("click",function(){
+            $this=$(this);
+            //没有被禁用时禁用并执行倒计时
+            if(!$this[0].disabled){
+                $this[0].disabled='disabled';
+                if($this.attr("id")=="b1"){
+                    inter1=setInterval(function(){countDown($this)},1000)
+                }
+
+            }
+        })
+    });
+
+
+
+    var time = 60;
+    $("#send").on('click',function () {
+        $(this).attr("disabled",true);
+        alert("60秒后可重新发送");
+        var timer = setInterval(function () {
+            if(time == 0){
+                $("#btn_send").removeAttr("disabled");
+                $("#btn_send").html("重新发送");
+                clearInterval(timer);
+            }else {
+                $("#btn_send").html(time);
+                time--;
+            }
+        },1000);
+    });
+
+    function sendCode() {
+        var email = $("#addemail").val();
+        console.log(email);
+        var data = {"email" : email};
+        $.ajax({
+            //请求方式
+            type : "POST",
+            //请求的媒体类型
+            contentType: "application/json;charset=UTF-8",
+            //请求地址
+            url : "http://localhost:8080/yuanda/persons/user/forgetPassWord",
+            //数据，json字符串
+            data : JSON.stringify(data),
+            success: function (result) {
+                if (result.result) {
+                    alert(result.message);
+                }
+                else {
+                    $("#error").html(result.message);
+                    console.log(result.message+"--"+result.result);
+                    alert("添加失败");
+                }
+            },
+            error: function () {
+                alert("操作失败");
+            }
+
+        })
+    }
+
 
     function RegisterUser() {
         var userName = $("#adduserName").val();
@@ -92,8 +191,8 @@
         var userSex =$('input:radio[name="userSex"]:checked').val();
         var email = $("#addemail").val();
         var telphone = $("#addtelphone").val();
-        var isDeleted =$('input:radio[name="isDeleted"]:checked').val();
-        console.log(userName+"----"+userPassword+"----"+userSex+"----"+email+"----"+telphone+"----"+isDeleted);
+        console.log(userName+"----"+userPassword+"----"+userSex+"----"+email+
+            "----"+telphone);
         if(userName == null || userName == "" || userName == undefined){
             $("#error").css("display","block");
             $("#error").html("用户名不能为空");
@@ -119,12 +218,8 @@
             $("#error").html("电话不能为空");
             return false;
         }
-        if(isDeleted == null || isDeleted == "" || isDeleted == undefined){
-            $("#error").css("display","block");
-            $("#error").html("状态不能为空");
-            return false;
-        }
-        var data = {"userName" : userName,"userPassword" : userPassword, "userSex":userSex,"email":email ,"telphone":telphone,"isDeleted":isDeleted};
+        var data = {"userName" : userName,"userPassword" : userPassword,
+            "userSex":userSex,"email":email ,"telphone":telphone};
         $.ajax({
             //请求方式
             type : "POST",
