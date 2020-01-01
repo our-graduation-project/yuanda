@@ -3,12 +3,18 @@ package wang.haogui.yuanda.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import sun.management.snmp.jvminstr.NotificationTargetImpl;
+import wang.haogui.yuanda.component.NotificationComponent;
 import wang.haogui.yuanda.model.Favorites;
 import wang.haogui.yuanda.model.FavoritesConnection;
+import wang.haogui.yuanda.model.Message;
 import wang.haogui.yuanda.service.FavoritesConnectionService;
 import wang.haogui.yuanda.service.FavoritesService;
 import wang.haogui.yuanda.utils.APIResult;
+import wang.haogui.yuanda.utils.TokenUtil;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +34,9 @@ public class FavoritesController {
     private FavoritesService favoritesService;
 
     @Autowired
+    private NotificationComponent notificationComponent;
+
+    @Autowired
     private FavoritesConnectionService favoritesConnectionService;
 
     @GetMapping(value = "user/loadallfavorites")
@@ -39,24 +48,23 @@ public class FavoritesController {
     }
 
     @RequestMapping("user/addfavorites")
-    public APIResult addFavorites(@RequestBody Map map){
+    public APIResult addFavorites(@RequestBody Map map, HttpServletRequest request){
         Favorites favorites = new Favorites();
         if(map.get("addFavoritesName") == null){
             return APIResult.genFailApiResponse400("未输入收藏夹名。");
         }
         String addFavoritesName = (String) map.get("addFavoritesName");
-        int userId = 1;
-        //此部分为用户的  获取token是输入
-//                  Cookie[] cookies = request.getCookies();
-//                  Cookie cookie = null;
-//                  for (Cookie c:cookies) {
-//                        if("user".equals(c.getName())){
-//                              cookie = c;
-//                        }
-//                  }
-//                  String string = cookie.getValue().toString();
-//                  int userId = (int) TokenUtil.getTokenValue(string, "userId");
-        //通过token获取当前用户的id
+//        此部分为用户的  获取token是输入
+                  Cookie[] cookies = request.getCookies();
+                  Cookie cookie = null;
+                  for (Cookie c:cookies) {
+                        if("user".equals(c.getName())){
+                              cookie = c;
+                        }
+                  }
+                  String string = cookie.getValue().toString();
+                  int userId = (int) TokenUtil.getTokenValue(string, "userId");
+//        通过token获取当前用户的id
         favorites.setFavoritesName(addFavoritesName);
         //默认创建收藏夹是收藏数量为0
         favorites.setFavoritesNumber(0);
@@ -66,9 +74,11 @@ public class FavoritesController {
 
         boolean b = favoritesService.addFavorites(favorites);
         if(b){
-            return APIResult.genSuccessApiResponse("成功！");
+
+
+            return APIResult.genSuccessApiResponse("收藏成功！");
         }
-        return APIResult.genFailApiResponse400("收藏夹失败");
+        return APIResult.genFailApiResponse400("收藏失败");
     }
 
     @RequestMapping("user/searchfavoritdetailbyid")
@@ -125,6 +135,11 @@ public class FavoritesController {
     }
 
 
+    /**
+     * 添加到收藏
+     * @param map
+     * @return
+     */
     @RequestMapping("user/delfavoritesconnection")
     public APIResult delFavoritesConnection(@RequestBody Map map){
         if(map.get("id") == null){
@@ -153,8 +168,32 @@ public class FavoritesController {
         if(!b1){
             return APIResult.genFailApiResponse400("删除失败");
         }
+
         return APIResult.genSuccessApiResponse("删除成功");
     }
+
+    @RequestMapping("user/addfavoritesconnection")
+    public APIResult addFavoritesconnection(@RequestBody FavoritesConnection favoritesConnection){
+
+        System.out.println("addFavoritesconnection:"+favoritesConnection);
+
+        favoritesConnection.setIsDeleted(false);
+
+        boolean b = favoritesConnectionService.addRecordToFavorites(favoritesConnection);
+        if(b){
+//            Message message = new Message();
+//            message.setMessageTarget();
+////        message.setMessageTarget();
+//            message.setMessageType((byte)0);
+//            message.setIsRead((byte) 0);
+//            message.setIsDeleted(false);
+//            notificationComponent.sendNotification(message);
+            return APIResult.genSuccessApiResponse("收藏成功");
+        }
+
+        return APIResult.genFailApiResponse401("收藏失败请重新尝试");
+    }
+
 
 
 }
