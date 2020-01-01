@@ -251,4 +251,16 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = commentMapper.selectComment(comment);
         return comments;
     }
+
+    /**
+     * 通过评论id查询评论
+     *
+     * @param commentId
+     * @return
+     */
+    @Override
+    public Comment selectCommentById(int commentId) {
+        Comment comment = commentMapper.selectByPrimaryKey(commentId);
+        return comment;
+    }
 }

@@ -71,4 +71,11 @@ public interface CommentService {
      */
     List<Comment> selectComment(Comment comment);
 
+    /**
+     * 通过评论id查询评论
+     * @param commentId
+     * @return
+     */
+    Comment selectCommentById(int commentId);
+
 }

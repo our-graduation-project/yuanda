@@ -2,7 +2,13 @@ package wang.haogui.yuanda.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import wang.haogui.yuanda.component.NotificationComponent;
+import wang.haogui.yuanda.model.Answer;
+import wang.haogui.yuanda.model.Article;
 import wang.haogui.yuanda.model.Comment;
+import wang.haogui.yuanda.model.Message;
+import wang.haogui.yuanda.service.AnswerService;
+import wang.haogui.yuanda.service.ArticleService;
 import wang.haogui.yuanda.service.CommentService;
 import wang.haogui.yuanda.utils.APIResult;
 import wang.haogui.yuanda.utils.TokenUtil;
@@ -26,6 +32,14 @@ public class CommentController {
       @Autowired
       private CommentService commentService;
 
+      @Autowired
+      private AnswerService answerService;
+
+      @Autowired
+      private ArticleService articleService;
+
+      @Autowired
+      private NotificationComponent notificationComponent;
 
       @RequestMapping(value = "user/loadcomment")
       public APIResult loadComment(@RequestBody Map map){
@@ -88,6 +102,60 @@ public class CommentController {
                   }
 
                   if(flag){
+                        if(Byte.parseByte(map.get("commentType").toString()) == 2){
+                              //评论的类型是评论别人的评论成功后发送一条通知给被评论的人
+                              //先通过targetId查询到要发送给谁
+                              Comment comment = commentService.selectCommentById(Integer.parseInt(map.get("commentTargetId").toString()));
+                              Message message = new Message();
+                              message.setIsRead((byte) 0);
+                              Date date = new Date();
+                              message.setMessageTarget(comment.getCommentResourceId());
+                              StringBuffer s = new StringBuffer();
+                              s.append(comment.getCommentResourceName());
+                              s.append("评论了你的评论：");
+                              s.append(comment.getCommentContent());
+                              s.append("ta说：");
+                              s.append((String) map.get("commentContent"));
+                              message.setMessageContent(s.toString());
+                              message.setMessageType((byte) 0);
+                              message.setIsDeleted(false);
+                              notificationComponent.sendNotification(message);
+                        }else if(Byte.parseByte(map.get("commentType").toString()) == 1){
+                              //评论的类型是评论别人的回答成功后发送一条通知给被评论的人
+                              //先通过targetId查询到要发送给谁
+                              Answer answer = answerService.selectAnswerById(Integer.parseInt(map.get("commentTargetId").toString()));
+                              Message message = new Message();
+                              message.setIsRead((byte) 0);
+                              Date date = new Date();
+                              message.setMessageTarget(answer.getAuthorId());
+                              StringBuffer s = new StringBuffer();
+                              s.append(answer.getAutherName());
+                              s.append("评论了你的回答：");
+                              s.append("ta说：");
+                              s.append((String) map.get("commentContent"));
+                              message.setMessageContent(s.toString());
+                              message.setMessageType((byte) 0);
+                              message.setIsDeleted(false);
+                              notificationComponent.sendNotification(message);
+
+                        }else if(Byte.parseByte(map.get("commentType").toString()) == 0){
+                              //评论的类型是评论别人的文章成功后发送一条通知给被评论的人
+                              //先通过targetId查询到要发送给谁
+                              Article article = articleService.selectArticleId(Integer.parseInt(map.get("commentTargetId").toString()));
+                              Message message = new Message();
+                              message.setIsRead((byte) 0);
+                              Date date = new Date();
+                              message.setMessageTarget(article.getAuthorId());
+                              StringBuffer s = new StringBuffer();
+                              s.append(article.getAuthorName());
+                              s.append("评论了你的文章：");
+                              s.append("ta说：");
+                              s.append((String) map.get("commentContent"));
+                              message.setMessageContent(s.toString());
+                              message.setMessageType((byte) 0);
+                              message.setIsDeleted(false);
+                              notificationComponent.sendNotification(message);
+                        }
                         return APIResult.genSuccessApiResponse("添加评论成功");
                   }
             }

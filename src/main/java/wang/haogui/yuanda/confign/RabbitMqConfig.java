@@ -74,4 +74,35 @@ public class RabbitMqConfig {
                 .with(QueueEnum.QUEUE_SENT_REGISTER_CODE.getRouteKey());
     }
 
+    /**
+     * 通知发送消息实际消费队列所绑定的交换机
+     */
+    @Bean
+    DirectExchange notificationDirect() {
+        return (DirectExchange) ExchangeBuilder
+                .directExchange(QueueEnum.QUEUE_SENT_NOTIFICATION.getExchange())
+                .durable(true)
+                .build();
+    }
+
+    /**
+     * 通知发送消息实际消费队列
+     */
+    @Bean
+    public Queue notificationQueue() {
+        return new Queue(QueueEnum.QUEUE_SENT_NOTIFICATION.getName());
+    }
+
+    /**
+     * 通知队列绑定到交换机
+     */
+    @Bean
+    Binding notificationBinding(DirectExchange notificationDirect,Queue notificationQueue){
+        return BindingBuilder
+                .bind(notificationQueue)
+                .to(notificationDirect)
+                .with(QueueEnum.QUEUE_SENT_NOTIFICATION.getRouteKey());
+    }
+
+
 }

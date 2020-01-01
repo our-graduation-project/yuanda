@@ -1,11 +1,13 @@
 package wang.haogui.yuanda.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import wang.haogui.yuanda.model.Message;
 import wang.haogui.yuanda.model.MessageExample;
 
 import java.util.List;
 
+@Mapper
 public interface MessageMapper {
     long countByExample(MessageExample example);
 

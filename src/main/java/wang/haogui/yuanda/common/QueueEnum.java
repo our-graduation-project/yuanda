@@ -1,20 +1,22 @@
 package wang.haogui.yuanda.common;
 
-import lombok.Getter;
 
 /**
  * 消息队列枚举，里面存了交换机名称，路由，队列名称
  * @author whg
  * @date 2019/12/11 11:21
  **/
-@Getter
 public enum QueueEnum {
+
+    /**
+     * 邮件消息通知队列
+     */
+    QUEUE_SENT_EAILL("yuanda_direct", "yuanda_sent_email", "yuanda_sent_email"),
 
     /**
      * 消息通知队列
      */
-    QUEUE_SENT_EAILL("yuanda_direct", "yuanda_sent_email", "yuanda_sent_email"),
-
+    QUEUE_SENT_NOTIFICATION("yuanda_notification_direct", "yuanda_sent_notification", "yuanda_sent_notification"),
 
     /**
      * 注册码发送队列
@@ -24,7 +26,7 @@ public enum QueueEnum {
     /**
      * esarticle的发送队列
      */
-    QUEUE_SENT_ES_ARTICLE_DATA("yuanda_es_article_direct","yuanda_sent_es_article","yuanda_sent_es__article");
+    QUEUE_SENT_ES_ARTICLE_DATA("yuanda_es_article_direct","yuanda_sent_es_article","yuanda_sent_es_article");
 
     /**
      * 交换名称
@@ -43,5 +45,18 @@ public enum QueueEnum {
         this.exchange = exchange;
         this.name = name;
         this.routeKey = routeKey;
+    }
+
+
+    public String getExchange() {
+        return exchange;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRouteKey() {
+        return routeKey;
     }
 }
