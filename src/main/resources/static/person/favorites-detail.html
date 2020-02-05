@@ -28,16 +28,18 @@
             </div>
             <div class="right m-item m-mobile-hide menu">
                 <div class="ui dropdown item">
-                    <div class="text ">
-                        <img class="ui avatar image" src="https://picsum.photos/id/1011/100/100">
-                        叶仁平
+                    <div class="text">
+                        <img class="ui avatar image" :src="userPicture">
+                        <span type="text" >  </span>
                     </div>
                     <i class="dropdown icon"></i>
                     <div class="menu">
                         <a href="#"  class="item">注销</a>
                         <a class="item">编辑个人信息</a>
+                        <a  class="item" href="notification.html">通知</a>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     </div>
@@ -46,80 +48,82 @@
         <i class="sidebar icon"></i>
     </a>
 </nav><!--二级导航-->
-<div class="ui attached pointing menu">
-    <div class="ui container">
-        <div class="right menu">
-            <a href="blogs-input.html"  class="item">发布</a>
-            <a href="blogs.html"   class="item">列表</a>
-            <a href="favorites.html"  class="item">我的收藏夹</a>
-            <a href="person.html"   class="item">个人中心</a>
+<div id="app">
+    <div class="ui attached pointing menu">
+        <div class="ui container">
+            <div class="right menu">
+                <a href="blogs-input.html"  class="item">发布</a>
+                <a href="blogs.html"   class="item">列表</a>
+                <a href="favorites.html"  class="item">我的收藏夹</a>
+                <a href="person.html"   class="item">个人中心</a>
+            </div>
         </div>
     </div>
-</div>
-<!--中间内容-->
-<div class="m-container m-padded-tb-big" id="app">
-    <div class="ui container">
-        <div class="ui stackable grid">
-            <!--左边博客列表-->
-            <div class="eleven wide column">
-                <!--header-->
-                <div class="ui top attached segment">
-                    <div class="ui middle aligned two column grid">
-                        <div class="column">
-                            <a href="favorites.html">返回我的收藏夹</a>
-                            <h3 class="m-black">{{favorites.favoritesName}}</h3>
-                            <div class="ui horizontal bulleted list">
-                                <a class="item" onclick="modal()">
-                                    编辑该收藏夹
-                                </a>
-                                <a class="item" @click="delFavorites()">
-                                    删除该收藏夹
-                                </a>
-                            </div>
-                            <div class="ui modal">
-                                <div class="header" >编辑收藏夹</div>
-                                <div class="content">
-                                    <div class="ui " >
+    <div class="m-container m-padded-tb-big" >
+        <div class="ui container">
+            <div class="ui stackable grid">
+                <!--左边博客列表-->
+                <div class="eleven wide column">
+                    <!--header-->
+                    <div class="ui top attached segment">
+                        <div class="ui middle aligned two column grid">
+                            <div class="column">
+                                <a href="favorites.html">返回我的收藏夹</a>
+                                <h3 class="m-black">{{favorites.favoritesName}}</h3>
+                                <div class="ui horizontal bulleted list">
+                                    <a class="item" onclick="modal()">
+                                        编辑该收藏夹
+                                    </a>
+                                    <a class="item" @click="delFavorites()">
+                                        删除该收藏夹
+                                    </a>
+                                </div>
+                                <div class="ui modal">
+                                    <div class="header" >编辑收藏夹</div>
+                                    <div class="content">
+                                        <div class="ui " >
                                             <label for="editfavoritesName">收藏夹名字</label>
                                             <input type="text" value="" v-model="favoritesName" id="editfavoritesName" >
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="actions">
-                                    <div class="ui m-black cancel  button">
-                                        <i class="remove icon"></i>
-                                        取消
-                                    </div>
-                                    <div class="ui m-black ok  button" onclick="editFavorites()">
-                                        <i class="checkmark icon"></i>保存
+                                    <div class="actions">
+                                        <div class="ui m-black cancel  button">
+                                            <i class="remove icon"></i>
+                                            取消
+                                        </div>
+                                        <div class="ui m-black ok  button" onclick="editFavorites()">
+                                            <i class="checkmark icon"></i>保存
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="right aligned column">
-                            共 <h2 class="ui orange header m-inline-blok m-text-thin" >{{favorites.favoritesNumber}}</h2>条
+                            <div class="right aligned column">
+                                共 <h2 class="ui orange header m-inline-blok m-text-thin" >{{favorites.favoritesNumber}}</h2>条
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!--content-->
-                <!--                    文章信息展示-->
-            <div v-for="(favoritesConnection,index) in favoritesConnections">
-                <div class="ui attached segment">
-                    <div class="ui padded vertical segment m-padded-tb-large" >
-                        <!--mobile reversed反序-->
-                        <div class="ui middle aligned grid mobile reversed stackable" >
-                            <div class="eleven wide column">
-                                <h3><a href="#"  target="_blank" class="m-black" >标题：{{favoritesConnection.contentTitle}}</a></h3>
-                                 <div class="content"> <a href="#" class="header" >作者：{{favoritesConnection.author}}</a></div>
-                                 <div class="content"> 类型：{{favoritesConnection.str}}</div>
-                                <div class="ui grid">
+                    <!--content-->
+                    <!--                    文章信息展示-->
+                    <div v-for="(favoritesConnection,index) in favoritesConnections">
+                        <div class="ui attached segment">
+                            <div class="ui padded vertical segment m-padded-tb-large" >
+                                <!--mobile reversed反序-->
+                                <div class="ui middle aligned grid mobile reversed stackable" >
                                     <div class="eleven wide column">
-                                        <div class="ui mini horizontal link list">
-                                            <br>
-                                            <div class="item">
-                                                <a href=""> <i class="eye icon"></i><span >去往该记录详情页</span></a>
-                                            </div>
-                                            <div class="item" >
-                                                <a @click="delFavoritesConnection(index)"><i class="eye icon"></i><span >删除该记录</span></a>
+                                        <h3><a href="#"  target="_blank" class="m-black" >标题：{{favoritesConnection.contentTitle}}</a></h3>
+                                        <div class="content"> <a href="#" class="header" >作者：{{favoritesConnection.author}}</a></div>
+                                        <div class="content"> 类型：{{favoritesConnection.type == 1 ? "文章":"回答"}}</div>
+                                        <div class="ui grid">
+                                            <div class="eleven wide column">
+                                                <div class="ui mini horizontal link list">
+                                                    <br>
+                                                    <div class="item">
+                                                        <a @click="tohref(index)"> <i class="eye icon"></i><span >去往该记录详情页</span></a>
+                                                    </div>
+                                                    <div class="item" >
+                                                        <a @click="delFavoritesConnection(index)"><i class="eye icon"></i><span >删除该记录</span></a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -127,161 +131,163 @@
                             </div>
                         </div>
                     </div>
+
+                    <!--footer-->
                 </div>
-            </div>
+                <div class="five wide column">
+                    <!--分类-->
 
-                <!--footer-->
-            </div>
-            <div class="five wide column">
-                <!--分类-->
-
-                <div class="ui segments">
-                    <div class="ui secondary segment">
-                        <div class="ui two column grid">
-                            <div class="column">
-                                <i class="idea icon"></i>分类
+                    <div class="ui segments">
+                        <div class="ui secondary segment">
+                            <div class="ui two column grid">
+                                <div class="column">
+                                    <i class="idea icon"></i>分类
+                                </div>
+                                <div class="right aligned column">
+                                    <a href="#"  target="_blank">more <i class="angle double right icon"></i></a>
+                                </div>
                             </div>
-                            <div class="right aligned column">
-                                <a href="#"  target="_blank">more <i class="angle double right icon"></i></a>
+                        </div>
+                        <div class="ui teal segment">
+                            <div class="ui fluid vertical menu" >
+                                <a href="#"  class="item" >
+                                    <span >学习日志</span>
+                                    <div class="ui teal basic left pointing label" >10</div>
+                                </a>
+                                <!--/*-->
+                                <a href="#" class="item">
+                                    JavaEE学习
+                                    <div class="ui teal basic left pointing label">10</div>
+                                </a>
+                                <a href="#" class="item">
+                                    历史人文
+                                    <div class="ui teal basic left pointing label">10</div>
+                                </a>
+                                <a href="#" class="item">
+                                    生活
+                                    <div class="ui teal basic left pointing label">10</div>
+                                </a>
+                                <a href="#" class="item">
+                                    旅行
+                                    <div class="ui teal basic left pointing label">10</div>
+                                </a>
+                                <a href="#" class="item">
+                                    成长
+                                    <div class="ui teal basic left pointing label">10</div>
+                                </a>
+                                <!--*/-->
                             </div>
                         </div>
                     </div>
-                    <div class="ui teal segment">
-                        <div class="ui fluid vertical menu" >
-                            <a href="#"  class="item" >
-                                <span >学习日志</span>
-                                <div class="ui teal basic left pointing label" >10</div>
+                    <!--标签-->
+                    <div class="ui segments m-margin-top-large">
+                        <div class="ui secondary segment">
+                            <div class="ui two column grid">
+                                <div class="column">
+                                    <i class="tags icon"></i>标签
+                                </div>
+                                <div class="right aligned column">
+                                    <a href="#"  target="_blank">more <i class="angle double right icon"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui teal segment">
+                            <a href="#"  class="ui teal basic center pointing label" >
+                                <span >JavaEE</span>
+                                <div class="detail" >23</div>
                             </a>
                             <!--/*-->
-                            <a href="#" class="item">
-                                JavaEE学习
-                                <div class="ui teal basic left pointing label">10</div>
+                            <a href="" class="ui teal basic center pointing label ">
+                                Spring
+                                <div class="detail">23</div>
                             </a>
-                            <a href="#" class="item">
-                                历史人文
-                                <div class="ui teal basic left pointing label">10</div>
+                            <a href="" class="ui teal basic center pointing label ">
+                                SpringMVC
+                                <div class="detail">23</div>
                             </a>
-                            <a href="#" class="item">
-                                生活
-                                <div class="ui teal basic left pointing label">10</div>
+                            <a href="" class="ui teal basic center pointing label ">
+                                SpringBoot
+                                <div class="detail">23</div>
                             </a>
-                            <a href="#" class="item">
-                                旅行
-                                <div class="ui teal basic left pointing label">10</div>
-                            </a>
-                            <a href="#" class="item">
-                                成长
-                                <div class="ui teal basic left pointing label">10</div>
+                            <a href="" class="ui teal basic center pointing label ">
+                                JavaSE
+                                <div class="detail m-margin-tb-tiny ">23</div>
                             </a>
                             <!--*/-->
+
                         </div>
                     </div>
-                </div>
-                <!--标签-->
-                <div class="ui segments m-margin-top-large">
-                    <div class="ui secondary segment">
+                    <!--最新推荐-->
+                    <div class="ui segments m-margin-top-large">
+                        <div class="ui secondary segment">
+                            <i class="bookmark icon"></i>最新推荐
+                        </div>
+
+                        <div class="ui segment"  >
+                            <a href="#" class="m-black m-text">SpringBoot的原理分析..</a>
+                        </div>
+                        <!--/*-->
+                        <div class="ui segment">
+                            <a href="#" class="m-black m-text">MyBaits运行原理..</a>
+                        </div>
+                        <div class="ui segment">
+                            <a href="#" class="m-black m-text">Eclipse快捷键总结..</a>
+                        </div>
+                        <div class="ui segment">
+                            <a href="#" class="m-black m-text" >idea的基本操作和基本配置..</a>
+                        </div>
+                        <!--*/-->
+                    </div>
+                    <!--二维码-->
+                    <h4 class="ui horizontal divider header m-margin-top-large">联系博主（微信）</h4>
+                    <div class="ui card centered" style="width: 11em">
+                        <img src="images/WeChat.jpg"  alt="" class="ui rounded image" >
+                    </div>
+                    <div class="ui basic segment">
+                        <a href="https://github.com/yerenping" class="ui circular icon button m-margin-left-big"><i class="github icon"></i></a>
+                        <a href="#" class="ui wc circular icon button"><i class="weixin icon"></i></a>
+                        <a href="#" class="ui circular icon button"><i class="qq icon" data-content="1515177029" data-position="bottom center"></i></a>
+                        <a href="https://space.bilibili.com/393270022" class="ui circular icon button"><i class=" icon">B</i></a>
+                    </div>
+                    <div class="ui wc-qr flowing popup transition hidden">
+                        <img src="../static/images/WeChat.jpg"  alt="" class="ui rounded image" style="width: 130px">
+                    </div>
+                    <!--打赏博主-->
+                    <h4 class="ui horizontal divider header m-margin-top-large">打赏博主</h4>
+                    <div class="ui segment">
                         <div class="ui two column grid">
                             <div class="column">
-                                <i class="tags icon"></i>标签
+                                <!--微信打赏-->
+                                <img src="../static/images/pay_wechat.jpg"  alt="" class="ui rounded image" style="width: 100px">
                             </div>
                             <div class="right aligned column">
-                                <a href="#"  target="_blank">more <i class="angle double right icon"></i></a>
+                                <!--支付宝打赏-->
+                                <img src="../static/images/pay_baby.jpg"  alt="" class="ui rounded image" style="width: 100px">
                             </div>
                         </div>
                     </div>
-                    <div class="ui teal segment">
-                        <a href="#"  class="ui teal basic center pointing label" >
-                            <span >JavaEE</span>
-                            <div class="detail" >23</div>
-                        </a>
-                        <!--/*-->
-                        <a href="" class="ui teal basic center pointing label ">
-                            Spring
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="" class="ui teal basic center pointing label ">
-                            SpringMVC
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="" class="ui teal basic center pointing label ">
-                            SpringBoot
-                            <div class="detail">23</div>
-                        </a>
-                        <a href="" class="ui teal basic center pointing label ">
-                            JavaSE
-                            <div class="detail m-margin-tb-tiny ">23</div>
-                        </a>
-                        <!--*/-->
-
-                    </div>
-                </div>
-                <!--最新推荐-->
-                <div class="ui segments m-margin-top-large">
-                    <div class="ui secondary segment">
-                        <i class="bookmark icon"></i>最新推荐
-                    </div>
-
-                    <div class="ui segment"  >
-                        <a href="#" class="m-black m-text">SpringBoot的原理分析..</a>
-                    </div>
-                    <!--/*-->
-                    <div class="ui segment">
-                        <a href="#" class="m-black m-text">MyBaits运行原理..</a>
-                    </div>
-                    <div class="ui segment">
-                        <a href="#" class="m-black m-text">Eclipse快捷键总结..</a>
-                    </div>
-                    <div class="ui segment">
-                        <a href="#" class="m-black m-text" >idea的基本操作和基本配置..</a>
-                    </div>
-                    <!--*/-->
-                </div>
-                <!--二维码-->
-                <h4 class="ui horizontal divider header m-margin-top-large">联系博主（微信）</h4>
-                <div class="ui card centered" style="width: 11em">
-                    <img src="images/WeChat.jpg"  alt="" class="ui rounded image" >
-                </div>
-                <div class="ui basic segment">
-                    <a href="https://github.com/yerenping" class="ui circular icon button m-margin-left-big"><i class="github icon"></i></a>
-                    <a href="#" class="ui wc circular icon button"><i class="weixin icon"></i></a>
-                    <a href="#" class="ui circular icon button"><i class="qq icon" data-content="1515177029" data-position="bottom center"></i></a>
-                    <a href="https://space.bilibili.com/393270022" class="ui circular icon button"><i class=" icon">B</i></a>
-                </div>
-                <div class="ui wc-qr flowing popup transition hidden">
-                    <img src="../static/images/WeChat.jpg"  alt="" class="ui rounded image" style="width: 130px">
-                </div>
-                <!--打赏博主-->
-                <h4 class="ui horizontal divider header m-margin-top-large">打赏博主</h4>
-                <div class="ui segment">
-                    <div class="ui two column grid">
-                        <div class="column">
-                            <!--微信打赏-->
-                            <img src="../static/images/pay_wechat.jpg"  alt="" class="ui rounded image" style="width: 100px">
+                    <!--友情链接-->
+                    <h4 class="ui horizontal divider header" >友情链接</h4>
+                    <div class="ui segments">
+                        <div class="ui  segment">
+                            <a href="http://www.zbboke.com">张兵的个人网站</a>
                         </div>
-                        <div class="right aligned column">
-                            <!--支付宝打赏-->
-                            <img src="../static/images/pay_baby.jpg"  alt="" class="ui rounded image" style="width: 100px">
+                        <div class="ui segment">
+                            <a href="http://www.loveif.com/">小兔博客</a>
+                        </div>
+                        <div class="ui segment">
+                            <a href="https://www.duanliang920.com/">段亮博客</a>
                         </div>
                     </div>
                 </div>
-                <!--友情链接-->
-                <h4 class="ui horizontal divider header" >友情链接</h4>
-                <div class="ui segments">
-                    <div class="ui  segment">
-                        <a href="http://www.zbboke.com">张兵的个人网站</a>
-                    </div>
-                    <div class="ui segment">
-                        <a href="http://www.loveif.com/">小兔博客</a>
-                    </div>
-                    <div class="ui segment">
-                        <a href="https://www.duanliang920.com/">段亮博客</a>
-                    </div>
-                </div>
+
             </div>
-
         </div>
     </div>
 </div>
+
+<!--中间内容-->
+
 <br>
 <br>
 <!--底部-->
@@ -328,6 +334,7 @@
 <script src="../plugins/jquery/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
 <script src="../mydist/js/vue.js"></script>
+<script src="../mydist/js/utils.js"></script>
 <script src="../mydist/js/public.js"></script>
 <script src="../mydist/js/favorites-detail.js"></script>
 <!--/*/</th:block>/*/-->

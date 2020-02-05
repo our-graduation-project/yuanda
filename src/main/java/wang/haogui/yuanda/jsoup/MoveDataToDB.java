@@ -84,50 +84,56 @@ public class MoveDataToDB {
 
         for (Object json :
                 articleSet) {
-            articleList.add(JSON.parseObject(json.toString().replaceAll("[\\ud800\\udc00-\\udbff\\udfff\\ud800-\\udfff]", ""), Article.class));
+            try{
+                articleList.add(JSON.parseObject(json.toString().replaceAll("[\\ud800\\udc00-\\udbff\\udfff\\ud800-\\udfff]", ""), Article.class));
+            }catch (Exception e){
+                System.out.println("出现错误");
+            }
         }
 
         articleList = articleService.addBatchAritcle(articleList);
         List<LabelConnection> labelConnectionList = new ArrayList<>();
         //将文章加入到es中去0
-        List<JSONObject> toEs = new ArrayList<>();
+        List<Integer> toEs = new ArrayList<>();
         int i = 0;
         for (Object json :
                 articleSet) {
-            JSONObject jsonObject = JSONObject.parseObject(json.toString());
-            jsonObject.put("articleId",articleList.get(i).getArticleId());
-            //获得文章所拥有的id
-            List labelNames = (List) jsonObject.get("labelName");
-            for (Object labelName :
-                    labelNames) {
-                List<Label> idByLabelName = labelService.getIdByLabelName(labelName.toString());
-                //标签不为空向标签联系表中加一条数据
-                if(!idByLabelName.isEmpty()){
-                    labelConnectionList.add(new LabelConnection(idByLabelName.get(0).getLabelId(),articleList.get(i).getArticleId(),false,false));
+            try{
+                JSONObject jsonObject = JSONObject.parseObject(json.toString());
+                jsonObject.put("articleId",articleList.get(i).getArticleId());
+                //获得文章所拥有的id
+                List labelNames = (List) jsonObject.get("labelName");
+                for (Object labelName :
+                        labelNames) {
+                    List<Label> idByLabelName = labelService.getIdByLabelName(labelName.toString());
+                    //标签不为空向标签联系表中加一条数据
+                    if(!idByLabelName.isEmpty()){
+                        labelConnectionList.add(new LabelConnection(idByLabelName.get(0).getLabelId(),articleList.get(i).getArticleId(),false,false));
+                    }
                 }
+                toEs.add(articleList.get(i).getArticleId());
+    //            System.out.println("jsonObject = " + jsonObject.toJSONString());
+                i++;
+            }catch (Exception e){
+
             }
-            toEs.add(jsonObject);
-//            System.out.println("jsonObject = " + jsonObject.toJSONString());
-            i++;
+
         }
 
         //批量加入labelConnection
         int number2 = labelConnectionService.addBatch(labelConnectionList);
         //加入es
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-        int count = 0;
-//        toEs.forEach(id->{
-//            executorService.submit(()->{
-//                searchService.index(id);
-//            });
-//        });
-        searchService.bulkInsert(toEs);
+//        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        toEs.forEach(id->{
+            searchService.index(id);
+        });
+//        searchService.bulkInsert(toEs);
         //清空Article
         List clear = redisSetService.clear(RedisKeyUtil.getArticleKey());
         if(clear != null && !clear.isEmpty()){
             System.out.println("清空redis里面的");
         }
-        executorService.shutdown();
+//        executorService.shutdown();
 //        System.out.println(number2);
 //        //批量加入es
 //        searchService.bulkInsert(toEs);

@@ -94,4 +94,43 @@ function powerManager(power) {
     }
 }
 
+
+/**
+ * 检查用户是否拥有power权限
+ * @param power
+ */
+function getUserId() {
+    var cookie = getCookie("token");
+    if(cookie == null || cookie == undefined){
+        return null;
+    }
+    var load = cookie.split(".");
+    //获得jwt里面的loder
+    //console.log(window.atob(load[1]));
+
+    //转为json对象
+    var obj = new Function("return" + window.atob(load[1]))();
+    //获取id
+    return obj.userId;
+}
+
+
+
+function getUserData(data) {
+    var cookie = getCookie("token");
+    if(cookie == null || cookie == undefined){
+        return null;
+    }
+    var load = cookie.split(".");
+    //获得jwt里面的loder
+    //console.log(window.atob(load[1]));
+
+    //转为json对象
+    var obj = new Function("return" + window.atob(load[1]))();
+    // console.log("token："+JSON.stringify(obj));
+    return obj[data];
+}
+
+
+
 <!-- cookie操作 end-->

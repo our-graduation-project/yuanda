@@ -11,6 +11,7 @@ import wang.haogui.yuanda.model.Message;
 import wang.haogui.yuanda.service.FavoritesConnectionService;
 import wang.haogui.yuanda.service.FavoritesService;
 import wang.haogui.yuanda.utils.APIResult;
+import wang.haogui.yuanda.utils.CookieUtil;
 import wang.haogui.yuanda.utils.TokenUtil;
 
 import javax.servlet.http.Cookie;
@@ -40,10 +41,12 @@ public class FavoritesController {
     private FavoritesConnectionService favoritesConnectionService;
 
     @GetMapping(value = "user/loadallfavorites")
-    public APIResult loadAllFavorites(){
+    public APIResult loadAllFavorites(HttpServletRequest request){
         //通过token获取当前用户的id
-        int id = 1;
-        List<Favorites> favorites = favoritesService.selectFavoritesByUserId(id);
+
+        Integer userId = (Integer) CookieUtil.getCookiesValueByName(request, "userId");
+        List<Favorites> favorites = favoritesService.selectFavoritesByUserId(userId);
+        System.out.println("favorites = " + favorites);
         return APIResult.genSuccessApiResponse(favorites);
     }
 
@@ -54,16 +57,7 @@ public class FavoritesController {
             return APIResult.genFailApiResponse400("未输入收藏夹名。");
         }
         String addFavoritesName = (String) map.get("addFavoritesName");
-//        此部分为用户的  获取token是输入
-                  Cookie[] cookies = request.getCookies();
-                  Cookie cookie = null;
-                  for (Cookie c:cookies) {
-                        if("user".equals(c.getName())){
-                              cookie = c;
-                        }
-                  }
-                  String string = cookie.getValue().toString();
-                  int userId = (int) TokenUtil.getTokenValue(string, "userId");
+        Integer userId = (Integer) CookieUtil.getCookiesValueByName(request, "userId");
 //        通过token获取当前用户的id
         favorites.setFavoritesName(addFavoritesName);
         //默认创建收藏夹是收藏数量为0
@@ -74,8 +68,6 @@ public class FavoritesController {
 
         boolean b = favoritesService.addFavorites(favorites);
         if(b){
-
-
             return APIResult.genSuccessApiResponse("收藏成功！");
         }
         return APIResult.genFailApiResponse400("收藏失败");
@@ -126,7 +118,7 @@ public class FavoritesController {
             return APIResult.genFailApiResponse400("删除失败");
         }
         Integer favoritesId = Integer.parseInt(map.get("favoritesId").toString());
-        System.out.println("delfavorites"+favoritesId);
+//        System.out.println("delfavorites"+favoritesId);
         boolean b = favoritesService.delFavorties(favoritesId);
         if(!b){
             return APIResult.genFailApiResponse400("删除失败");

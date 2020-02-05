@@ -3,6 +3,7 @@ $(function () {
     var thisUrl = location.search;
     if(thisUrl !=null&&thisUrl.indexOf("?") != -1) {
         var searchValue = thisUrl.substr(thisUrl.indexOf("=") + 1);
+        $("#searchValue").val(searchValue);
         search(searchValue)
     }else {
         alert("一定是哪里出错了,重新搜索一下吧")
@@ -11,7 +12,8 @@ $(function () {
 
 function search(searchValue) {
 
-    var data = {"title":searchValue};
+    var data = {"title":decodeURIComponent(searchValue)};
+    // console.log("title:" + searchValue + "  " + decodeURIComponent(searchValue));
     $.ajax({
         //请求方式
         type : "POST",
@@ -30,7 +32,7 @@ function search(searchValue) {
                     });
                 }
                 var data = result.data;
-                console.log(data);
+                // console.log(data);
                 searchData.addArticle(data);
             }
             else {
@@ -57,7 +59,6 @@ let searchData = new Vue(
     {
         el: '#searchData',
         data:{
-
             newData:{},
             reveal:{},
             pageSize:5,
@@ -75,10 +76,9 @@ let searchData = new Vue(
             }
         },
         methods:{
-
             addArticle(data){
                 this.newData=data;
-                console.log(this.newData.length);
+                // console.log(this.newData.length);
                 this.reveal = this.newData;
             },
             getData(){
@@ -105,7 +105,7 @@ let searchData = new Vue(
                 vm.currentPage = page
             },
             toDetail(index){
-                var url = "blog.html?articleId="+hot.pro.list[index].articleId;
+                var url = "blog.html?articleId=" + searchData.newData[(searchData.currentPage*10+index)].articleId;
                 window.location.href=url;
             },
 

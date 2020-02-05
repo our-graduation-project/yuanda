@@ -87,7 +87,7 @@ public class ArticleServiceImpl implements ArticleService {
     public PageInfo selectAritcleByUserId(int userId, int page, int limit, String order, OrderEnum orderEnum) {
         ArticleExample articleExample = new ArticleExample();
         //查询用户没有被删除，且审核状态不为1的文章
-        articleExample.or().andArticleIdEqualTo(userId)
+        articleExample.or().andAuthorIdEqualTo(userId)
                 .andIsDeletedEqualTo(false)
                 .andCheckStatusNotEqualTo(CheckEnum.CHECKFAILL.getStatus());
 
@@ -102,6 +102,7 @@ public class ArticleServiceImpl implements ArticleService {
         PageInfo pageInfo = new PageInfo(articles,5);
         return pageInfo;
     }
+
 
     /**
      * 通过文章标题查询文章,

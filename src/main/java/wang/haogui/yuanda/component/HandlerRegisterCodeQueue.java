@@ -25,7 +25,7 @@ public class HandlerRegisterCodeQueue {
         String s = new String(body);
         JSONObject jsonObject = JSON.parseObject(s);
         StringBuffer sb = new StringBuffer();
-        sb.append("这是图书管理系统发送的验证码：" + jsonObject.get("code") + "</br>5分钟后到期");
+        sb.append("这是源达发送的验证码：" + jsonObject.get("code") + "</br>5分钟后到期");
         SendMail.sendMail("验证码", sb.toString(),jsonObject.get("mailbox").toString());
         LogUtils.getTimeOutTaskLogger().info("对" + jsonObject.get("name") + "发送了注册码");
     }

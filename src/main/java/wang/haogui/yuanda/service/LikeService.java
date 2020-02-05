@@ -20,7 +20,7 @@ public interface LikeService {
      * @param entityId
      * @return
      */
-    int getLikeStatus(int userId,int entityType,int entityId);
+    int getLikeStatus(Integer userId,int entityType,int entityId);
 
     /**
      * 将其加入like中,返回喜欢的人数
@@ -47,4 +47,20 @@ public interface LikeService {
      * @return
      */
     void getLikeAndDisLikeNumber(int entityType, List list);
+
+    /**
+     * 获得喜欢的数量
+     * @param entityType
+     * @param entityId
+     * @return
+     */
+    Long getLikeNumber(int entityType,int entityId);
+
+    /**
+     * 获得不喜欢的数量
+     * @param entityType
+     * @param entityId
+     * @return
+     */
+    Long getDisLikeNumber(int entityType,int entityId);
 }

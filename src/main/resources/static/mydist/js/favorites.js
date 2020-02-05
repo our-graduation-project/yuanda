@@ -10,6 +10,7 @@ var vm = new Vue({
     data:{
         favorites:[],
         addFavoritesName:"",
+        user:{}
     },
     methods:{
         toDetail(index){
@@ -17,6 +18,10 @@ var vm = new Vue({
             window.location.href="favorites-detail.html?id="+id;
         },
         getData(){
+            this.user.userName = getUserData("userName");
+            // console.log(this.userName);
+            this.user.userPicture = getUserData("userPicture");
+            // console.log(this.userPic);
             axios.get('http://localhost:8080/yuanda/user/loadallfavorites').then(
                 res=>{//sucesses
                     this.favorites = res.data.data;
@@ -36,6 +41,7 @@ function addFavorites() {
         alert("增加收藏夹失败，收藏夹名字不能为空！");
     }else{
         let data={"addFavoritesName":addFavoritesName};
+        console.log("名字为：" + addFavoritesName);
         $.ajax({
             //请求方式
             type : "POST",

@@ -9,7 +9,7 @@ Configuration:
       - name: log.level.console
         value: info
       - name: log.path
-        value: D:\whg
+        value: F:\ideaworkSpace\毕业设计\whg\yuanda\log
       - name: project.name
         value: yuanda
       - name: log.pattern

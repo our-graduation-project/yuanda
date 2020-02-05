@@ -41,16 +41,15 @@ public class MessageController {
     public APIResult loadMessage(@RequestParam(value = "page",defaultValue = "0") int page
             , @RequestParam(value = "limit",defaultValue = "10") int limit, HttpServletRequest request){
         //此部分为用户的  获取token是输入
-//        Cookie[] cookies = request.getCookies();
-//        Cookie cookie = null;
-//        for (Cookie c:cookies) {
-//               if("user".equals(c.getName())){
-//                   cookie = c;
-//               }
-//        }
-//       String string = cookie.getValue().toString();
-//      int userId = (int) TokenUtil.getTokenValue(string, "userId");
-       int userId = 2;
+        Cookie[] cookies = request.getCookies();
+        Cookie cookie = null;
+        for (Cookie c:cookies) {
+               if("token".equals(c.getName())){
+                   cookie = c;
+               }
+        }
+       String string = cookie.getValue().toString();
+      int userId = (int) TokenUtil.getTokenValue(string, "userId");
       //查询已读的消息
       PageInfo pageInfoIsRead = messageService.searchMessage(userId, 1, page, limit);
 
@@ -70,16 +69,15 @@ public class MessageController {
     @RequestMapping("user/loadnotreadmessage")
     public APIResult loadNotReadMessage(@RequestBody Map map, HttpServletRequest request){
         //此部分为用户的  获取token是输入
-//        Cookie[] cookies = request.getCookies();
-//        Cookie cookie = null;
-//        for (Cookie c:cookies) {
-//               if("user".equals(c.getName())){
-//                   cookie = c;
-//               }
-//        }
-//       String string = cookie.getValue().toString();
-//      int userId = (int) TokenUtil.getTokenValue(string, "userId");
-        int userId = 2;
+        Cookie[] cookies = request.getCookies();
+        Cookie cookie = null;
+        for (Cookie c:cookies) {
+               if("token".equals(c.getName())){
+                   cookie = c;
+               }
+        }
+       String string = cookie.getValue().toString();
+      int userId = (int) TokenUtil.getTokenValue(string, "userId");
         int page = 0;
         if(map.get("page") != null){
             page = Integer.parseInt(map.get("page").toString());
@@ -99,16 +97,15 @@ public class MessageController {
     @RequestMapping("user/loadisreadmessage")
     public APIResult loadIsReadMessage(@RequestBody Map map, HttpServletRequest request){
         //此部分为用户的  获取token是输入
-//        Cookie[] cookies = request.getCookies();
-//        Cookie cookie = null;
-//        for (Cookie c:cookies) {
-//               if("user".equals(c.getName())){
-//                   cookie = c;
-//               }
-//        }
-//       String string = cookie.getValue().toString();
-//      int userId = (int) TokenUtil.getTokenValue(string, "userId");
-        int userId = 2;
+        Cookie[] cookies = request.getCookies();
+        Cookie cookie = null;
+        for (Cookie c:cookies) {
+               if("token".equals(c.getName())){
+                   cookie = c;
+               }
+        }
+       String string = cookie.getValue().toString();
+      int userId = (int) TokenUtil.getTokenValue(string, "userId");
         int page = 0;
         if(map.get("page") != null){
             page = Integer.parseInt(map.get("page").toString());

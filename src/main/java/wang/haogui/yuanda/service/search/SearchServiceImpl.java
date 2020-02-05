@@ -331,19 +331,6 @@ public class SearchServiceImpl{
         SearchRequest request = new SearchRequest(INDEX_NAME);
         request.types(INDEX_TYPE);
         request.source(sourceBuilder);
-//        try {
-//            SearchResponse response = highClient.search(request, RequestOptions.DEFAULT);
-//            SearchHits hits = response.getHits();
-//            for (SearchHit hit:hits) {
-//                Map tempSource = hit.getSourceAsMap();
-//                tempSource.forEach((key,value)->{
-//                    System.out.println("key = " + key + "value:" + value);
-//                });
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
     }
 
     /**

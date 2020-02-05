@@ -1,27 +1,26 @@
 package wang.haogui.yuanda.utils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 public class CookieUtil {
 
     /**
      *
-     * @param cookie
+     * @param request
      * @param name
      * @return
      */
-    public static String getCookiesValueByName(String cookie, String name){
-//        System.out.println("cookie:"+cookie);
-//        System.out.println("mach:"+name);
-        String[] cookies = cookie.split(";");
-        for (String m:cookies
-                ) {
-            String[] temp = m.split("=");
-            if(temp.length>1){
-                if(temp[0].contains(name)){
-                    return temp[1];
-                }
+    public static Object getCookiesValueByName(HttpServletRequest request,String name){
+        Cookie[] cookies = request.getCookies();
+        Cookie cookie = null;
+        for (Cookie c:cookies) {
+            if("token".equals(c.getName())){
+                cookie = c;
             }
-
         }
-        return null;
+        String string = cookie.getValue().toString();
+        return TokenUtil.getTokenValue(string, name);
     }
+
 }

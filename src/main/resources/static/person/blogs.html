@@ -52,7 +52,8 @@
                 <div class="right menu">
                     <a href="blogs-input.html" class="item">发布</a>
                     <a href="blogs.html"  class="item">列表</a>
-                    <a href="person.html"  class="item">个人中心</a>
+                    <a href="favorites.html" class="item">我的收藏夹</a>
+                    <a href="person.html" class="item">个人中心</a>
                 </div>
             </div>
         </div>
@@ -60,45 +61,46 @@
         <div class="m-container-small m-padded-tb-big">
             <!--适应移动端手机-->
             <div class="ui container">
+                <h2>我的发布</h2>
                 <!--查询表单-->
-                <div class="ui secondary segment form">
-                    <input type="hidden" name="page">
-                    <div class="inline fields">
-                        <div class="field">
-                            <input type="text" name="title" placeholder="标题">
-                        </div>
-                        <div class="field">
-                            <div class="ui labeled action input">
-                                <div class="ui type selection dropdown">
-                                    <input type="hidden" name="typeId">
-                                    <i class="dropdown icon"></i>
-                                    <div class="default text">分类</div>
-                                    <div class="menu">
-                                        <div each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">旅行</div>
-                                        <!--/*-->
-                                        <div class="item" data-value="2">生活</div>
-                                        <div class="item" data-value="3">Spring</div>
-                                        <!--*/-->
-                                    </div>
-                                </div>
+<!--                <div class="ui secondary segment form">-->
+<!--                    <input type="hidden" name="page">-->
+<!--                    <div class="inline fields">-->
+<!--                        <div class="field">-->
+<!--                            <input type="text" name="title" placeholder="标题">-->
+<!--                        </div>-->
+<!--                        <div class="field">-->
+<!--                            <div class="ui labeled action input">-->
+<!--                                <div class="ui type selection dropdown">-->
+<!--                                    <input type="hidden" name="typeId">-->
+<!--                                    <i class="dropdown icon"></i>-->
+<!--                                    <div class="default text">分类</div>-->
+<!--                                    <div class="menu">-->
+<!--                                        <div each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">旅行</div>-->
+<!--                                        &lt;!&ndash;/*&ndash;&gt;-->
+<!--                                        <div class="item" data-value="2">生活</div>-->
+<!--                                        <div class="item" data-value="3">Spring</div>-->
+<!--                                        &lt;!&ndash;*/&ndash;&gt;-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
-                                <!--清除按钮-->
-                                <button id="clear-btn" class="ui compact button">clear</button>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <!--推荐-->
-                            <div class="ui checkbox">
-                                <input type="checkbox"  id="recommend" name="recommend">
-                                <label for="recommend">推荐</label>
-                            </div>
-                        </div>
-                        <div class="field">
-                            <!--搜索-->
-                            <button  type="button" id="search-btn" class="ui tiny teal  button"><i class="search icon"></i>搜索</button>
-                        </div>
-                    </div>
-                </div>
+<!--                                &lt;!&ndash;清除按钮&ndash;&gt;-->
+<!--                                <button id="clear-btn" class="ui compact button">clear</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="field">-->
+<!--                            &lt;!&ndash;推荐&ndash;&gt;-->
+<!--                            <div class="ui checkbox">-->
+<!--                                <input type="checkbox"  id="recommend" name="recommend">-->
+<!--                                <label for="recommend">推荐</label>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="field">-->
+<!--                            &lt;!&ndash;搜索&ndash;&gt;-->
+<!--                            <button  type="button" id="search-btn" class="ui tiny teal  button"><i class="search icon"></i>搜索</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <!--博客列表-->
                 <div id="table-container">
                     <table fragment="blogList" class="ui selectable compact teal table">
@@ -106,44 +108,39 @@
                         <tr >
                             <th>序号</th>
                             <th>标题</th>
-                            <th>类型</th>
-                            <th >推荐</th>
                             <th>状态</th>
                             <th>更新时间</th>
-                            <th>操作</th>
+                            <th style="width:100px;">操作</th>
                         </tr>
                         <tbody>
-                        <tr each="blog,iterStat : ${page.content}">
-                            <td text="${iterStat.count}">1</td>
-                            <td text="${blog.title}">庐山三日游-日记</td>
-                            <td text="${blog.type.name}">旅行</td>
-                            <td text="${blog.recommend} ? '是' :'否'">推荐</td>
-                            <td text="${blog.published} ? '发布' :'草稿'">推荐</td>
-                            <td text="${blog.updateTime}">2018-7-12</td>
+                        <tr v-for="(article , index) in myArticle">
+                            <td >{{article.articleId}}</td>
+                            <td >{{article.articleTitle}}</td>
+                            <td >{{article.checkStatus == 0 ? "未审核" : "审核通过"}}</td>
+                            <td >{{article.createTime | formatDate}}</td>
                             <td data-label="make">
-                                <a href="#" href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui m-margin-right tiny teal button">修改</a>
-                                <a href="#" href="@{/admin/blogs/{id}/delete(id=${blog.id})}" class="ui m-margin-right tiny red button">删除</a>
+                                <a @click="del(index)" class="ui m-margin-right tiny red button">删除</a>
                             </td>
                         </tr>
                         </tbody>
                         <tfoot>
                         <!--分页组件-->
                         <th colspan="7">
-                            <div class="ui mini pagination menu" th:if="${page.totalPages}>1" >
-                                <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="item" th:unless="${page.first}">上一页</a>
-                                <a onclick="page(this)" th:attr="data-page=${page.number}+1" class=" item" th:unless="${page.last}">下一页</a>
+                            <div class="ui mini pagination menu" >
+                                <a @click="proPage()"  class="item" >上一页</a>
+                                <a @click="nextPage()"  class=" item" >下一页</a>
                             </div>
-                            <a href="#" th:href="@{/admin/blogs/input}" class="ui tiny orange right floated button">新增</a>
+                            <a href="blogs-input.html"  class="ui tiny orange right floated button">新增</a>
                         </th>
                         </tfoot>
                     </table>
                 </div>
-                <!--操作提示信息-->
-                <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
-                    <i class="close icon"></i>
-                    <div class="header">提示：</div>
-                    <p th:text="${message}">恭喜，操作成功！</p>
-                </div>
+<!--                &lt;!&ndash;操作提示信息&ndash;&gt;-->
+<!--                <div class="ui success message" th:unless="${#strings.isEmpty(message)}">-->
+<!--                    <i class="close icon"></i>-->
+<!--                    <div class="header">提示：</div>-->
+<!--                    <p th:text="${message}">恭喜，操作成功！</p>-->
+<!--                </div>-->
             </div>
         </div>
         <br>
@@ -197,15 +194,141 @@
     <!--/*/</th:block>/*/-->
     <!--声明行内js代码域-->
     <script type="text/javascript">
+        function formatDate(date, fmt) {
+            if (/(y+)/.test(fmt)) {
+                fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+            }
+            let o = {
+                'M+': date.getMonth() + 1,
+                'd+': date.getDate(),
+                'h+': date.getHours(),
+                'm+': date.getMinutes(),
+                's+': date.getSeconds()
+            };
+            for (let k in o) {
+                if (new RegExp(`(${k})`).test(fmt)) {
+                    let str = o[k] + '';
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+                }
+            }
+            return fmt;
+        };
+
+        function padLeftZero(str) {
+            return ('00' + str).substr(str.length);
+        }
         let personVue = new Vue({
             el:"#indexApp",
             created(){
-                this.getData()
+                this.getData();
+                this.getArticle();
             },
             data:{
-                users:{}
+                users:{},
+                myArticle:[],
+                pageInfo:[],
+            },
+            filters: {
+                formatDate(time) {
+                    let date = new Date(time);
+                    return formatDate(date,'yyyy-MM-dd hh:mm');
+                }
             },
             methods:{
+                nextPage(){
+                    if(personVue.pageInfo.hasNextPage){
+                        let data = {"page":personVue.pageInfo.pageNum+1};
+                        $.ajax({
+                            //请求方式
+                            type : "POST",
+                            //请求的媒体类型
+                            contentType: "application/json;charset=UTF-8",
+                            //请求地址
+                            url : "http://localhost:8080/yuanda/user/searcharticlebyuserid",
+                            //数据，json字符串
+                            data: JSON.stringify(data),
+                            success: function (result) {
+                                personVue.pageInfo = result.data;
+                                personVue.myArticle = result.data.list;
+                            },
+                            error: function () {
+                                alert("请先登陆");
+
+                            }
+
+                        })
+                    }else{
+                        alert("已经是最后一页了！");
+                    }
+                },
+                proPage(){
+                    if(personVue.pageInfo.hasPreviousPage){
+                        let data = {"page":personVue.pageInfo.pageNum-1};
+                        $.ajax({
+                            //请求方式
+                            type : "POST",
+                            //请求的媒体类型
+                            contentType: "application/json;charset=UTF-8",
+                            //请求地址
+                            url : "http://localhost:8080/yuanda/user/searcharticlebyuserid",
+                            //数据，json字符串
+                            data: JSON.stringify(data),
+                            success: function (result) {
+                                personVue.pageInfo = result.data;
+                                personVue.myArticle = result.data.list;
+                            },
+                            error: function () {
+                                alert("操作失败");
+                            }
+
+                        })
+                    }else{
+                        alert("已经是最后一页了！");
+                    }
+                },
+                del(index){
+                    let data = {"articleId":personVue.myArticle[index].articleId};
+                    $.ajax({
+                        //请求方式
+                        type : "POST",
+                        //请求的媒体类型
+                        contentType: "application/json;charset=UTF-8",
+                        //请求地址
+                        url : "http://localhost:8080/yuanda/user/delarticlebyarticleid",
+                        //数据，json字符串
+                        data: JSON.stringify(data),
+                        success: function (result) {
+                            alert(result.message);
+                            window.location.reload();
+                        },
+                        error: function () {
+                            alert("操作失败");
+                        }
+
+                    })
+                },
+                getArticle(){
+                    let data = {};
+                    $.ajax({
+                        //请求方式
+                        type : "POST",
+                        //请求的媒体类型
+                        contentType: "application/json;charset=UTF-8",
+                        //请求地址
+                        url : "http://localhost:8080/yuanda/user/searcharticlebyuserid",
+                        //数据，json字符串
+                        data: JSON.stringify(data),
+                        success: function (result) {
+                            personVue.pageInfo = result.data;
+                            personVue.myArticle = result.data.list;
+                        },
+                        error: function () {
+                            window.location.href="login.html";
+                            alert("操作失败");
+                        }
+
+                    })
+                },
                 getData(){
                     $.ajax({
                         //请求方式
@@ -220,10 +343,11 @@
                             console.log(personVue.users);
                         },
                         error: function () {
+                            window.location.href="login.html";
                             alert("操作失败");
                         }
 
-                    })
+                    });
                 },
             }
         });

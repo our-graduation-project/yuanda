@@ -22,10 +22,19 @@ var vmDetail = new Vue({
     data:{
         favorites:{},
         favoritesName:"",
-        favoritesConnections:[]
+        favoritesConnections:[],
+        userName:"",
+        userPic:""
     },
     methods: {
+        tohref(index){
+            if(vmDetail.favoritesConnections[index].type === 1){
+                window.location.href="http://localhost:8080/yuanda/blog.html?articleId="+vmDetail.favoritesConnections[index].connectionId;
+            }
+        },
         getData(id) {
+            this.userName = getUserData("userName");
+            this.userPic = getUserData("userPicture");
             let data = {"favoritesId": id};
             $.ajax({
                 //请求方式.

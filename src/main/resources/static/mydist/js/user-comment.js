@@ -27,7 +27,7 @@ let vmComment = new Vue({
         comments:[],
         commentToOther:{},
         commentContentS:"",
-        userId:"1",
+        userId:"",
     },
     filters: {
         formatDate(time) {
@@ -130,7 +130,7 @@ let vmComment = new Vue({
             vmComment.commentToOther.parentId = commentTargetId;
             vmComment.commentToOther.commentType = commentType;
             vmComment.commentToOther.commentTargetId = commentTargetId;
-            vmComment.commentToOther.userId = userId;
+            vmComment.userId = userId;
             let data = {
                 "commentTargetId": commentTargetId,
                 "commentType" : commentType
@@ -168,10 +168,8 @@ $(function () {
     var thisUrl = location.search;
     if(thisUrl !=null&&thisUrl.indexOf("?") != -1) {
         var commentTargetId = thisUrl.substr(thisUrl.indexOf("=") + 1);
-        let userId = 1;
+        let userId = getUserId();
         let commentType = $("input[name='commentDataType']").val();
-        console.log(commentTargetId);
-        console.log(commentType);
         vmComment.getData(commentTargetId,commentType,userId);
     }else {
         swal({

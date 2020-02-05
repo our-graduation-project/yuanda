@@ -1,5 +1,6 @@
 package wang.haogui.yuanda.service.impl;
 
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wang.haogui.yuanda.model.Answer;
@@ -27,15 +28,16 @@ public class LikeServiceImpl implements LikeService {
      * @param entityId
      * @return
      */
-    public int getLikeStatus(int userId,int entityType,int entityId){
+    public int getLikeStatus(Integer userId, int entityType, int entityId){
 
         //获得这篇文章的key
         String likeKey = RedisKeyUtil.getLikeKey(entityType, entityId);
-        Boolean isLikeKeymember = redisSetService.isMember(likeKey, String.valueOf(userId));
+//        System.out.println(userId.toString());
+        Boolean isLikeKeymember = redisSetService.isMember(likeKey, userId.toString());
         if(isLikeKeymember){
             return 1;
         }
-        Boolean isDisLikemember = redisSetService.isMember(RedisKeyUtil.getDisLikeKey(entityType, entityId), String.valueOf(userId));
+        Boolean isDisLikemember = redisSetService.isMember(RedisKeyUtil.getDisLikeKey(entityType, entityId), userId.toString());
         if(isDisLikemember){
             return -1;
         }
@@ -54,9 +56,9 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public long like(int userId, int entityType, int entityId) {
         //加入like
-        redisSetService.add(RedisKeyUtil.getLikeKey(entityType,entityId),entityId);
+        redisSetService.add(RedisKeyUtil.getLikeKey(entityType,entityId),userId);
         //移出dislike
-        redisSetService.srem(RedisKeyUtil.getDisLikeKey(entityType,entityId),entityId);
+        redisSetService.srem(RedisKeyUtil.getDisLikeKey(entityType,entityId),userId);
         return redisSetService.scard(RedisKeyUtil.getLikeKey(entityType,entityId));
     }
 
@@ -71,9 +73,9 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public long disLike(int userId, int entityType, int entityId) {
         //加入dislike
-        redisSetService.add(RedisKeyUtil.getDisLikeKey(entityType,entityId),entityId);
+        redisSetService.add(RedisKeyUtil.getDisLikeKey(entityType,entityId),userId);
         //移出like
-        redisSetService.srem(RedisKeyUtil.getLikeKey(entityType,entityId),entityId);
+        redisSetService.srem(RedisKeyUtil.getLikeKey(entityType,entityId),userId);
         return redisSetService.scard(RedisKeyUtil.getDisLikeKey(entityType,entityId));
     }
 
@@ -105,6 +107,30 @@ public class LikeServiceImpl implements LikeService {
                 answer.setDisagreeNumber(scard2);
             }
         }
+    }
+
+    /**
+     * 获得喜欢的数量
+     *
+     * @param entityType
+     * @param entityId
+     * @return
+     */
+    @Override
+    public Long getLikeNumber(int entityType, int entityId) {
+        return redisSetService.scard(RedisKeyUtil.getLikeKey(entityType,entityId));
+    }
+
+    /**
+     * 获得不喜欢的数量
+     *
+     * @param entityType
+     * @param entityId
+     * @return
+     */
+    @Override
+    public Long getDisLikeNumber(int entityType, int entityId) {
+        return redisSetService.scard(RedisKeyUtil.getDisLikeKey(entityType,entityId));
     }
 
 
