@@ -45,8 +45,8 @@ public class SendMail implements Serializable {
     public static void sendMail(){
         String smtp ="smtp.qq.com";//SMTP服务器地址
         String from = "1547527394@qq.com";
-        String to = "408164188@qq.com";
-        String copyto="1547527394@qq.com,408164188@qq.com";
+        String to = "1547527394@qq.com";
+        String copyto="1547527394@qq.com,1547527394@qq.com";
         String subject = " 狗年大吉";
 //        String content ="<h1>狗年大吉吧</h1>";
         MimeBodyPart img = new MimeBodyPart();
@@ -102,7 +102,7 @@ public class SendMail implements Serializable {
     }
 
     public static void main(String[] args) {
-        sendMail("验证码","111212","408164188@qq.com");
-//        sendMail();
+//        sendMail("验证码","111212","408164188@qq.com");
+        sendMail();
     }
 }

@@ -11,58 +11,59 @@
     <link rel="stylesheet" href="../plugins/blog/css/me.css">
 </head>
 <body>
-<br/>
-<br/>
-<br/>
-<div class="m-container-small m-padded-tb-massive" style="max-width: 28em  !important;">
-    <div class="ui container">
-        <div class="ui middle aligned center aligned grid">
-            <div class="column">
-                <h2 class="ui teal image header">
-                    <!--<img src="assets/images/logo.png" class="image">-->
-                    <div class="content">
-                        前台管理登录
-                    </div>
-                </h2>
-                <div class="ui large form">
-                    <div class="ui  segment">
-                        <br>
-                        <div class="field">
-                            <div class="ui left icon input">
-                                <i class="user icon"></i>
-                                <input type="text" id="email" name="email" placeholder="邮箱">
+<div id="app">
+    <br/>
+    <br/>
+    <br/>
+    <div class="m-container-small m-padded-tb-massive" style="max-width: 28em  !important;">
+        <div class="ui container">
+            <div class="ui middle aligned center aligned grid">
+                <div class="column">
+                    <h2 class="ui teal image header">
+                        <!--<img src="assets/images/logo.png" class="image">-->
+                        <div class="content">
+                            前台管理登录
+                        </div>
+                    </h2>
+                    <div class="ui large form">
+                        <div class="ui  segment">
+                            <br>
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <i class="user icon"></i>
+                                    <input type="text" id="email" name="email" placeholder="邮箱">
+                                </div>
                             </div>
-                        </div>
-                        <br>
-                        <div class="field">
-                            <div class="ui left icon input">
-                                <i class="lock icon"></i>
-                                <input type="password" id="userPassword" name="userPassword" placeholder="密码">
+                            <br>
+                            <div class="field">
+                                <div class="ui left icon input">
+                                    <i class="lock icon"></i>
+                                    <input type="password" id="userPassword" name="userPassword" placeholder="密码">
+                                </div>
                             </div>
+                            <div align="left" style="float:left">
+                                <button onclick="loginUser()" style="height: 35px;width: 120px" class="ui fluid large teal submit button">登录</button>
+                            </div>
+                            <div align="right">
+                                <a onclick="" href="register.html" style="height: 35px;width: 120px" class="ui fluid large teal submit button">注册</a>
+                            </div>
+                            <br>
+                            <input name="" type="checkbox" value=""checked="checked"/>记住密码
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="forgetpassword.html">忘记密码？</a>
                         </div>
-                        <div align="left" style="float:left">
-                            <button onclick="loginUser()" style="height: 35px;width: 120px" class="ui fluid large teal submit button">登录</button>
-                        </div>
-                        <div align="right">
-                            <a onclick="" href="register.html" style="height: 35px;width: 120px" class="ui fluid large teal submit button">注册</a>
-                        </div>
-                        <br>
-                        <input name="" type="checkbox" value=""checked="checked"/>记住密码
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="forgetpassword.html">忘记密码？</a>
-                    </div>
 
-                    <div class="ui error mini message"></div>
-                    <div class="clear">
-                        <span style="color: #9d0000"><label id="error"  style="display: none" >错误信息</label></span>
-                    </div>
+                        <div class="ui error mini message"></div>
+                        <div class="clear">
+                            <span style="color: #9d0000"><label id="error"  style="display: none" >错误信息</label></span>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
-
 </div>
-
 <!--/*/<th:block th:replace="admin/_fragments :: script">/*/-->
 <!--引入jQuery-->
 <script src="../plugins/jquery/jquery.min.js"></script>

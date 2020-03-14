@@ -10,8 +10,8 @@ spring:
       max-request-size: 200MB
   data:
     elasticsearch:
-      cluster-name: whg
-      cluster-nodes: 127.0.0.1:9300
+      cluster-name: yuanda
+      cluster-nodes: 127.0.0.1:9200
   rabbitmq:
     host: localhost # rabbitmq的连接地址
     port: 5672 # rabbitmq的连接端口号
@@ -108,6 +108,11 @@ aliyun:
 
 elasticsearch:
   cluster:
-    name: whg
+    name: yuanda
   host: 127.0.0.1
-  port: 9300
+  port: 9200
+
+email:
+  smtp: smtp.qq.com
+  sentObject: 1547527394@qq.com
+  keyWord: nqbcobekxuzyhfjb

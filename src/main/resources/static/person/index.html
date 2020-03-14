@@ -43,10 +43,6 @@
                     </div>
                 </div>
             </div>
-            <!--menu toggle无任何显示意思-->
-            <!--        <a href="" class="ui icon menu toggle black button m-right-top m-mobile-show">-->
-            <!--            <i class="sidebar icon"></i>-->
-            <!--        </a>-->
         </nav>
 
         <!--二级导航-->
@@ -97,8 +93,11 @@
         let personVue = new Vue({
             el:"#indexApp",
             created(){
-                this.getData()
+                this.getData();
             },
+            // mounted:function(){
+            //     this.isLogin();//需要触发的函数
+            // },
             data:{
                 users:{}
             },
@@ -117,11 +116,17 @@
                             console.log(personVue.users);
                         },
                         error: function () {
-                            alert("操作失败");
+                            window.location.href='login.html?isLogin:false';
                         }
 
                     })
                 },
+                isLogin(){
+                    let token = getCookie('token');
+                    if(isNull(token)){
+                        window.location.href='login.html';
+                    }
+                }
             }
         });
 

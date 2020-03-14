@@ -379,8 +379,8 @@ function edituser(){
     var email = $("#editemail").val();
     var telphone = $("#edittelphone").val();
     var isDeleted =$('input:radio[name="userIsDeleted"]:checked').val();
-    console.log(userId+"----"+userName+"----"+userSex+"----"
-        +email+"----"+telphone+"----"+isDeleted);
+    // console.log(userId+"----"+userName+"----"+userSex+"----"
+    //     +email+"----"+telphone+"----"+isDeleted);
     if(userName == null || userName == "" || userName.trim()==""){
         $("#error").css("display","block");
         $("#error").html("用户名不能为空");

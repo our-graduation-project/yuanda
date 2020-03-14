@@ -201,18 +201,18 @@ public class ArticleController {
         int userId = Integer.parseInt(map.get("userId").toString());
         int articleId = Integer.parseInt(map.get("articleId").toString());
         Article article = articleService.selectArticleId(articleId);
-        List list = new ArrayList();
+        List<Long> list = new ArrayList();
         if(map.get("likeStatus").toString().equals("1")){
             long like = likeService.like(userId, 1, articleId);
             like = like+article.getAgreementNumber();
             System.out.println("like = " + like);
             Long disLikeNumber = likeService.getDisLikeNumber(1, articleId);
             list.add(like);
-            list.add(disLikeNumber+article.getDisagreementNumber());
+            list.add(disLikeNumber+(article.getDisagreementNumber() == null ? 0 : article.getDisagreementNumber()));
             return APIResult.genSuccessApiResponse(list);
         }
         long l = likeService.disLike(userId, 1, articleId);
-        l = l+article.getDisagreementNumber();
+        l = l + (article.getDisagreementNumber() == null ? 0 : article.getDisagreementNumber());
         System.out.println("l = " + l);
         list.add(likeService.getLikeNumber(1, articleId)+article.getAgreementNumber());
         list.add(l);

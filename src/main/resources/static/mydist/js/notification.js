@@ -1,12 +1,17 @@
 let vmNotification = new Vue({
 
-    el:'#notificationApp',
+    el:'#app',
+    mounted(){
+        this.getData();
+    },
     data:{
         isReadNotifications:[],
         notReadNotifications:[],
         pageInfoIsRead:[],
         pageInfoNotRead:[],
         pageInfo:[],
+        userPic:"",
+        userName:""
     },
     methods:{
         nextPage(pageInfoTemp,num){
@@ -205,7 +210,13 @@ let vmNotification = new Vue({
                     alert("加载通知失败！");
                 }
             });
-        }
+        },
+        getData() {
+            console.log("aaaaaaa");
+            this.userName = getUserData("userName");
+            this.userPic = getUserData("userPicture");
+            // let data = {"favoritesId": id};
+        },
 
     }
 });
