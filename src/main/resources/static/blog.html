@@ -29,15 +29,15 @@
         <div class="ui container">
             <div class="ui inverted secondary stackable menu">
                 <h2 class="ui teal header item">源来如此</h2>
-                <a href="index.html" th:href="@{/}" class="m-item item m-mobile-hide active"><i class="small home icon"></i><span th:text="#{index.home}">首页</span></a>
-                <a href="types.html" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2}? 'active'"><i class="small idea icon"></i><span th:text="#{index.type}">热榜</span></a>
-                <a href="tags.html" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3}? 'active'" ><i class="small tags icon" ></i><span th:text="#{index.tag}">关注</span></a>
-                <a href="archives.html" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4}? 'active'" ><i class="small clone icon" ></i><span th:text="#{index.archive}">归档</span></a>
-                <a href="person/index.html" th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${n==5}? 'active'"><i class="small info icon"></i><span th:text="#{index.aboutme}">个人管理</span></a>
+                <a href="index.html" class="m-item item m-mobile-hide active"><i class="small home icon"></i><span >首页</span></a>
+                <a href="types.html" class="m-item item m-mobile-hide" ><i class="small idea icon"></i><span >热榜</span></a>
+<!--                <a href="tags.html" class="m-item item m-mobile-hide" ><i class="small tags icon" ></i><span >关注</span></a>-->
+<!--                <a href="archives.html" class="m-item item m-mobile-hide" ><i class="small clone icon" ></i><span >归档</span></a>-->
+                <a href="person/index.html" class="m-item item m-mobile-hide" ><i class="small info icon"></i><span >个人管理</span></a>
                 <div class="right m-item item m-mobile-hide">
-                    <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
+                    <form name="search" action="" target="_blank" method="post">
                         <div class="ui icon inverted  input">
-                            <input type="text" name="query" placeholder="Search.." th:value="${query}">
+                            <input type="text" name="query" placeholder="Search..">
                             <i onclick="document.forms['search'].submit()" class="search icon link"></i>
                         </div>
                     </form>
@@ -96,7 +96,7 @@
                         <div class="ui modal m-shadow-small" style="width: 500px;height: 700px" >
                             <div class="header" >选择收藏到那个收藏夹</div>
                             <div class="content">
-                                <div class="ui calendar" >
+                                <div class="ui calendar">
                                     <div class="item" v-for="(favorite ,index) in favorites">
                                         <br>
                                         <div class="content" style="line-height: 2">

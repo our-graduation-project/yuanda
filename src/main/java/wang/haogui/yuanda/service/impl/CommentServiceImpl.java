@@ -6,6 +6,8 @@ import wang.haogui.yuanda.mapper.AnswerMapper;
 import wang.haogui.yuanda.mapper.ArticleMapper;
 import wang.haogui.yuanda.mapper.CommentMapper;
 import wang.haogui.yuanda.model.*;
+import wang.haogui.yuanda.service.AnswerService;
+import wang.haogui.yuanda.service.ArticleService;
 import wang.haogui.yuanda.service.CommentService;
 import wang.haogui.yuanda.utils.LogUtils;
 
@@ -84,12 +86,9 @@ public class CommentServiceImpl implements CommentService {
         }
 
 //        //查询这个问题
-//        Answer answer = answerMapper.selectByPrimaryKey(comment.getCommentTargetId());
-        //修改问题下的评论数量
-        Answer answer = new Answer();
-        answer.setAnswerId(comment.getCommentTargetId());
-        answer.setCommentNumber(1);
-        answer.setCommentNumber(answer.getCommentNumber()+1);
+        Answer answer = answerMapper.selectByPrimaryKey(comment.getCommentTargetId());
+        //修改问题下的评论数量+1
+        answer.increaseCommentNumber();
         int i = answerMapper.updateByPrimaryKey(answer);
 
         if(i <= 0){
@@ -117,13 +116,10 @@ public class CommentServiceImpl implements CommentService {
         }
 
         //查询这个评论
-//        Comment comment1 = commentMapper.selectByPrimaryKey(comment.getCommentTargetId());
-        //修改评论下的评论数量
-        Comment comment1 = new Comment();
-        comment1.setCommentId(comment.getCommentTargetId());
-        comment1.setCommentNumber(1);
+        Comment comment1 = commentMapper.selectByPrimaryKey(comment.getCommentTargetId());
+        //修改评论下的评论数量+1
+        comment1.increaseCommentNumber();
         int i = commentMapper.updateForCommentNumber(comment1);
-
         if(i <= 0){
             LogUtils.getDBLogger().info("在评论的评论数增加失败");
             throw new RuntimeException("在评论的评论数增加失败！");
@@ -220,22 +216,13 @@ public class CommentServiceImpl implements CommentService {
         //0 代表文章  1 代表问题 2 表示评论
         switch (commentParent.getCommentType()){
             case 0:
-                Article article = new Article();
-                article.setArticleId(commentParent.getCommentTargetId());
-                article.setCommentNumber(-1);
-                articleMapper.updateForCommentNumber(article);
+                articleMapper.decreaseCommentNumberByPrimaryKey(commentParent.getCommentTargetId(),1);
                 break;
             case 1:
-                Answer answer = new Answer();
-                answer.setAnswerId(commentParent.getCommentTargetId());
-                answer.setCommentNumber(-1);
-                answerMapper.updateForCommentNumber(answer);
+                answerMapper.decreaseCommentNumberByPrimaryKey(commentParent.getCommentTargetId(),1);
                 break;
             case 2:
-                Comment comment = new Comment();
-                comment.setCommentId(commentParent.getCommentTargetId());
-                comment.setCommentNumber(-1);
-                commentMapper.updateForCommentNumber(comment);
+                commentMapper.decreaseCommentNumberByPrimaryKey(commentParent.getCommentTargetId(),1);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + commentParent.getCommentType());

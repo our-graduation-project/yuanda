@@ -11,24 +11,48 @@
 </head>
 <body>
     <!--导航-->
-    <nav th:replace="_fragments :: menu(2)" class="ui inverted attached segment segment m-padded-tb-mini m-shadow-small">
+    <nav class="ui inverted attached segment segment m-padded-tb-mini m-shadow-small">
         <!--/*-->
         <div class="ui container">
             <div class="ui inverted secondary stackable menu">
                 <h2 class="ui teal header item">源来如此</h2>
-                <a href="index.html" th:href="@{/}" class="m-item item m-mobile-hide"><i class="small home icon"></i><span th:text="#{index.home}">首页</span></a>
-                <a href="types.html" th:href="@{/types/-1}" class="m-item item m-mobile-hide active" th:classappend="${n==2}? 'active'"><i class="small idea icon"></i><span th:text="#{index.type}">热榜</span></a>
-                <a href="tags.html" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3}? 'active'" ><i class="small tags icon" ></i><span th:text="#{index.tag}">关注</span></a>
-                <a href="archives.html" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4}? 'active'" ><i class="small clone icon" ></i><span th:text="#{index.archive}">归档</span></a>
-                <a href="person/index.html" th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${n==5}? 'active'"><i class="small info icon"></i><span th:text="#{index.aboutme}">个人管理</span></a>
+                <a href="index.html"  class="m-item item m-mobile-hide"><i class="small home icon"></i><span >首页</span></a>
+                <a href="types.html"  class="m-item item m-mobile-hide active" ><i class="small idea icon"></i><span >热榜</span></a>
+<!--                <a href="tags.html"  class="m-item item m-mobile-hide" ><i class="small tags icon" ></i><span >关注</span></a>-->
+<!--                <a href="archives.html"  class="m-item item m-mobile-hide" ><i class="small clone icon" ></i><span >归档</span></a>-->
+                <a href="person/index.html"  class="m-item item m-mobile-hide"><i class="small info icon"></i><span >个人管理</span></a>
                 <div class="right m-item item m-mobile-hide">
-                    <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
+                    <form name="search" action="" target="_blank" method="post">
                         <div class="ui icon inverted  input">
-                            <input type="text" name="query" id="searchValue" placeholder="Search.." th:value="${query}">
-                            <i onclick="inSearch()" class="search icon link"></i>
+                            <input type="text" name="query" id="searchValue" placeholder="Search..">
+                            <i onclick="inSearch()"  class="search icon link"></i>
                         </div>
+                        <span>
+                          <div class="ui inline dropdown">
+                            <div class="text">
+                              文章
+                            </div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                              <div data-value="1"  class="item">
+                                问题
+                              </div>
+                              <div data-value="0" class="item">
+                                文章
+                              </div>
+                            </div>
+                          </div>
+                        </span>
                     </form>
                 </div>
+<!--                <div class="right m-item item m-mobile-hide">-->
+<!--                    <form name="search" action=""  target="_blank" method="post">-->
+<!--                        <div class="ui icon inverted  input">-->
+<!--                            <input type="text" name="query" id="searchValue" placeholder="Search.." >-->
+<!--                            <i onclick="inSearch()" class="search icon link"></i>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
             </div>
         </div>
         <!--*/-->
@@ -116,9 +140,9 @@
                             </div>
                         </div>
 
-                        <div class="five wide column">
+                        <div class="five wide column" align="center">
                             <a href="#" @click="toDetail(index)" target="_blank">
-                                <img :src="item.pictureSrc" alt="" class="ui round image">
+                                <img :src="item.pictureSrc" alt="" class="ui round image" style="max-height: 135px;max-width: 245px;">
                             </a>
                         </div>
                     </div>
@@ -196,7 +220,7 @@
     <br>
     <br>
     <!--底部-->
-    <footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive ">
+    <footer class="ui inverted vertical segment m-padded-tb-massive ">
         <!--/*-->
         <div class="ui center aligned container ">
             <div class="ui inverted divided stackable grid">
@@ -250,17 +274,34 @@
     <!--引入平滑滚动插件CDN-->
     <script src="//cdn.jsdelivr.net/npm/jquery.scrollto@2.1.2/jquery.scrollTo.min.js"></script>
     <!--引入代码高亮插件 JS-->
-    <script src="plugins/blog/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+    <script src="mydist/js/public.js"></script>
+    <script src="plugins/blog/prism/prism.js"></script>
     <script src="mydist/js/pageQuestion.js" ></script>
     <script src="mydist/js/inSearch.js" ></script>
     <!--映入目录生成插件 JS-->
-    <script src="plugins/blog/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
+    <script src="plugins/blog/tocbot/tocbot.min.js"></script>
     <!--引入waypoints插件滚动条-->
-    <script src="plugins/blog/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+    <script src="plugins/blog/waypoints/jquery.waypoints.min.js"></script>
 
 
     <!--声明行内js代码域-->
     <script>
+
+        function getOption(){
+            let value = $("#menu#data-value").val;
+            $('.ui.dropdown').dropdown('data-value');
+
+            // console.log(".... 触发"+ value);
+        }
+
+        //让问题的下框可以显示
+        $('.dropdown')
+            .dropdown({
+                // you can use any ui transition
+                transition: 'drop'
+            })
+        ;
+
         $('.menu.toggle').click(function () {
             $('.m-item').toggleClass('m-mobile-hide');
         });

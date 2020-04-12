@@ -336,4 +336,10 @@
         or ((comment_type = #{commentType,jdbcType=TINYINT}
         and comment_target_id = #{commentTargetId,jdbcType=INTEGER} and is_deleted = 0))
     </select>
+
+    <update id="decreaseCommentNumberByPrimaryKey">
+    update comment
+     set comment_number = comment_number - #{number}
+     where comment_id=#{commentId}
+  </update>
 </mapper>

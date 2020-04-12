@@ -18,15 +18,31 @@
                 <h2 class="ui teal header item">源来如此</h2>
                 <a href="index.html"class="m-item item m-mobile-hide active"><i class="small home icon"></i><span >首页</span></a>
                 <a href="types.html" class="m-item item m-mobile-hide" ><i class="small idea icon"></i><span >热榜</span></a>
-                <a href="tags.html"  class="m-item item m-mobile-hide"  ><i class="small tags icon" ></i><span >关注</span></a>
-                <a href="archives.html" class="m-item item m-mobile-hide"  ><i class="small clone icon" ></i><span>归档</span></a>
+<!--                <a href="tags.html"  class="m-item item m-mobile-hide"  ><i class="small tags icon" ></i><span >关注</span></a>-->
+<!--                <a href="archives.html" class="m-item item m-mobile-hide"  ><i class="small clone icon" ></i><span>归档</span></a>-->
                 <a href="person/index.html" class="m-item item m-mobile-hide"><i class="small info icon"></i><span>个人管理</span></a>
                 <div class="right m-item item m-mobile-hide">
                     <form name="search" action="" target="_blank" method="post">
                         <div class="ui icon inverted  input">
                             <input type="text" name="query" id="searchValue" placeholder="Search..">
-                            <i onclick="inSearch()" class="search icon link"></i>
+                            <i onclick="inSearch()"  class="search icon link"></i>
                         </div>
+                        <span>
+                          <div class="ui inline dropdown">
+                            <div class="text">
+                              文章
+                            </div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                              <div data-value="1"  class="item">
+                                问题
+                              </div>
+                              <div data-value="0" class="item">
+                                文章
+                              </div>
+                            </div>
+                          </div>
+                        </span>
                     </form>
                 </div>
             </div>
@@ -46,7 +62,7 @@
                                 <h3 class="ui teal header">推荐</h3>
                             </div>
                             <div class="right aligned column">
-                                共 <h2 class="ui orange header m-inline-blok m-text-thin" th:text="${page.totalElements}">14</h2>条
+                                共 <h2 class="ui orange header m-inline-blok m-text-thin">14</h2>条
                             </div>
                         </div>
                     </div>
@@ -64,19 +80,19 @@
                                         <div class="eleven wide column">
                                             <div class="ui mini horizontal link list">
                                                 <div class="item">
-                                                    <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image" th:src="@{${blog.user.avatar}}"  >
-                                                    <div class="content"> <a href="#" th:href="@{/about}" class="header" th:text="${blog.user.nickname}">叶仁平</a></div>
+                                                    <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image"  >
+                                                    <div class="content"> <a href="#"  class="header" >叶仁平</a></div>
                                                 </div>
                                                 <div class="item">
-                                                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2019-10-01</span>
+                                                    <i class="calendar icon"></i><span >2019-10-01</span>
                                                 </div>
                                                 <div class="item">
-                                                    <i class="eye icon"></i><span th:text="${blog.views}">7437</span>
+                                                    <i class="eye icon"></i><span >7437</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="five wide right aligned column">
-                                            <a href="#"  target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.type.name}">认知升级</a>
+                                            <a href="#"  target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
                                         </div>
                                     </div>
                                 </div>
@@ -90,37 +106,37 @@
                         </div>
                     </div>
                     <div class="ui attached segment">
-                        <div class="ui padded vertical segment m-padded-tb-large" th:each="blog : ${page.content}">
+                        <div class="ui padded vertical segment m-padded-tb-large">
                             <!--mobile reversed反序-->
                             <div class="ui middle aligned grid mobile reversed stackable" >
                                 <div class="eleven wide column">
-                                    <h3><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">庐山旅行记录-江西</a></h3>
-                                    <p class="m-text" th:text="|${blog.description}.....|">庐山，又名匡山、
+                                    <h3><a href="#" target="_blank" class="m-black">庐山旅行记录-江西</a></h3>
+                                    <p class="m-text">庐山，又名匡山、
                                         匡庐，位于江西省九江市庐山市境内。介于东经115°52′—116°8′，北纬29°26′—29°41′之间。东偎婺源、鄱阳湖，南靠滕王阁，西邻京九铁路大通脉，北枕滔滔长江。 </p>
                                     <div class="ui grid">
                                         <div class="eleven wide column">
                                             <div class="ui mini horizontal link list">
                                                 <div class="item">
-                                                    <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image" th:src="@{${blog.user.avatar}}"  >
-                                                    <div class="content"> <a href="#" th:href="@{/about}" class="header" th:text="${blog.user.nickname}">叶仁平</a></div>
+                                                    <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image"  >
+                                                    <div class="content"> <a href="#" class="header">叶仁平</a></div>
                                                 </div>
                                                 <div class="item">
-                                                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2019-10-01</span>
+                                                    <i class="calendar icon"></i><span >2019-10-01</span>
                                                 </div>
                                                 <div class="item">
-                                                    <i class="eye icon"></i><span th:text="${blog.views}">7437</span>
+                                                    <i class="eye icon"></i><span>7437</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="five wide right aligned column">
-                                            <a href="#"  th:href="@{/types/{id}(id=${blog.type.id})}" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.type.name}">认知升级</a>
+                                            <a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="five wide column">
 
-                                    <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
-                                        <img src="https://picsum.photos/id/1011/800/400" alt="" th:src="@{${blog.firstPicture}}" class="ui round image">
+                                    <a href="#" target="_blank">
+                                        <img src="https://picsum.photos/id/1011/800/400" alt="" class="ui round image">
                                     </a>
                                 </div>
                             </div>
@@ -128,50 +144,50 @@
                     </div>
 <!--                    文章信息展示-->
                     <div class="ui attached segment">
-                        <div class="ui padded vertical segment m-padded-tb-large" th:each="blog : ${page.content}">
+                        <div class="ui padded vertical segment m-padded-tb-large">
                             <!--mobile reversed反序-->
                             <div class="ui middle aligned grid mobile reversed stackable" >
                                 <div class="eleven wide column">
-                                    <h3><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">庐山旅行记录-江西</a></h3>
-                                    <p class="m-text" th:text="|${blog.description}.....|">庐山，又名匡山、
+                                    <h3><a href="#" target="_blank" class="m-black" >庐山旅行记录-江西</a></h3>
+                                    <p class="m-text">庐山，又名匡山、
                                         匡庐，位于江西省九江市庐山市境内。介于东经115°52′—116°8′，北纬29°26′—29°41′之间。东偎婺源、鄱阳湖，南靠滕王阁，西邻京九铁路大通脉，北枕滔滔长江。 </p>
                                     <div class="ui grid">
                                         <div class="eleven wide column">
                                             <div class="ui mini horizontal link list">
                                                 <div class="item">
-                                                    <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image" th:src="@{${blog.user.avatar}}"  >
-                                                    <div class="content"> <a href="#" th:href="@{/about}" class="header" th:text="${blog.user.nickname}">叶仁平</a></div>
+                                                    <img src="https://picsum.photos/id/1011/100/100" alt="" class="ui avatar image"  >
+                                                    <div class="content"> <a href="#"  class="header" >叶仁平</a></div>
                                                 </div>
                                                 <div class="item">
-                                                    <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2019-10-01</span>
+                                                    <i class="calendar icon"></i><span>2019-10-01</span>
                                                 </div>
                                                 <div class="item">
-                                                    <i class="eye icon"></i><span th:text="${blog.views}">7437</span>
+                                                    <i class="eye icon"></i><span >7437</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="five wide right aligned column">
-                                            <a href="#"  th:href="@{/types/{id}(id=${blog.type.id})}" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${blog.type.name}">认知升级</a>
+                                            <a href="#"  target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" >认知升级</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="five wide column">
 
-                                    <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank">
-                                        <img src="https://picsum.photos/id/1011/800/400" alt="" th:src="@{${blog.firstPicture}}" class="ui round image">
+                                    <a href="#" target="_blank">
+                                        <img src="https://picsum.photos/id/1011/800/400" alt="" class="ui round image">
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--footer-->
-                    <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+                    <div class="ui bottom attached segment" >
                         <div class="ui middle aligned two column grid">
                             <div class="column">
-                                <a href="#" th:href="@{/(page=${page.number}-1)}"  th:unless="${page.first}" class="ui mini teal basic button">上一页</a>
+                                <a href="#"  class="ui mini teal basic button">上一页</a>
                             </div>
                             <div class="right aligned column">
-                                <a href="#" th:href="@{/(page=${page.number}+1)}"  th:unless="${page.last}" class="ui mini teal basic button">下一页</a>
+                                <a href="#" class="ui mini teal basic button">下一页</a>
                             </div>
                         </div>
                     </div>
@@ -265,7 +281,7 @@
 
                         <div class="ui teal segment">
                             <div class="ui fluid vertical menu" >
-                                <a href="person/blogs-input.html"  class="item" >
+                                <a href="#" onclick="addArticleModal()"  class="item" >
                                     <span>文章撰写</span>
                                     <div class="ui teal basic left pointing label"></div>
                                 </a>
@@ -294,9 +310,9 @@
 
                         <div class="ui teal segment">
                             <div class="ui fluid vertical menu" >
-                                <a href="#" th:href="@{/types/{id}(id=${type.id})}" class="item" th:each="type : ${types}">
-                                    <span th:text="${type.name}">学习日志</span>
-                                    <div class="ui teal basic left pointing label" th:text="${#arrays.length(type.blogs)}">10</div>
+                                <a href="#" class="item" >
+                                    <span>学习日志</span>
+                                    <div class="ui teal basic left pointing label">10</div>
                                 </a>
                                 <!--/*-->
                                 <a href="#" class="item">
@@ -331,14 +347,14 @@
                                     <i class="tags icon"></i>标签
                                 </div>
                                 <div class="right aligned column">
-                                    <a href="#" th:href="@{/tags/-1}" target="_blank">more <i class="angle double right icon"></i></a>
+                                    <a href="#" t target="_blank">more <i class="angle double right icon"></i></a>
                                 </div>
                             </div>
                         </div>
                         <div class="ui teal segment">
-                            <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui teal basic center pointing label" th:each="tag : ${tags}">
-                                <span th:text="${tag.name}">JavaEE</span>
-                                <div class="detail" th:text="${#arrays.length(tag.blogs)}">23</div>
+                            <a href="#"  class="ui teal basic center pointing label">
+                                <span >JavaEE</span>
+                                <div class="detail">23</div>
                             </a>
                             <!--/*-->
                             <a href="" class="ui teal basic center pointing label ">
@@ -367,8 +383,8 @@
                             <i class="bookmark icon"></i>最新推荐
                         </div>
 
-                        <div class="ui segment"  th:each="blog : ${recommendBlogs}">
-                            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" class="m-black m-text" th:text="${blog.title}">SpringBoot的原理分析..</a>
+                        <div class="ui segment" >
+                            <a href="#"  class="m-black m-text">SpringBoot的原理分析..</a>
                         </div>
                         <!--/*-->
                         <div class="ui segment">
@@ -401,12 +417,10 @@
                     <div class="ui segment">
                             <div class="ui two column grid">
                                 <div class="column">
-                                    <!--微信打赏-->
-                                    <img src="../static/images/pay_wechat.jpg" th:src="@{/images/pay_wechat.jpg}" alt="" class="ui rounded image" style="width: 100px">
+                                    <img alt="" class="ui rounded image" style="width: 100px">
                                 </div>
                                 <div class="right aligned column">
-                                    <!--支付宝打赏-->
-                                    <img src="../static/images/pay_baby.jpg" th:src="@{/images/pay_baby.jpg}" alt="" class="ui rounded image" style="width: 100px">
+                                    <img  alt="" class="ui rounded image" style="width: 100px">
                                 </div>
                             </div>
                     </div>
@@ -436,44 +450,24 @@
         <div class="ui center aligned container ">
             <div class="ui inverted divided stackable grid">
                 <div class="three wide column">
-                    <div class="ui inverted link list">
-                        <h4 class="ui inverted header m-opacity-min">站长微信</h4>
-                        <div class="item">
-                            <img src="../static/images/WeChat.jpg" th:src="@{/images/WeChat.jpg}" CLASS="ui rounded image" alt="" style="width:110px">
-                        </div>
-                    </div>
-                </div>
-                <div class="three wide column">
-                    <h4 class="ui inverted header m-opacity-min">最新动态</h4>
-                    <div id="newblog-container">
-                        <div class="ui inverted link list" th:fragment="newblogList">
-                            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${newblogs}" th:text="${blog.title}">我在等你2019年</a>
-                            <!--/*-->
-                            <a href="#" class="item">idea的操作笔记</a>
-                            <a href="#" class="item">SpringBoot学习计划</a>
-                            <!--*/-->
-                        </div>
-                    </div>
-                </div>
-                <div class="three wide column">
                     <h4 class="ui inverted header m-opacity-min">联系作者</h4>
                     <div class="ui inverted link list">
-                        <a href="https://space.bilibili.com/393270022" class="item">b站</a>
-                        <a href="#" class="item">QQ:1515177029</a>
-                        <a href="#" class="item">邮箱:yerenping@aliyun.com</a>
+<!--                        <a href="https://space.bilibili.com/393270022" class="item">b站</a>-->
+                        <a href="#" class="item">QQ:1547527394</a>
+                        <a href="#" class="item">邮箱:haogui.wang@qq.com</a>
                     </div>
 
                 </div>
                 <div class="seven wide column">
                     <h4 class="ui inverted header m-opacity-min">关于作者</h4>
-                    <p class="m-text-thin m-text-spaced m-opacity-min m-text-lined">作者是一名springboot爱好者,是一名正在努力奋斗的学生,主要学习JavaEE开发,Web前端等技术.作者是个喜欢旅行的孩子,目标是游遍全世界！</p>
+                    <p class="m-text-thin m-text-spaced m-opacity-min m-text-lined">作者是一名正在努力奋斗的学生,主要学习JavaEE开发,Web前端等技术.作者是个喜欢旅行的孩子,目标是游遍全世界！</p>
                     <!--后台管理员登录入口-->
                     <h4 class="ui inverted header m-opacity-min"><a class="item m-opacity-tiny" href="#" th:href="@{/templates/person}" style="color: #6577b9">后台管理</a></h4>
                 </div>
             </div>
             <!--分割线-->
             <div class="ui inverted section divider"></div>
-            <p class="m-text-thin m-text-spaced m-opacity-tiny">Copy © 2019 - 2020 作者:小小叶儿 此站仅供个人所有 如有疑问联系作者</p>
+            <p class="m-text-thin m-text-spaced m-opacity-tiny">Copy © 2019 - 2020 小小叶儿 </p>
         </div>
     </footer>
 
@@ -491,7 +485,7 @@
     <script src="plugins/ajaxupload/ajaxupload.js"></script>
     <script src="mydist/js/inSearch.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>-->
     <!--引入semantic-ui的 JS-->
     <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
     <!--引入waypoints插件滚动条-->
@@ -500,13 +494,33 @@
     </script>
 
     <!--引入jQuery-->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>-->
 
     <script src="mydist/js/addQuestion.js"></script>
 
     <!--声明行内js代码域-->
     <script>
+        function addArticleModal() {
+            if(isLogin()){
+                location.href="person/blogs-input.html";
+            }
+        }
+
+        function getOption(){
+            let value = $("#menu#data-value").val;
+            $('.ui.dropdown').dropdown('data-value');
+
+            // console.log(".... 触发"+ value);
+        }
+
+        //让问题的下框可以显示
+        $('.dropdown')
+            .dropdown({
+                // you can use any ui transition
+                transition: 'drop'
+            })
+        ;
         $('.menu.toggle').click(function () {
             $('.m-item').toggleClass('m-mobile-hide');
         });

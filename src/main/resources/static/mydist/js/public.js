@@ -225,3 +225,31 @@ function getSelectedRows() {
     }
     return grid.getGridParam("selarrrow");
 }
+
+function isLogin() {
+    if(getUserId() == null){
+        swal("暂未登陆是否跳入登陆界面", {
+            buttons: {
+                // fuck: {
+                //     text:"取消",
+                //     value:"cancel"
+                // },
+                catch: {
+                    text: "确定",
+                    value: "ensure",
+                },
+            },
+        }).then((value) => {
+            switch (value) {
+                case "cancel":
+                    break;
+                case "ensure":
+                    window.location.href="person/login.html";
+                    break;
+            }
+        });
+
+        return false;
+    }
+    return true;
+}

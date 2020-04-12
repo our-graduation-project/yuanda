@@ -2,6 +2,7 @@ package wang.haogui.yuanda.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -250,6 +251,20 @@ public class QuestionController {
 
     }
 
+
+    /**
+     * 通过标题查询问题，一次查询全部
+     * @param map
+     * @return
+     */
+    @RequestMapping("searchQuestion")
+    @ResponseBody
+    public APIResult searchQuestion(@RequestBody Map map){
+
+//        System.out.println("title = " + map.get("title"));
+        PageInfo<Question> question = questionService.selectQuestionByName(map.get("title")+"", 0, Integer.MAX_VALUE, "answer_number", OrderEnum.ASC);
+        return APIResult.genSuccessApiResponse(question.getList());
+    }
 
 
 

@@ -32,30 +32,7 @@ $(function () {
 });
 
 function addQustionModal() {
-    if(getUserId() == null){
-        swal("暂未登陆是否跳入登陆界面", {
-            buttons: {
-                fuck: {
-                    text:"取消",
-                    value:"cancel"
-                },
-                catch: {
-                    text: "确定",
-                    value: "ensure",
-                },
-            },
-        }).then((value) => {
-            switch (value) {
-                case "cancel":
-
-                    break;
-                case "ensure":
-                    window.location.href="person/login.html";
-                    break;
-            }
-        });
-    }
-
+    isLogin();
     $('.ui.modal').modal('show');
 }
 
@@ -63,24 +40,20 @@ function modelClose() {
     $('.ui.modal')
         .modal('hide')
     ;
-
-
     
 }
 
 function addQuestion() {
-    var content = $("#content").val();
-    var title = $("#title").val();
-    var label = $("#label").val();
-    var pictureStr ="";
+    let content = $("#content").val();
+    let title = $("#title").val();
+    let label = $("#label").val();
+    let pictureStr ="";
         pictureStr = $("#pictureStr").val();
     if(content==null||content.trim()==null||content==""||title==null||title.trim()==null||title==""){
         console.log("开始");
         alert("传入的信息存在空值");
         $("#error").attr("存在为空的信息");
-
-           return false;
-
+        return false;
     }
     var data = {"questionDescript":content,"title":title,"label":label,"pictureStr":pictureStr};
     console.log(data);
@@ -105,8 +78,6 @@ function addQuestion() {
                         title: "提问成功",
                     });
                 }
-
-
             }
             else {
                 swal({

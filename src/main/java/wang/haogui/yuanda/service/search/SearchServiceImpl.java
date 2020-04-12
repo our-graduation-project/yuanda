@@ -292,7 +292,7 @@ public class SearchServiceImpl{
         Request request = new Request("POST", new StringBuilder("/" + INDEX_NAME + "/" + INDEX_TYPE + "/")
                 .append("_search").toString());
         String queryBody = "{\"query\":{\"match\":" + "{\"articleTitle\":\"" + title +"\"}" + "}}";
-        System.out.println(queryBody);
+//        System.out.println(queryBody);
         request.addParameter("pretty", "true");
         request.setEntity(new NStringEntity(queryBody.toString(),ContentType.APPLICATION_JSON));
         String responseContent = "";

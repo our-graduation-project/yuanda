@@ -213,6 +213,13 @@ public class Article implements Serializable {
         this.commentNumber = commentNumber;
     }
 
+    /**
+     * 评论数减一
+     */
+    public void decreaseCommentNumber(){
+        this.commentNumber--;
+    }
+
     public Integer getRecommendNumber() {
         return recommendNumber;
     }

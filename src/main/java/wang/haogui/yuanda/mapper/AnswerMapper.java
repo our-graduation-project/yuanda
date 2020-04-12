@@ -53,4 +53,6 @@ public interface AnswerMapper {
     int deleteAnswers(List<Integer> answerIds);
 
     int deleteAnswersbyQuestionId(List<Integer> questionIds);
+
+    int decreaseCommentNumberByPrimaryKey(@Param("answerId") Integer answerId, @Param("number") int number);
 }

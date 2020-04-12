@@ -77,10 +77,7 @@ public class MoveDataToDB {
             return;
         }
         List<Article> articleList = new ArrayList();
-//        articleSet.forEach(data->{
-////            System.out.println("data = " + data);
-//            articleList.add(JSON.parseObject(data.toString(), Article.class));
-//        });
+
 
         for (Object json :
                 articleSet) {
@@ -90,10 +87,10 @@ public class MoveDataToDB {
                 System.out.println("出现错误");
             }
         }
-
+        //加入数据库
         articleList = articleService.addBatchAritcle(articleList);
         List<LabelConnection> labelConnectionList = new ArrayList<>();
-        //将文章加入到es中去0
+        //将文章加入到es中去
         List<Integer> toEs = new ArrayList<>();
         int i = 0;
         for (Object json :
@@ -124,6 +121,7 @@ public class MoveDataToDB {
         int number2 = labelConnectionService.addBatch(labelConnectionList);
         //加入es
 //        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        //一条一条加入es
         toEs.forEach(id->{
             searchService.index(id);
         });

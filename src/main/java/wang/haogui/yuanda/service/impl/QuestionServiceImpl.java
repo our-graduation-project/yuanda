@@ -154,7 +154,7 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public PageInfo<Question> selectQuestionByName(String name, int page, int limit, String order, OrderEnum orderEnum) {
         QuestionExample questionExample = new QuestionExample();
-        questionExample.or().andQuestionTitleEqualTo(name).andIsDeletedEqualTo(false);
+        questionExample.or().andQuestionTitleLike("%"+name+"%").andIsDeletedEqualTo(false);
 
         if(order!=null&&!"".equals(order)){
             String str = CommonUtils.orderStr(order, orderEnum);

@@ -9,6 +9,8 @@ import wang.haogui.yuanda.common.OrderEnum;
 import wang.haogui.yuanda.mapper.ArticleMapper;
 import wang.haogui.yuanda.model.Article;
 import wang.haogui.yuanda.model.ArticleExample;
+import wang.haogui.yuanda.model.Question;
+import wang.haogui.yuanda.model.QuestionExample;
 import wang.haogui.yuanda.service.ArticleService;
 import wang.haogui.yuanda.utils.CommonUtils;
 
@@ -118,8 +120,15 @@ public class ArticleServiceImpl implements ArticleService {
      */
     @Override
     public PageInfo selectArticleByTitle(String title, int page, int limit, String order, OrderEnum orderEnum) {
+        ArticleExample articleExample = new ArticleExample();
+        articleExample.or().andArticleTitleLike("%"+title+"%").andIsDeletedEqualTo(false);
 
-        return null;
+        if(order!=null&&!"".equals(order)){
+            String str = CommonUtils.orderStr(order, orderEnum);
+            articleExample.setOrderByClause(str);
+        }
+        PageInfo<Article> pageInfo = select(page, limit, articleExample);
+        return pageInfo;
     }
 
     /**
@@ -253,5 +262,20 @@ public class ArticleServiceImpl implements ArticleService {
         return null;
     }
 
+    /**
+     * 通用查询
+     * @param page 当前页码
+     * @param limit 页码大小
+     * @param articleExample 条件
+     * @return 查询出来的结果
+     */
+    private PageInfo<Article> select(int page, int limit, ArticleExample articleExample){
+
+        PageHelper.startPage(page,limit);
+        List<Article> articles = articleMapper.selectByExample(articleExample);
+        PageInfo<Article> pageInfo = new PageInfo(articles,5);
+
+        return pageInfo;
+    }
 
 }

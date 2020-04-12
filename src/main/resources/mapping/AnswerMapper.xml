@@ -601,5 +601,11 @@
     )
   </update>
 
+  <update id="decreaseCommentNumberByPrimaryKey">
+    update answer
+     set comment_number = comment_number - #{number}
+     where answer_id=#{answerId}
+  </update>
+
 
 </mapper>

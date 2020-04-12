@@ -6,6 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.misc.Unsafe;
 import sun.nio.cs.ext.MacArabic;
 import wang.haogui.yuanda.model.Article;
 import wang.haogui.yuanda.service.RedisSetService;
@@ -13,6 +14,7 @@ import wang.haogui.yuanda.service.search.ArticleIndexTemplate;
 import wang.haogui.yuanda.utils.RedisKeyUtil;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -20,6 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *
@@ -36,6 +40,8 @@ public class CSDNGetData {
     //存放要爬的首页name,href
     private static Map<String,String> map = new HashMap<>();
 
+    private static Unsafe unsafe;
+
     //没有加入articleList集合的url，set集合
 //    private static Set<String> notAddListSet = ConcurrentHashMap.<String> newKeySet();,用redis代替
 
@@ -43,13 +49,18 @@ public class CSDNGetData {
 //    private static Set<String> addListSet =  ConcurrentHashMap.<String> newKeySet();,用redis代替
 
     //flag 为true进行消费，为false则停止
-    private static Boolean flag = true;
+    private static volatile Boolean flag = true;
 
     //用于存放存入redis的article信息
     private JSONObject articleToRedis = new JSONObject();
 
+    private static String cookies;
+
     //用于存放存入redis的label信息
     private JSONObject labelToRedis = new JSONObject();
+
+    private ReentrantLock reentrantLock = new ReentrantLock();
+    private Condition waitQueue = reentrantLock.newCondition();
 
     {
         articleToRedis.put("checkStatus",(byte)1);//0表示为系统爬取的数据
@@ -57,13 +68,65 @@ public class CSDNGetData {
         labelToRedis.put("isDeleted",0);
     }
 
+    static {
+        try {
+            Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
+            theUnsafe.setAccessible(true);
+            unsafe = (Unsafe) theUnsafe.get(null);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setCookie(String cookie){
+        CSDNGetData.cookies = cookie;
+    }
+
     public static void main(String[] args) throws IOException {
 //        getIndex();
 //        getArticleByUrl("https://blog.csdn.net/ThinkWon/article/details/103715146");
 //        startGetData();
 //        getArticleByUrl("https://blog.csdn.net/m0_37609579/article/details/103133245");
+//        try {
+//            stopGetDate();
+//            System.out.println(flag);
+//        } catch (NoSuchFieldException e) {
+//            e.printStackTrace();
+//        }
     }
 
+    /**
+     * 停止获取数据
+     * @throws NoSuchFieldException
+     */
+    public void stopGetDate(){
+        Field field = null;
+        try {
+            field = CSDNGetData.class.getDeclaredField("flag");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        System.out.println("field = " + field);
+        long offset = unsafe.staticFieldOffset(field);
+        System.out.println(offset);
+        do{
+        }while (unsafe.compareAndSwapObject(CSDNGetData.class,offset,true,false));
+    }
+
+    /**
+     * 设置flag
+     * @param isStop
+     */
+    private synchronized void setFlag(boolean isStop){
+        flag = isStop;
+    }
+
+    public void reStart(){
+        setFlag(true);
+        waitQueue.notifyAll();
+    }
 
     /**
      * map里面key为名称，value为html链接
@@ -147,28 +210,16 @@ public class CSDNGetData {
     public void getArticleByUrl(String url){
 
         //url为空不逊要解析
-        if(url.equals("") || url == null){
-//            notAddListSet.remove(url);
-//            if(redisSetService.srem(RedisKeyUtil.getNotAddRedisArticleKey(),url)){
-//                System.out.println("从NotAddArticleKey中成功移除" + url);
-//                return;
-//            }
-//            System.out.println("从NotAddArticleKey中移除" + url + " 失败");
+        if(url.equals("") || url == null || cookies == null){
             return;
         }
-        //先将其从NotAddArticleKey中移除，防止多个线程从里面重复拿出,！redis中那到时已经移除，所以这一步不需要了
-//        synchronized (flag){
-////            notAddListSet.remove(url);
-//            redisSetService.pop(RedisKeyUtil.getNotAddRedisArticleKey(),url);
-//            System.out.println("-----------解析的url：" + url);
-//        }
         //先调用下忽略https证书的再请求才可以
         HttpsUrlValidator.retrieveResponseFromServer(url);
         Document document= null;
         try {
             document = Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36")
-                    .cookie("cookie","uuid_tt_dd=10_19119688160-1577626812548-860852; dc_session_id=10_1577626812548.376406; Hm_ct_6bcd52f51e9b3dce32bec4a3997715ac=6525*1*10_19119688160-1577626812548-860852!1788*1*PC_VC!5744*1*qq_39151754; acw_tc=2760823c15776268149666416ef07cfe2ff21fb3223448ec5c83abd25b9e64; Hm_lvt_2bd8228890893cb2a76137edfa16da78=1577590850,1577626816; Hm_ct_2bd8228890893cb2a76137edfa16da78=6525*1*10_19119688160-1577626812548-860852; __yadk_uid=wdNTt7jff0bMnzvHZ7wPReWjH8Qv17LK; announcement=%257B%2522isLogin%2522%253Afalse%252C%2522announcementUrl%2522%253A%2522https%253A%252F%252Fblog.csdn.net%252Fblogdevteam%252Farticle%252Fdetails%252F103603408%2522%252C%2522announcementCount%2522%253A0%252C%2522announcementExpire%2522%253A3600000%257D; acw_sc__v2=5e0d5d3b9c3983faa901dadd77e97a7c9b356b11; TY_SESSION_ID=6064b02b-a237-4333-ad52-86006a448b35; Hm_lvt_6bcd52f51e9b3dce32bec4a3997715ac=1577890399,1577899109,1577934042,1577934561; dc_tos=q3gm3o; Hm_lpvt_6bcd52f51e9b3dce32bec4a3997715ac=1577934565; firstDie=1; c-login-auto=14")
+                    .cookie("cookie",cookies)
                     .get();
         } catch (IOException e) {
             e.printStackTrace();
@@ -284,7 +335,12 @@ public class CSDNGetData {
                     e.printStackTrace();
                 }
                 if(!flag){
-                    break;
+                    try {
+                        System.out.println("生产者停止");
+                        waitQueue.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -332,8 +388,12 @@ public class CSDNGetData {
                 }
                 getArticleByUrl(url);
                 if(!flag){
-                    System.out.println(Thread.currentThread().getName() + "停止运行");
-                    break;
+                    try {
+                        System.out.println(Thread.currentThread().getName() + "停止运行");
+                        waitQueue.await();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

@@ -188,6 +188,15 @@ public class ArticleController {
         Object title = map.get("title");
         System.out.println("title = " + title);
         List<Article> list = searchService.searchArticleByTitle(title.toString());
+        System.out.println("从es中搜索到的信息：" + list.size());
+        //从es中没有搜索到，则从数据库中搜索，并将数据库的加入es中
+        if(list.size() < 1){
+            PageInfo pageInfo = articleService.selectArticleByTitle(title + "", 0, Integer.MAX_VALUE, null, null);
+            List<Article> finalList = pageInfo.getList();
+            new Thread(()->{
+                finalList.forEach(article -> {searchService.index(article.getArticleId());});
+            }).start();
+        }
         likeService.getLikeAndDisLikeNumber(1,list);
         return APIResult.genSuccessApiResponse(list);
     }
@@ -218,6 +227,7 @@ public class ArticleController {
         list.add(l);
         return APIResult.genSuccessApiResponse(list);
     }
+
     /**
      * 查找一个用户的所有发表的文章
      *

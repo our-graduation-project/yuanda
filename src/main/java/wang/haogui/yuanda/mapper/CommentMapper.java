@@ -36,4 +36,6 @@ public interface CommentMapper {
     int updateForCommentNumber(Comment comment);
 
     List<Comment> selectComment(Comment comment);
+
+    int decreaseCommentNumberByPrimaryKey(@Param("commentId") Integer commentId, @Param("number") int number);
 }

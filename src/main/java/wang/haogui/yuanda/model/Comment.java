@@ -65,6 +65,14 @@ public class Comment implements Serializable {
         this.commentNumber = commentNumber;
     }
 
+    public void increaseCommentNumber(){
+        this.commentNumber++;
+    }
+
+    public void decreaseCommentNumber(){
+        this.commentNumber--;
+    }
+
     public Integer getCommentTargetId() {
         return commentTargetId;
     }

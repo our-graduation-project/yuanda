@@ -92,10 +92,24 @@ public class LikeServiceImpl implements LikeService {
             for (Object o :
                     list) {
                 Article article = (Article) o;
-                int scard = Math.toIntExact(redisSetService.scard(RedisKeyUtil.getLikeKey(entityType, article.getArticleId())));
+                if(article == null){
+                    continue;
+                }
+                Long tempValue = redisSetService.scard(RedisKeyUtil.getLikeKey(entityType, article.getArticleId()));
+                Integer scard;
+                if(tempValue == null){
+                    scard = 0;
+                }else{
+                     scard = Math.toIntExact(tempValue);
+                }
+
                 article.setAgreementNumber(scard+article.getAgreementNumber());
-                int scard2 = Math.toIntExact(redisSetService.scard(RedisKeyUtil.getDisLikeKey(entityType, article.getArticleId())));
-                article.setDisagreementNumber(scard2);
+
+                Integer scard2 = Math.toIntExact(redisSetService.scard(RedisKeyUtil.getDisLikeKey(entityType, article.getArticleId())));
+                if(scard2 != null && article.getDisagreementNumber() != null){
+                    article.setDisagreementNumber(scard2+article.getDisagreementNumber());
+                }
+
             }
         }else {
             for (Object o :

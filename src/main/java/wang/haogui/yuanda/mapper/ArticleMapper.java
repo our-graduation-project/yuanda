@@ -56,4 +56,12 @@ public interface ArticleMapper {
      * @return
      */
     int batchInsert(List<Article> articles);
+
+    /**
+     * 减少这篇文章的评论数
+     * @param articleId
+     * @param number
+     * @return
+     */
+    int decreaseCommentNumberByPrimaryKey(@Param("articleId") Integer articleId,@Param("number") int number);
 }

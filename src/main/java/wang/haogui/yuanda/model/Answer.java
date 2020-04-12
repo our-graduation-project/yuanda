@@ -140,6 +140,20 @@ public class Answer implements Serializable {
         this.commentNumber = commentNumber;
     }
 
+    /**
+     * 评论数减一
+     */
+    public void decreaseCommentNumber(){
+        this.commentNumber--;
+    }
+
+    /**
+     * 评论数-1
+     */
+    public void increaseCommentNumber(){
+        this.commentNumber++;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }

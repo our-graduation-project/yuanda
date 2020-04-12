@@ -5,7 +5,7 @@
     <!--移动端预览-->
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>博客详情</title>
+    <title>问题详情</title>
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
@@ -26,15 +26,15 @@
         <div class="ui container">
             <div class="ui inverted secondary stackable menu">
                 <h2 class="ui teal header item">源来如此</h2>
-                <a href="index.html" th:href="@{/}" class="m-item item m-mobile-hide active"><i class="small home icon"></i><span th:text="#{index.home}">首页</span></a>
-                <a href="types.html" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2}? 'active'"><i class="small idea icon"></i><span th:text="#{index.type}">热榜</span></a>
-                <a href="tags.html" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3}? 'active'" ><i class="small tags icon" ></i><span th:text="#{index.tag}">关注</span></a>
-                <a href="archives.html" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4}? 'active'" ><i class="small clone icon" ></i><span th:text="#{index.archive}">归档</span></a>
-                <a href="person/index.html" th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${n==5}? 'active'"><i class="small info icon"></i><span th:text="#{index.aboutme}">个人管理</span></a>
+                <a href="index.html" class="m-item item m-mobile-hide active"><i class="small home icon"></i><span >首页</span></a>
+                <a href="types.html" class="m-item item m-mobile-hide" ><i class="small idea icon"></i><span >热榜</span></a>
+                <a href="tags.html" class="m-item item m-mobile-hide" ><i class="small tags icon" ></i><span >关注</span></a>
+                <a href="archives.html" class="m-item item m-mobile-hide" ><i class="small clone icon" ></i><span >归档</span></a>
+                <a href="person/index.html" class="m-item item m-mobile-hide" ><i class="small info icon"></i><span >个人管理</span></a>
                 <div class="right m-item item m-mobile-hide">
-                    <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
+                    <form name="search" action="" target="_blank" method="post">
                         <div class="ui icon inverted  input">
-                            <input type="text" name="query" placeholder="Search.." th:value="${query}">
+                            <input type="text" name="query" placeholder="Search..">
                             <i onclick="document.forms['static.search'].submit()" class="search icon link"></i>
                         </div>
                     </form>
@@ -66,26 +66,40 @@
                     </div>
                 </div>
             </div>
-            <div class="ui attached segment">
+            <div class="ui attached segment" align="center">
                 <!--封面图片-->
-                <img :src="questionData.pictureSrc"  alt="" class="ui fluid image">
+                <img :src="questionData.pictureSrc"  style="max-height:217px;max-width: 180px; vertical-align:middle;" alt="" class="ui fluid image">
             </div>
             <div class="ui attached padding segment">
-            <!--主要内容-->
-            <div class="ui right aligned basic segment">
-                <div class="ui orange basic label" >收藏</div>
-            </div>
-                <div v-html="questionData.questionTitle">
+                <!--主要内容-->
+                <div class="ui right aligned basic segment">
+                    <a @click="modal()">
+                        收藏
+                    </a>
+<!--                    <div class="ui orange basic label" >收藏</div>-->
+                    <div class="ui modal m-shadow-small" style="width: 500px;height: 700px" >
+                        <div class="header" >选择收藏到那个收藏夹</div>
+                        <div class="content">
+                            <div class="ui calendar">
+                                <div class="item" v-for="(favorite ,index) in favorites">
+                                    <br>
+                                    <div class="content" style="line-height: 2">
+                                        <a class="header"   style="font-size: large">{{favorite.favoritesName}}</a>
+                                        <div class="description">一共收藏{{favorite.favoritesNumber}}条内容</div>
+                                        <a @click="addFavoritesConnection(index)">选择</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <h2 style="text-align: center;">{{questionData.questionTitle}}</h2>
+
+                <br>
+                <div id="content" class="typo typo-selection js-toc-content m-padding-lr-responsive m-padded-tb-large" v-html="questionData.questionDescript">
 
                 </div>
-<!--            <h2 class="ui center aligned header" >{{questionData.questionTitle}}</h2>-->
-            <br>
-            <div id="content" class="typo typo-selection js-toc-content m-padding-lr-responsive m-padded-tb-large" v-html="questionData.questionDescript">
-<!--                <h2>&nbsp;</h2>-->
-
-
-<!--                <p class="typo-first">{{questionData.questionDescript}}</p>-->
-            </div>
             </div>
             </div>
             <div id="conmment-container" class="ui bottom attached segment" >
@@ -96,7 +110,7 @@
                         <!--mobile reversed反序-->
 
                         <a href="#" @click="toAnswerDetail(index)">
-                        <div class="ui middle aligned grid mobile reversed stackable" style="border:1px solid rgba(51,170,158,0.97)">
+                        <div class="ui middle aligned grid mobile reversed stackable" style="border:1px solid rgba(51,170,158,0.97)" >
                             <div class="eleven wide column">
 <!--                                <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.questionTitle}}</a></h3>-->
                                 <div class="m-text" v-html="item.answerContent"></div>
@@ -118,6 +132,9 @@
                                             </div>
                                             <div class="item">
                                                 <i class="thumbs down outline icon"></i><span>{{item.disagreeNumber}}</span>
+                                            </div>
+                                            <div class="item">
+                                                <i class="comments outline icon"></i><span>{{item.commentNumber}}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -190,8 +207,7 @@
        <ol class="js-toc"></ol>
     </div>
 
-
-            </div>
+    </div>
     <br>
     <br>
     <!--底部-->

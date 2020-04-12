@@ -23,7 +23,6 @@ function selectAnswerById(answerId) {
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {
-
             if (result.result) {
                 if(result.message=="查询失败"){
                     swal({
@@ -39,7 +38,6 @@ function selectAnswerById(answerId) {
                 swal({
                     title: "出错了，怎么想都不是我的错",
                 });
-
             }
         },
         error: function () {
@@ -64,9 +62,6 @@ let thisAnswer = new Vue({
         addAnswer(data){
             this.answerData = data;
         },
-
-
-
     }
 
 });

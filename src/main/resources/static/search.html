@@ -15,15 +15,15 @@
         <div class="ui container">
             <div class="ui inverted secondary stackable menu">
                 <h2 class="ui teal header item">源来如此</h2>
-                <a href="index.html" th:href="@{/}" class="m-item item m-mobile-hide active"><i class="small home icon"></i><span th:text="#{index.home}">首页</span></a>
-                <a href="types.html" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2}? 'active'"><i class="small idea icon"></i><span th:text="#{index.type}">热榜</span></a>
-                <a href="tags.html" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3}? 'active'" ><i class="small tags icon" ></i><span th:text="#{index.tag}">关注</span></a>
-                <a href="archives.html" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4}? 'active'" ><i class="small clone icon" ></i><span th:text="#{index.archive}">归档</span></a>
-                <a href="person/index.html" th:href="@{/about}" class="m-item item m-mobile-hide" th:classappend="${n==5}? 'active'"><i class="small info icon"></i><span th:text="#{index.aboutme}">个人管理</span></a>
+                <a href="index.html" class="m-item item m-mobile-hide active"><i class="small home icon"></i><span>首页</span></a>
+                <a href="types.html" class="m-item item m-mobile-hide"><i class="small idea icon"></i><span>热榜</span></a>
+<!--                <a href="tags.html"  class="m-item item m-mobile-hide" ><i class="small tags icon" ></i><span>关注</span></a>-->
+<!--                <a href="archives.html"  class="m-item item m-mobile-hide" ><i class="small clone icon" ></i><span>归档</span></a>-->
+                <a href="person/index.html"  class="m-item item m-mobile-hide" ><i class="small info icon"></i><span>个人管理</span></a>
                 <div class="right m-item item m-mobile-hide">
-                    <form name="search" action="" th:action="@{/search}" target="_blank" method="post">
+                    <form name="search" action="" target="_blank" method="post">
                         <div class="ui icon inverted  input">
-                            <input type="text" name="query" id="searchValue" placeholder="Search.." th:value="${query}">
+                            <input type="text" name="query" id="searchValue" placeholder="Search.." >
                             <i onclick="inSearch()" class="search icon link"></i>
                         </div>
                     </form>
@@ -49,56 +49,111 @@
                         <div class="ui top attached teal segment" id="hotQuestions">
 <!--                            <input type="hidden" v-model="pro.pageNum" id="page">-->
                             <div>
-                                <div v-if="getData()">
-                                    <p>你要找的内容为空哦</p>
-                                </div>
-                                <div v-else>
-                                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="hotAnswer" v-for="(item, index) in dataShow" :class="{ 'alt': index%5==1 }">
-                                        <!--mobile reversed反序-->
+                                <div v-if="getType()">
+                                    <div v-if="getData()">
+                                        <p>你要找的内容为空哦</p>
+                                    </div>
+                                    <div v-else>
+                                        <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" id="hotAnswer" v-for="(item, index) in dataShow" :class="{ 'alt': index%5==1 }">
+                                            <!--mobile reversed反序-->
 
-                                        <div class="ui middle aligned grid mobile reversed stackable" >
-                                            <div class="eleven wide column">
-                                                <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.articleTitle}}</a></h3>
-                                                <p class="m-text">{{item.roughArticleContent}}</p>
-                                                <div class="ui grid">
-                                                    <div class="eleven wide column">
-                                                        <div class="ui mini horizontal link list">
-                                                            <div>
+                                            <div class="ui middle aligned grid mobile reversed stackable" >
+                                                <div class="eleven wide column">
+                                                    <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.articleTitle}}</a></h3>
+                                                    <p class="m-text">{{item.roughArticleContent}}</p>
+                                                    <div class="ui grid">
+                                                        <div class="eleven wide column">
+                                                            <div class="ui mini horizontal link list">
+                                                                <div>
+                                                                    <div class="item">
+                                                                        <img :src="item.authorPicture" alt="" class="ui avatar image">
+                                                                        <div class="content"> <a href="#"  target="_blank" class="header">{{item.authorName}}</a></div>
+                                                                    </div>
+                                                                </div>
                                                                 <div class="item">
-                                                                    <img :src="item.authorPicture" alt="" class="ui avatar image">
-                                                                    <div class="content"> <a href="#"  target="_blank" class="header">{{item.authorName}}</a></div>
+                                                                    <i class="calendar icon"></i><span>{{item.createTimeStr}}</span>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <i class="eye icon"></i><span>{{item.clickNumber}}</span>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <i class="thumbs up outline icon"></i><span>{{item.agreementNumber}}</span>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <i class="thumbs down outline icon"></i><span>{{item.disagreementNumber}}</span>
                                                                 </div>
                                                             </div>
-                                                            <div class="item">
-                                                                <i class="calendar icon"></i><span>{{item.createTimeStr}}</span>
-                                                            </div>
-                                                            <div class="item">
-                                                                <i class="eye icon"></i><span>{{item.clickNumber}}</span>
-                                                            </div>
-                                                            <div class="item">
-                                                                <i class="thumbs up outline icon"></i><span>{{item.agreementNumber}}</span>
-                                                            </div>
-                                                            <div class="item">
-                                                                <i class="thumbs down outline icon"></i><span>{{item.disagreementNumber}}</span>
-                                                            </div>
+                                                        </div>
+                                                        <div class="five wide right aligned column">
+                                                            <a href="#"    class="ui teal basic label m-padded-tiny m-text-thin">收藏</a>
                                                         </div>
                                                     </div>
-                                                    <div class="five wide right aligned column">
-                                                        <a href="#"    class="ui teal basic label m-padded-tiny m-text-thin">收藏</a>
-                                                    </div>
+                                                </div>
+
+                                                <div class="five wide column">
+                                                    <a href="#" @click="toDetail(index)" target="_blank">
+                                                        <img :src="item.pictureSrc" alt="" class="ui round image">
+                                                    </a>
                                                 </div>
                                             </div>
+                                            <!--/*-->
 
-                                            <div class="five wide column">
-                                                <a href="#" @click="toDetail(index)" target="_blank">
-                                                    <img :src="item.pictureSrc" alt="" class="ui round image">
-                                                </a>
-                                            </div>
                                         </div>
-                                        <!--/*-->
-
                                     </div>
                                 </div>
+                                <div v-else>
+                                    <div v-if="getData()">
+                                        <p>你要找的内容为空哦</p>
+                                    </div>
+                                    <div v-else>
+                                        <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear" v-for="(item, index) in dataShow" :class="{ 'alt': index%5==1 }">
+                                            <!--mobile reversed反序-->
+
+                                            <div class="ui middle aligned grid mobile reversed stackable" >
+                                                <div class="eleven wide column">
+                                                    <h3><a href="#" @click="toDetail(index)"  class="m-black">{{item.questionTitle}}</a></h3>
+                                                    <p class="m-text">{{item.questionDescript}}</p>
+                                                    <div class="ui grid">
+                                                        <div class="eleven wide column">
+                                                            <div class="ui mini horizontal link list">
+                                                                <div>
+                                                                    <div class="item">
+                                                                        <img :src="item.authorPicture" alt="" class="ui avatar image">
+                                                                        <div class="content"> <a href="#"  target="_blank" class="header">{{item.author}}</a></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="item">
+                                                                    <i class="calendar icon"></i><span>{{item.createTime}}</span>
+                                                                </div>
+<!--                                                                <div class="item">-->
+<!--                                                                    <i class="eye icon"></i><span>{{item.clickNumber}}</span>-->
+<!--                                                                </div>-->
+                                                                <div class="item">
+                                                                    <i class="thumbs up outline icon"></i><span>{{item.answerNumber}}</span>
+                                                                </div>
+<!--                                                                <div class="item">-->
+<!--                                                                    <i class="thumbs down outline icon"></i><span>{{item.disagreementNumber}}</span>-->
+<!--                                                                </div>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="five wide right aligned column">
+                                                            <a href="#"    class="ui teal basic label m-padded-tiny m-text-thin">收藏</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="five wide column">
+                                                    <a href="#" @click="toDetail(index)" target="_blank">
+                                                        <img :src="item.pictureSrc" alt="" class="ui round image">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!--/*-->
+
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <!--分页-->
@@ -112,7 +167,7 @@
                                     {{currentPage+1}}/{{pageNum}}
                                 </div>
                                 <div class="right aligned column" style="width: 200px">
-                                    <a   v-on:click="nextPage" class="ui mini teal basic button">下一页</a>
+                                    <a  v-on:click="nextPage" class="ui mini teal basic button">下一页</a>
                                 </div>
                             </div>
                         </div>
@@ -126,15 +181,15 @@
                                     <i class="idea icon"></i>分类
                                 </div>
                                 <div class="right aligned column">
-                                    <a href="#" th:href="@{/types/-1}" target="_blank">more <i class="angle double right icon"></i></a>
+                                    <a href="#" target="_blank">more <i class="angle double right icon"></i></a>
                                 </div>
                             </div>
                         </div>
                         <div class="ui teal segment">
                             <div class="ui fluid vertical menu" >
-                                <a href="#" onclick="seletctData()" class="item" th:each="type : ${types}">
-                                    <span th:text="${type.name}">学习日志</span>
-                                    <div class="ui teal basic left pointing label" th:text="${#arrays.length(type.blogs)}">10</div>
+                                <a href="#" onclick="seletctData()" class="item">
+                                    <span>学习日志</span>
+                                    <div class="ui teal basic left pointing label">10</div>
                                 </a>
                                 <!--/*-->
                                 <a href="#" class="item">
@@ -169,14 +224,14 @@
                                     <i class="tags icon"></i>标签
                                 </div>
                                 <div class="right aligned column">
-                                    <a href="#" th:href="@{/tags/-1}" target="_blank">more <i class="angle double right icon"></i></a>
+                                    <a href="#" target="_blank">more <i class="angle double right icon"></i></a>
                                 </div>
                             </div>
                         </div>
                         <div class="ui teal segment">
-                            <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui teal basic center pointing label" th:each="tag : ${tags}">
-                                <span th:text="${tag.name}">JavaEE</span>
-                                <div class="detail" th:text="${#arrays.length(tag.blogs)}">23</div>
+                            <a href="#" class="ui teal basic center pointing label">
+                                <span >JavaEE</span>
+                                <div class="detail">23</div>
                             </a>
                             <!--/*-->
                             <a href="" class="ui teal basic center pointing label ">
@@ -205,8 +260,8 @@
                             <i class="bookmark icon"></i>最新推荐
                         </div>
 
-                        <div class="ui segment"  th:each="blog : ${recommendBlogs}">
-                            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" class="m-black m-text" th:text="${blog.title}">SpringBoot的原理分析..</a>
+                        <div class="ui segment" >
+                            <a href="#" class="m-black m-text">SpringBoot的原理分析..</a>
                         </div>
                         <!--/*-->
                         <div class="ui segment">
@@ -257,7 +312,7 @@
                     <h4 class="ui inverted header m-opacity-min">最新动态</h4>
                     <div id="newblog-container">
                         <div class="ui inverted link list" th:fragment="newblogList">
-                            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${newblogs}" th:text="${blog.title}">我在等你2019年</a>
+                            <a href="#"  target="_blank" class="item">我在等你2019年</a>
                             <!--/*-->
                             <a href="#" class="item">idea的操作笔记</a>
                             <a href="#" class="item">SpringBoot学习计划</a>
