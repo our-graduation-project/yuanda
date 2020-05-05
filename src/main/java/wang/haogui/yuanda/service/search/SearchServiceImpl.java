@@ -133,7 +133,6 @@ public class SearchServiceImpl{
             responseBody = EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
             System.out.println("没有找到文章-----------------------------------------");
-//            e.printStackTrace();
             System.out.println("-----------------------------------------");
             LogUtils.getBussinessLogger().error("没有找到id为：{} 的文章" + articleId);
             return null;
@@ -292,7 +291,6 @@ public class SearchServiceImpl{
         Request request = new Request("POST", new StringBuilder("/" + INDEX_NAME + "/" + INDEX_TYPE + "/")
                 .append("_search").toString());
         String queryBody = "{\"query\":{\"match\":" + "{\"articleTitle\":\"" + title +"\"}" + "}}";
-//        System.out.println(queryBody);
         request.addParameter("pretty", "true");
         request.setEntity(new NStringEntity(queryBody.toString(),ContentType.APPLICATION_JSON));
         String responseContent = "";
@@ -306,7 +304,6 @@ public class SearchServiceImpl{
         if(responseContent == ""){
             return null;
         }
-//        System.out.println(responseContent);
         JSONObject jsonObject = JSONObject.parseObject(responseContent);
         JSONObject hitsJson = JSONObject.parseObject(jsonObject.get("hits").toString());
         JSONArray hits1 = hitsJson.getJSONArray("hits");

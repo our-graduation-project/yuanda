@@ -96,7 +96,7 @@ function powerManager(power) {
 
 
 /**
- * 检查用户是否拥有power权限
+ * 检查用户id
  * @param power
  */
 function getUserId() {

@@ -46,7 +46,7 @@ public class AnswerController {
      * @param map 传入的信息
      * @return 返回的信息
      */
-    @RequestMapping("/admin/pageSelectAnswersByQuestionId")
+    @RequestMapping(value = {"/admin/pageSelectAnswersByQuestionId","/pageSelectAnswersByQuestionId"})
     @ResponseBody
     public APIResult pageSelectAnswersByQuestionId(@RequestBody Map map){
         return selectAnswersByQuestionId(map);
@@ -93,7 +93,7 @@ public class AnswerController {
      * @param map 传入的id信息
      * @return 查询出来的数据
      */
-    @RequestMapping("/admin/selectAnswerById")
+    @RequestMapping(value = {"/admin/selectAnswerById","/selectAnswerById"})
     @ResponseBody
     public APIResult selectAnswerById(@RequestBody Map map){
         if(map.get("answerId") == null){
@@ -101,7 +101,6 @@ public class AnswerController {
         }
         int answerId = Integer.valueOf((String) map.get("answerId"));
         Answer answer = answerService.selectAnswerById(answerId);
-        System.out.println("查询出来的数据："+answer);
         if(answer == null){
             return APIResult.genFailApiResponse500("查询数据为空");
         }else {
@@ -125,10 +124,8 @@ public class AnswerController {
         String orderName = (String) map.get("orderName");
 
         OrderEnum orderEnum =CommonUtils.isOrderEnum(order);
-        System.out.println(questionId);
         PageInfo<Answer> answerPageInfo = answerService.selectAnswerByQuestionId(questionId, page, limit, orderName, orderEnum);
         if(answerPageInfo!=null ){
-            System.out.println(answerPageInfo.getList().size());
             return APIResult.genSuccessApiResponse("查询成功",answerPageInfo);
         }
         return APIResult.genSuccessApiResponse("查询失败");
@@ -144,7 +141,6 @@ public class AnswerController {
     @RequestMapping("/admin/updateAnswerCheckStatus")
     @ResponseBody
     public APIResult updateAnswerCheckStatus(@RequestBody Map map){
-        System.out.println("开始updateAnswerCheckStatus");
         List<Integer> answerids = (List<Integer>) map.get("answerIds");
 
         if(answerids == null|| answerids.size() == 0||map.get("state")==null|| map.get("state") == null){
@@ -172,7 +168,7 @@ public class AnswerController {
      * @param map 回答的具体内容
      * @return 保存之后的信息
      */
-    @RequestMapping("/admin/saveAnswer")
+    @RequestMapping(value = {"/admin/saveAnswer","/saveAnswer"})
     @ResponseBody
     public APIResult saveAnswer(@RequestBody Map map, HttpServletRequest request){
         if(map == null||map.get("content") == null||map.get("isNoName") == null){
@@ -187,7 +183,6 @@ public class AnswerController {
 
 
         boolean b = answerService.addAnswer(answer);
-        System.out.println(b);
         if(b){
             return APIResult.genSuccessApiResponse("保存成功");
         }

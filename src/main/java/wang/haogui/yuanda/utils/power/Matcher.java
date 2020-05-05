@@ -1,6 +1,7 @@
 package wang.haogui.yuanda.utils.power;
 
 /**
+ * 权限类，应有的权限或者路劲
  * @author whg
  * @date 2019/12/2 22:45
  **/
@@ -13,16 +14,24 @@ public class Matcher {
         this.hasRight = hasRight;
     }
 
-    // 拦截 条件 有 任意 一个 角色 放行
+    /**
+     * 拦截 条件 有 任意 一个 角色 放行
+     */
     private String[] hasAnyRole;
 
-    // 有任意 一个 权限 放行
+    /**
+     * 有任意 一个 权限 放行
+     */
     private String[] hasAnyRight;
 
-    // 有 所有 的 角色 放行
+    /**
+     *  有 所有 的 角色 放行
+     */
     private String[] hasRole;
 
-    // 有 所有 的 权限 放行
+    /**
+     *  有 所有 的 权限 放行
+     */
     private String[] hasRight;
 
     public String[] getHasAnyRole() {

@@ -37,7 +37,7 @@ public class DataController {
     }
 
     /***
-     * 把reids数据转移到es和mysql
+     * 把redis数据转移到es和mysql
      * @return
      */
     @RequestMapping("/jsoup/moveData")

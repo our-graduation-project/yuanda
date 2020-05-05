@@ -17,9 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class UsersController {
@@ -56,7 +54,7 @@ public class UsersController {
             map1.put("userId", login.getUserId());
             map1.put("userName", login.getUserName());
             map1.put("userPicture", login.getUserPicture());
-            map1.put("right", "users");
+            map1.put("right", Collections.emptyList());
             String s = TokenUtil.becomeToken(map1);
             Cookie token = new Cookie("token", s);
             token.setPath(request.getContextPath() + "/");

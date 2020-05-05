@@ -53,7 +53,7 @@ public class JMailUtils {
      */
     public void setSmtpHost(String hostName) {
         if (properties==null){
-            properties=System.getProperties();//获得系统属性对象
+            properties = System.getProperties();//获得系统属性对象
         }
         properties.put("mail.smtp.host",hostName);//设置smtp主机
     }

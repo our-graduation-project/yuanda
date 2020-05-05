@@ -109,7 +109,6 @@ public class MoveDataToDB {
                     }
                 }
                 toEs.add(articleList.get(i).getArticleId());
-    //            System.out.println("jsonObject = " + jsonObject.toJSONString());
                 i++;
             }catch (Exception e){
 

@@ -19,7 +19,7 @@ function selectAnswerById(answerId) {
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
         //请求地址
-        url : "/yuanda/admin/selectAnswerById",
+        url : "/yuanda/selectAnswerById",
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {

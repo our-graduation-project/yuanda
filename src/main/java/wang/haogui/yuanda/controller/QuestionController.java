@@ -108,7 +108,7 @@ public class QuestionController {
      * @param map 传入的数据
      * @return 查询出来的数据
      */
-    @RequestMapping("/admin/pageSelectQuestions")
+    @RequestMapping(value = {"/admin/pageSelectQuestions","/pageSelectQuestions"})
     @ResponseBody
     private APIResult pageSelectQuestions(@RequestBody Map map){
         int page =(int)map.get("page");
@@ -128,7 +128,7 @@ public class QuestionController {
      * @param map 传入的数据
      * @return 返回的查询数据
      */
-    @RequestMapping("/admin/pageSelectQuestionsByType")
+    @RequestMapping(value = {"/admin/pageSelectQuestionsByType","/pageSelectQuestionsByType"})
     @ResponseBody
     public APIResult pageSelectQuestionsByType(@RequestBody Map map){
         int page =(int)map.get("page");
@@ -151,7 +151,7 @@ public class QuestionController {
      * @param map
      * @return 查询出来的问题数据
      */
-    @RequestMapping("/admin/questionById")
+    @RequestMapping(value = {"/admin/questionById","/questionById"})
     @ResponseBody
     public APIResult questionById(@RequestBody Map map){
         int questionId = Integer.valueOf((String) map.get("questionId"));

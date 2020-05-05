@@ -21,6 +21,7 @@ import wang.haogui.yuanda.utils.TokenUtil;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,17 +38,13 @@ public class AdminController {
 
     /**
      * 管理员登录
-     * @param page
-     * @param limit
      * @param map
      * @param response
      * @return
      */
     @RequestMapping("admin/loginAdmin")
     @ResponseBody
-    public APIResult loginAdmin(@RequestParam(value = "page",defaultValue = "0") int page
-                               , @RequestParam(value = "limit",defaultValue = "3") int limit,
-                               @RequestBody Map map, HttpServletResponse response){
+    public APIResult loginAdmin(@RequestBody Map map, HttpServletResponse response){
         System.out.println("管理员登录");
         Logger logger = LogUtils.getBussinessLogger();
         Admin admin=new Admin();
@@ -56,10 +53,12 @@ public class AdminController {
         System.out.println(map.get("email").toString()+"-------"+MD5Utils.StringInMd5(map.get("adminPassword").toString()));
         Admin login = adminService.loginAdmin(admin);
         if (login!=null){
-            Map map1=new HashMap();
+            Map<String,Object> map1=new HashMap();
             map1.put("adminId",login.getAdminId());
             map1.put("adminName",login.getAdminName());
-            map1.put("right","admin");
+            List list = new ArrayList<Byte>();
+            list.add(login.getRight());
+            map1.put("right", list);
             String s = TokenUtil.becomeToken(map1);
             Cookie token=new Cookie("token",s);
             response.addCookie(token);
@@ -67,11 +66,7 @@ public class AdminController {
             LogUtils.getControllerLogger().info("getControllerLogger===管理员登录成功");
             return new APIResult(true);
         }else {
-            LogUtils.getControllerLogger().info("getControllerLogger===用户登录失败");
-            PageInfo<Admin> email = adminService.searchAdminByEmail(page, limit, admin.getEmail());
-            if (email==null){
-                return new APIResult("邮箱不存在！",false,200);
-            }
+            LogUtils.getControllerLogger().info("getControllerLogger===管理员失败");
             return new APIResult(false);
         }
     }
@@ -179,6 +174,7 @@ public class AdminController {
      * @return
      */
     @RequestMapping("admin/changeIsDeleted")
+    @ResponseBody
     public APIResult changeIsDeleted(@RequestBody Map<String,Object> map){
         List list = (List) map.get("list");
         Boolean status = Boolean.parseBoolean(map.get("status").toString());

@@ -23,20 +23,20 @@ function selectHot(page,limit,order,label){
     console.log(hot.status.status+"label:"+label);
     if(hot.status.status ==1){
         if(label == null||label == ""){
-            var url = "admin/pageArticleList";
+            var url = "pageArticleList";
             var data = {"page":page,"limit":limit,"orderName":"hot_number","order":order};
         }else {
             hot.addLabel(label);
-            var url = "admin/selectArticleByLabelId";
+            var url = "selectArticleByLabelId";
             var data = {"page":page,"limit":limit,"orderName":"hot_number","order":order,"label":label};
         }
     }else {
         if(label == null||label == ""){
-            var url = "admin/pageSelectQuestions";
+            var url = "pageSelectQuestions";
             var data = {"page":page,"limit":limit,"orderName":"hot","order":order};
         }else {
             hot.addLabel(label);
-            var url = "admin/pageSelectQuestionsByType";
+            var url = "pageSelectQuestionsByType";
             var data = {"page":page,"limit":limit,"orderName":"hot","order":order,"label":label};
         }
     }

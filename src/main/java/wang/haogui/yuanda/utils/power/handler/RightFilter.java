@@ -1,5 +1,6 @@
 package wang.haogui.yuanda.utils.power.handler;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import wang.haogui.yuanda.utils.TokenUtil;
 import wang.haogui.yuanda.utils.power.*;
@@ -8,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.List;
@@ -25,18 +27,22 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  *  @ForwardPathToLogin 里面填写如果未登录应该跳转的路径或方法
  **/
-//@AntMatcher(path = "/restUsers.do",hasAnyRight = {"root1","lll"})
-@AntMatcher(path = "/admin/**",hasAnyRight = "root")
-@AntMatcher(path = "/person/**",hasAnyRight = "user")
+@AntMatcher(path = "/admin/*",hasAnyRight = "1")
+@AntMatcher(path = "/person/*",hasAnyRight = "0")
 @ForwardPathToUserLogin(path = "/person/login.html")
 @ForwardPathToAdminLogin(path = "/admin/login.html")
 public class RightFilter implements Filter {
 
+    /**
+     * string 为匹配的路径，Matcher 为匹配的基本规则
+     */
     Map<String, Matcher> rightMap = new HashMap<>();
 
     AtomicReference<AntPathMatcher> antPathMatcher = new AtomicReference<>();
 
-    //跳转路径
+    /**
+     * 跳转路径
+     */
     String pathToUserLogin = null;
 
     String pathToAdminLogin = null;
@@ -63,59 +69,90 @@ public class RightFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println("进行过滤");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        //yuanda
         String contextPath = request.getContextPath();
+        // 请求的完整路径 例如/yuanda/admin/login.html
         String requestURI = request.getRequestURI();
+        // 请求路径 例如/admin/login.html
         String uri = requestURI.substring(contextPath.length());
-        System.out.println("contextPath = " + contextPath  + ",requestURI = " + requestURI + ", uri=" + uri);
         Cookie token = null;
         Matcher matcher = null;
-        Boolean isFalg = false;//表示为要验证权限的路径
+
+        //登录页面直接放行
+        if(isLoginHtml(uri)){
+            System.out.println("登录页面直接放行");
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        //表示为要验证权限的路径
+        Boolean isFalg = false;
         //查看是不是要拦截的路径
         for (Map.Entry<String, Matcher> entry:
                     rightMap.entrySet()) {
-            System.out.println(uri + "--匹配--" + entry.getKey());
-            if (getAnt().match(entry.getKey(), uri)) {//路径匹配
+//            System.out.println(uri + "--匹配--" + entry.getKey());
+
+            //路径匹配
+            if (getAnt().match(entry.getKey(), uri)) {
                 isFalg = true;
-                System.out.println("路径匹配成功");
-                token = getTokenInCookie(request);//获得token
-                matcher = entry.getValue();//获得进入次方法的所需权力类
+//                System.out.println("路径匹配成功");
+                //获得token
+                token = getTokenInCookie(request);
+                //获得进入次方法的所需权力类
+                matcher = entry.getValue();
+                break;
             }
         }
 
-        if(!isFalg){//不属于拦截路径
+        //不属于拦截路径
+        if(!isFalg){
             //放行
             filterChain.doFilter(request,response);
             return;
         }
 
-        if(token == null) {//数据拦截路径但未登陆，跳转到登陆界面
+        //数据拦截路径但未登陆，跳转到登陆界面
+        if(token == null) {
             //记录他想要跳转的界面方便登陆后直接进入他想进入的页面
             request.setAttribute("lastPage", request.getRequestURL());
             //跳到后台登陆的界面
-            //重定向，可自行更改页面，这里跳转的是方法,因为thyplate不能直接访问
-            request.getRequestDispatcher(pathToUserLogin).forward(request, response);
-            //转发
-            //response.sendRedirect("login");
+            //如果路径访问时admin则跳入后台登录界面，否则跳入前端登录界面
+            if(uri.contains("admin")){
+                response.sendRedirect("/yuanda"+pathToAdminLogin);
+            }else{
+                response.sendRedirect("/yuanda"+pathToUserLogin);
+            }
             return;
         }
 
-        if (hasThisPower(matcher, token.getValue())) {//拥有此权力进行跳转
-            System.out.println("有权利");
+        //拥有此权力进行跳转
+        if (hasThisPower(matcher, token.getValue())) {
             filterChain.doFilter(request, response);
-//            return;
+            return;
         } else{//没有此权力，该怎么处理自己想
-
-
+            System.out.println(" 没有访问权限 ");
+            PrintWriter writer = response.getWriter();
+            writer.print("<h1>sorry, you cannot come in here, you did not have power</h1>");
+            writer.print("<h2>After three seconds, redirect to login</h2>");
+            response.setHeader("refresh","3;/yuanda"+pathToAdminLogin);
             return;
         }
 
 
+    }
 
-
-
+    /**
+     * 是否为登录界面,或者登录路径
+     * @param uri
+     * @return
+     */
+    private Boolean isLoginHtml(String uri){
+        if(uri.contains(pathToUserLogin)||uri.contains(pathToAdminLogin)||uri.contains("admin/loginAdmin")){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -148,25 +185,44 @@ public class RightFilter implements Filter {
      */
     private Boolean hasThisPower(Matcher matcher, String token) {
         String[] hasAnyRight = matcher.getHasAnyRight();
+        List userRight = (List) TokenUtil.getTokenValue(token, "right");
 
-        List right1 = (List) TokenUtil.getTokenValue(token, "right");
-        if(hasAnyRight != null){//只要有一个权限就能访问
+        //只要有一个权限就能访问
+        if(hasAnyRight != null){
             for (String right :
                     hasAnyRight) {
-                if(right1.contains(right)){
+
+                if(userHaveRight(userRight,right)){
                     return true;
                 }
             }
         }
-        String[] hasRight = matcher.getHasRight();//拥有所有权限才能通过
+        //拥有所有权限才能通过
+        String[] hasRight = matcher.getHasRight();
         if(hasAnyRight != null){
             for (String right :
                     hasRight) {
-                if(!right1.contains(right)){
+                if(!userRight.contains(right)){
                     return false;
                 }
             }
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * 用户是否拥有某个权限
+     * @param userRight 用户权限列表
+     * @param right 用户权限
+     * @return
+     */
+    private Boolean userHaveRight(List userRight, String right){
+        for (Object o: userRight
+        ) {
+            if (right.equals(o+"")) {
+                return true;
+            }
         }
         return false;
     }

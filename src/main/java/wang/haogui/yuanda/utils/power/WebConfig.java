@@ -15,21 +15,17 @@ import java.util.List;
 @Configuration
 public class WebConfig {
 
-//    @Bean
-    FilterRegistrationBean rightFilter() {
+    @Bean
+    public FilterRegistrationBean rightFilter() {
         FilterRegistrationBean filterReg = new FilterRegistrationBean(new RightFilter());
-        //优先级
-        filterReg.setOrder(70);
-//        filterReg.setDispatcherTypes(DispatcherType.REQUEST);
+
         //匹配路径
-//        List<String> urlPatterns = new ArrayList<>();
-//        urlPatterns.add("/person/**");
-//        urlPatterns.add("/admins/**");
-//        filterReg.addUrlPatterns("/admin/*","/person/*");
+        List<String> urlPatterns = new ArrayList<>();
+        urlPatterns.add("/admin/*");
         //哪一个不拦截
-//        filterReg.addInitParameter("exclusions","*.html");
-//        filterReg.addInitParameter("exclusions","/admin/*,/person/*");
-//        filterReg.setUrlPatterns(urlPatterns);
+        filterReg.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/reg,*.html,admin/login.html,/admin/loginAdmin");
+        filterReg.setUrlPatterns(urlPatterns);
+
         System.out.println("权力过滤器====初始化");
         return filterReg;
     }

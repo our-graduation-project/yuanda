@@ -50,7 +50,6 @@ public class TokenUtil {
 
     public static Object getTokenValue(String token, String key){
         String[] split = token.split("\\.");
-//        System.out.println("length:" + split.length);
         if(split.length != 3){
             return false;
         }
@@ -101,9 +100,7 @@ public class TokenUtil {
         if(token == null || token.equals("")){
             return false;
         }
-        //System.out.println("qq.bb".split("\\.").length);
         String[] split = token.split("\\.");
-//        System.out.println("length:" + split.length);
         if(split.length != 3){
             return false;
         }

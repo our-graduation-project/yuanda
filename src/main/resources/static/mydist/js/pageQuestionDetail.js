@@ -38,7 +38,7 @@ function saveAnswer(isNoName) {
           console.log("token" + getCookie("token"));
         },
         //请求地址
-        url : "/yuanda/admin/saveAnswer",
+        url : "/yuanda/saveAnswer",
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {
@@ -89,7 +89,7 @@ function selectQuestionDetail(questionId) {
             //请求的媒体类型
             contentType: "application/json;charset=UTF-8",
             //请求地址
-            url : "/yuanda/admin/questionById",
+            url : "/yuanda/questionById",
             //数据，json字符串
             data : JSON.stringify(data),
             success: function (result) {
@@ -135,7 +135,7 @@ function answers(questionId,page,limit,order,orderName){
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
         //请求地址
-        url : "/yuanda/admin/pageSelectAnswersByQuestionId",
+        url : "/yuanda/pageSelectAnswersByQuestionId",
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {

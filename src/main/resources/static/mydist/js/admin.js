@@ -391,12 +391,12 @@ function addAdmin() {
  * @returns {boolean}
  */
 function loginAdmin(){
-    var email = $('#email').val();
-    var adminPassword = $('#adminPassword').val();
+    let email = $('#email').val();
+    let adminPassword = $('#adminPassword').val();
 
     console.log(email + "----" + adminPassword);
 
-    var data = {"email": email,"adminPassword":adminPassword};
+    let data = {"email": email,"adminPassword":adminPassword};
 
     $.ajax({
         //请求方式

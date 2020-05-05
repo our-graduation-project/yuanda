@@ -185,18 +185,12 @@ public class CSDNGetData {
         for (int i = 0; i < select.size(); i++) {
             Elements select1 = select.get(i).select(" div > div.title > h2 > a");
             String href = select1.attr("href");
-//            System.out.println("href:" + href + "    -----  title  " + select1.text());
-//            if(!addListSet.contains(href)){
-//                notAddListSet.add(href);
-//                System.out.println("成功将href:" + href + "    -----  title 加入notAddListSet队列 ");
-//            }
-            if(!redisSetService.isMember(RedisKeyUtil.getHaveAddRedisArticleKey(),href)){//判断文章的href是否被爬取过
+            //判断文章的href是否被爬取过
+            if(!redisSetService.isMember(RedisKeyUtil.getHaveAddRedisArticleKey(),href)){
                 redisSetService.add(RedisKeyUtil.getNotAddRedisArticleKey(),href);
                 System.out.println("成功将href:" + href + "    -----  title 加入notAddArticleSet队列 ");
             }
             System.out.println("--------------------------------------------------------------------------------");
-
-
         }
 
     }
@@ -229,7 +223,6 @@ public class CSDNGetData {
         Elements select = document.select("#content_views");
         Elements select1 = document.select("#mainBox > main > div.blog-content-box > div > div > div.article-title-box > h1");
 
-//        System.out.println(document.html());
         Elements top = document.select("#mainBox > main > div.blog-content-box > div > div > div.article-info-box > div.article-bar-top");
         Elements agreementNumber = document.select("#article_content > div.more-toolbox > div > ul > li.tool-item.tool-active.is-like > a > span.count");
         String authorName = top.select("a.follow-nickName").text();
@@ -246,7 +239,8 @@ public class CSDNGetData {
             labelToRedis.put("labelName",s[i]);
             System.out.println("加入标签库的标签为" + labelToRedis.toJSONString());
 
-            if(redisSetService.isMember(RedisKeyUtil.getHaveAddLabelKey(),labelToRedis.toJSONString())){//加入过数据库,则跳过
+            //加入过数据库,则跳过
+            if(redisSetService.isMember(RedisKeyUtil.getHaveAddLabelKey(),labelToRedis.toJSONString())){
                 continue;
             }
             //没有加入过数据库则加入到getNotAddLabelKey中
@@ -265,7 +259,6 @@ public class CSDNGetData {
             articleToRedis.put("agreementNumber",Integer.parseInt(agreementNumber.text()));
         }else{
             articleToRedis.put("agreementNumber",0);
-//            article.setAgreementNumber(0);
         }
 
         String trim = clickNumber.text().trim();
@@ -286,11 +279,7 @@ public class CSDNGetData {
             redisSetService.add(RedisKeyUtil.getArticleKey(),articleToRedis.toJSONString());
         }
 
-//        redisSetService.get(RedisKeyUtil.getArticleKey()).forEach(date->{
-//            System.out.println(date);
-//        });
 
-//        articleList.add(jsonObject);
         System.out.println("----------------article---加入list成功" );
         System.out.println(articleToRedis);
     }
@@ -353,13 +342,6 @@ public class CSDNGetData {
             thread.start();
             System.out.println("拥有生产者");
         }
-//        for (int i = 0; i < 3; i++) {
-//            try {
-//                list.get(i).join();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
 
     }
 

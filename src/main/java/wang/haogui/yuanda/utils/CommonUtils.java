@@ -53,13 +53,16 @@ public class CommonUtils {
      * @param request 传入的request
      * @return 返回用户id
      */
-    public static int getTokenId(HttpServletRequest request){
+    public static Integer getTokenId(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         Cookie cookie = null;
         for (Cookie c:cookies){
             if(c.getName().equals("token")){
                 cookie = c;
             }
+        }
+        if(cookie == null){
+            return null;
         }
         String s = cookie.getValue();
         if(s==null ||"".equals(s)){

@@ -35,7 +35,14 @@ let vmComment = new Vue({
             return formatDate(date,'yyyy-MM-dd hh:mm');
         }
     },
+    mounted:function(){
+        console.log("验证是否登录");
+        this.isLogin();
+    },
     methods:{
+        isLogin(){
+            isLogin();
+        },
         del(index){
             var str = "你确定要删除该条吗？";
             if (confirm(str)) {

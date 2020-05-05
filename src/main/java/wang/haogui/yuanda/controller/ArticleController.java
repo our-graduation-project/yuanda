@@ -42,7 +42,7 @@ public class ArticleController {
     @Autowired
     private LikeService likeService;
 
-    @RequestMapping("/admin/pageArticleList")
+    @RequestMapping(value = {"/admin/pageArticleList","/pageArticleList"})
     @ResponseBody
     public APIResult pageArticleList(@RequestBody Map map){
 
@@ -90,21 +90,23 @@ public class ArticleController {
         if(map.get("articleId") == null){
             return APIResult.genFailApiResponse400("参数有问题");
         }
-
         Article article = articleService.selectArticleId(Integer.parseInt(map.get("articleId").toString()));
         List list = new ArrayList();
         list.add(article);
         likeService.getLikeAndDisLikeNumber(1,list);
         int likeStatus = 0;
         if(map.get("userId") != null && !map.get("userId").toString().equals("")){
-//            System.out.println("id" + map.get("userId"));
             likeStatus = likeService.getLikeStatus(Integer.parseInt(map.get("userId").toString()), 1, Integer.parseInt(map.get("articleId").toString()));
-//            System.out.println("likeStatus = " + likeStatus);
         }
         list.add(likeStatus);
         return APIResult.genSuccessApiResponse(list);
     }
 
+    /**
+     * 添加新文章
+     * @param article
+     * @return
+     */
     @RequestMapping("/articles/save")
     public APIResult articleSave(@RequestBody Article article){
         if(article != null){
@@ -121,18 +123,25 @@ public class ArticleController {
         return new APIResult(isSuccess,400);
     }
 
+    /**
+     * 改变审核状态
+     * 如果是审核通过则将其加入es中
+     * @param map
+     * @return
+     */
     @RequestMapping("/articles/changeStatus")
     public APIResult changeStatus(@RequestBody Map<String,Object> map){
         List list = (List) map.get("list");
-//        List<Integer> list = Arrays.asList(object);
         Integer status = Integer.parseInt(map.get("status").toString());
         System.out.println("status : " + status + " list:" + list);
         Boolean aBoolean = articleService.changeCheckStatusByList(list, status);
-
+        if(status == 1){
+            list.forEach(articleId -> searchService.index(Integer.valueOf(articleId+"")));
+        }
         return new APIResult(aBoolean);
     }
 
-    @RequestMapping("/admin/selectArticleByLabelId")
+    @RequestMapping(value = {"/admin/selectArticleByLabelId","/selectArticleByLabelId"})
     @ResponseBody
     public APIResult selectArticleByLabelId(@RequestBody Map map){
         if(map == null){
