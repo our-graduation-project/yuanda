@@ -249,7 +249,7 @@ public class CSDNGetData {
 
         articleToRedis.put("labelName",s);
         articleToRedis.put("articleTitle",select1.text());
-        articleToRedis.put("articleContent",select.html()+"<br/>此文章转自"+url);
+        articleToRedis.put("articleContent",select.html()+"<br/>此文章转"+url);
 
         articleToRedis.put("authorName",authorName);
 

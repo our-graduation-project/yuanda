@@ -224,14 +224,12 @@ public class QuestionController {
     }
 
 
-    @RequestMapping("/admin/addQuestion")
+    @RequestMapping(value={"/admin/addQuestion","/person/addQuestion"})
     @ResponseBody
     public APIResult addQuestion(@RequestBody Map map,HttpServletRequest request){
 
         int tokenId = CommonUtils.getTokenId(request);
         Users user = usersService.searchUsersByUserId(tokenId);
-
-
         Question question = new Question((String)map.get("title"),(String)map.get("questionDescript"),0,0,0,(byte)0,
                 false,user.getUserName(),0,new Date(),user.getUserId());
         question.setAuthorPicture(user.getUserPicture());

@@ -164,18 +164,18 @@ public class ArticleController {
 
     }
 
-    @RequestMapping("/admin/saveArticle")
+    @RequestMapping(value = {"/admin/saveArticle","/person/addArticle"})
     @ResponseBody
     public APIResult saveArticle(@RequestBody Map map, HttpServletRequest request){
         int tokenId = CommonUtils.getTokenId(request);
         Users user = usersService.searchUsersByUserId(tokenId);
         if(map.get("title")==null||"".equals(map.get("title"))||
-                map.get("pictureStr")==null||"".equals(map.get("pictureStr"))||
+                map.get("pictureSrc")==null||"".equals(map.get("pictureSrc"))||
                 map.get("articleDescript")==null||"".equals(map.get("articleDescript"))){
 
             return APIResult.genFailApiResponse500("传入值为空");
         }
-        Article article = new Article((String)map.get("title"),new Date(),user.getUserId(),(byte)0,1,1,1,0,0,0,(String)map.get("pictureStr"),false,user.getUserName(),user.getUserPicture(),(String)map.get("articleDescript"));
+        Article article = new Article((String)map.get("title"),new Date(),user.getUserId(),(byte)0,1,1,1,0,0,0,(String)map.get("pictureSrc"),false,user.getUserName(),user.getUserPicture(),(String)map.get("articleDescript"));
 
         boolean b = articleService.addArticle(article);
         if(b){
@@ -300,4 +300,31 @@ public class ArticleController {
         return APIResult.genFailApiResponse401("删除失败");
 
     }
+
+    /**
+     *
+     * @param map
+     * @param request
+     * @return
+     */
+    @RequestMapping("/person/updateArticle")
+    @ResponseBody
+    public APIResult updateArticleByIds(@RequestBody Map map, HttpServletRequest request){
+        int tokenId = CommonUtils.getTokenId(request);
+        Users user = usersService.searchUsersByUserId(tokenId);
+        if(map.get("title")==null||"".equals(map.get("title"))||
+                map.get("pictureSrc")==null||"".equals(map.get("pictureSrc"))||
+                map.get("articleDescript")==null||"".equals(map.get("articleDescript"))){
+            return APIResult.genFailApiResponse500("传入值为空");
+        }
+        Article article = new Article(Integer.valueOf(map.get("articleId")+""),(String)map.get("title"),(String)map.get("articleDescript"),(String)map.get("pictureSrc"),user);
+        boolean b = articleService.updateArticle(article);
+        if(b){
+            return APIResult.genSuccessApiResponse("修改文章成功");
+        }else {
+            return APIResult.genFailApiResponse500("修改文章失败");
+        }
+    }
+
+
 }

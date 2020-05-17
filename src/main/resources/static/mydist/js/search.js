@@ -161,9 +161,9 @@ let searchData = new Vue(
                 console.log("option:" + this.option);
 
                 if(this.option == 0 || this.option == "0"){
-                    url = "blog.html?articleId=" + searchData.newData[(searchData.currentPage*10+index)].articleId;
+                    url = "blog.html?articleId=" + searchData.newData[(searchData.currentPage*5+index)].articleId;
                 }else{
-                    url = "question.html?questionId=" + searchData.newData[(searchData.currentPage*10+index)].questionId;
+                    url = "question.html?questionId=" + searchData.newData[(searchData.currentPage*5+index)].questionId;
                 }
                 window.location.href=url;
             },

@@ -562,4 +562,14 @@
      set comment_number = comment_number - #{number}
      where article_id=#{articleId}
   </update>
+
+  <update id="updateArticleByIds" parameterType="wang.haogui.yuanda.model.Article">
+    update article
+    set article_title = #{articleTitle},
+        update_time = #{updateTime},
+        picture_src = #{pictureSrc},
+        article_content = #{articleContent}
+    where article_id = #{articleId}
+    and author_id = #{authorId};
+  </update>
 </mapper>

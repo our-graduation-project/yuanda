@@ -8,6 +8,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import wang.haogui.yuanda.YuandaApplication;
 import wang.haogui.yuanda.service.AdminService;
 
+import java.sql.Driver;
+import java.sql.DriverManager;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -25,5 +28,9 @@ class ArticleMapperTest {
     void decreaseCommentNumberByPrimaryKey() {
         int i = articleMapper.decreaseCommentNumberByPrimaryKey(512, 1);
         System.out.println("i = " + i);
+    }
+
+    void testJdbc(){
+
     }
 }

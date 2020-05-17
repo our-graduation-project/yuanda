@@ -88,8 +88,8 @@ $(function () {
                 alert("上传成功");
                 //$("#img").attr('src',r.date);
                 $("#firstPicture").attr("src",r.fileName);
-                $("#pictureStr").attr("value", r.fileName);
-                console.log("src:" + r.fileName);
+                $("#picturePath").attr("value", r.fileName);
+                // console.log("src:" + r.fileName);
                 // $("#img").attr("style", "width: 100px;height: 100px;display:block;");
                 return false;
             } else {
@@ -101,43 +101,43 @@ $(function () {
 });
 
 function saveArticle() {
-    var content =  CKEDITOR.instances.editor.getData();
-    var title = $("#title").val();
-    var label = $("#label").val();
-    var pictureStr ="";
-    pictureStr = $("#pictureStr").val();
-    var data = {"articleDescript":content,"title":title,"label":label,"pictureStr":pictureStr};
-    console.log(data);
+    let content =  CKEDITOR.instances.editor.getData();
+    let title = $("#title").val();
+    let label = $("#label").val();
+    let pictureSrc = $("#picturePath").val();
+    let url;
+    let data;
+    if($("#changForUpdate").text() == "修改"){
+        url = "../person/updateArticle";
+        let param = window.location.href.split("id=");
+        data = {"articleDescript":content,"title":title,"label":label,"pictureSrc":pictureSrc,"articleId":param[1]};
+    }else{
+        url = "../person/addArticle";
+        data = {"articleDescript":content,"title":title,"label":label,"pictureSrc":pictureSrc};
+    }
+
+
+    // console.log(data);
     $.ajax({
         //请求方式
         type : "POST",
         //请求的媒体类型
         contentType: "application/json;charset=UTF-8",
         //请求地址
-        url : "../admin/saveArticle",
+        url : url,
         //数据，json字符串
         data : JSON.stringify(data),
         success: function (result) {
-
             if (result.result) {
-                if(result.message=="增加文章成功"){
                     swal({
-                        title: "增加文章成功",
+                        title: result.message,
                     });
-                    window.location.href="blogs-input.html";
-                }else {
-                    swal({
-                        title: "一定是出什么问题了",
-                    });
-                }
-
-
+                    //window.location.href="blogs-input.html";
             }
             else {
                 swal({
                     title: "出错了，怎么想都不是我的错",
                 });
-
             }
         },
         error: function () {

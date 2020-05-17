@@ -74,6 +74,23 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     /**
+     * 跟新文章 只更新内容，标题，图片，标签
+     * 需要验证更新者是不是作者否则失败
+     *
+     * @param article
+     * @return
+     */
+    @Override
+    public boolean updateArticle(Article article) {
+        if(article.getArticleId() == null || article.getArticleId() < 0){
+            return false;
+        }
+        articleMapper.updateArticleByIds(article);
+        return articleMapper.updateArticleByIds(article) > 0 ? true : false;
+    }
+
+
+    /**
      * 通过用户id查询文章,
      * order为排序的字段名，若为null 则不需要排序
      * OrderEnum，为排序的枚举

@@ -20,7 +20,9 @@ import java.util.Map;
 @Component
 public class SensitiveFilter implements InitializingBean {
 
-    //构造根节点
+    /**
+     * 构造根节点
+     */
     private TrieNode rootNode = new TrieNode();
 
     /**
@@ -101,8 +103,10 @@ public class SensitiveFilter implements InitializingBean {
 
             tempNode = tempNode.getSubNode(c);
 
-            if(tempNode == null){//不是敏感词
-                if(tempPosion != 0){//如果敏感词所在位置不等于0(以前找到了敏感词但由于同时符合另一个所以没有立即替换).先把之前符合敏感词替换掉,随后将position放于tempPosition的位置
+            //不是敏感词
+            if(tempNode == null){
+                //如果敏感词所在位置不等于0(以前找到了敏感词但由于同时符合另一个所以没有立即替换).先把之前符合敏感词替换掉,随后将position放于tempPosition的位置
+                if(tempPosion != 0){
                     result.append(repleacement);
                     //跳到敏感词前面去
                     position = tempPosion+1;
@@ -116,9 +120,11 @@ public class SensitiveFilter implements InitializingBean {
                 begin = position;
                 tempNode = rootNode;
 
-            }else if (tempNode.isKeyWordEnd()){//是敏感词(但有可能存在敏感词嵌套ab，abc),且这棵树没有子节点了，或者他的子节点不包含敏感词，则立马替换否则继续往后
-
-                if(position+1 < text.length()){//如果数组没有越界的话
+            }
+            //是敏感词(但有可能存在敏感词嵌套ab，abc),且这棵树没有子节点了，或者他的子节点不包含敏感词，则立马替换否则继续往后
+            else if (tempNode.isKeyWordEnd()){
+                //如果数组没有越界的话
+                if(position+1 < text.length()){
                     //这棵树后面没有子节点了，或者子节点不是敏感词
                     if(tempNode.getSubNode(text.charAt(position+1)) == null){
                         result.append(repleacement);

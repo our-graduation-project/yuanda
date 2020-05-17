@@ -111,7 +111,7 @@
                             <th>标题</th>
                             <th>状态</th>
                             <th>更新时间</th>
-                            <th style="width:100px;">操作</th>
+                            <th style="width:200px; text-align: center">操作</th>
                         </tr>
                         <tbody>
                         <tr v-for="(article , index) in myArticle">
@@ -121,6 +121,7 @@
                             <td >{{article.createTime | formatDate}}</td>
                             <td data-label="make">
                                 <a @click="del(index)" class="ui m-margin-right tiny red button">删除</a>
+                                <a @click="detail(index)" class="ui m-margin-right tiny blue button">详情</a>
                             </td>
                         </tr>
                         </tbody>
@@ -318,6 +319,9 @@
 
                     });
                 },
+                detail(index){
+                    window.location.href = "blogs-input.html?id=" + personVue.myArticle[index].articleId;
+                }
             }
         });
         $('.menu.toggle').click(function () {

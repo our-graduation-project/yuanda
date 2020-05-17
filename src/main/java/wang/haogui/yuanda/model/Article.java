@@ -53,6 +53,14 @@ public class Article implements Serializable {
         this.articleContent = articleContent;
     }
 
+    public Article(Integer articleId, String articleTitle, String articleContent, String pictureSrc, Users user){
+        this.articleId = articleId;
+        this.articleTitle = articleTitle;
+        this.articleContent = articleContent;
+        this.pictureSrc = pictureSrc;
+        this.updateTime = new Date();
+        this.authorId = user.getUserId();
+    }
     @ApiModelProperty(value = "文章id")
     private Integer articleId;
 

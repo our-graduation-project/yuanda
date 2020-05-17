@@ -64,4 +64,12 @@ public interface ArticleMapper {
      * @return
      */
     int decreaseCommentNumberByPrimaryKey(@Param("articleId") Integer articleId,@Param("number") int number);
+
+    /**
+     * 通过用户id，文章id 更新文章信息
+     * 只能更新 时间，内容，作者，标题
+     * @param article
+     * @return
+     */
+    int updateArticleByIds(Article article);
 }
