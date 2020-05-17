@@ -410,7 +410,7 @@ function loginAdmin(){
         success: function (result) {
             if (result.result) {
                 alert("登录成功");
-                window.location.href = "http://localhost:8080/yuanda/admin/user.html";
+                window.history.go(-1);
             }
             else {
                 if (result.result!=email){

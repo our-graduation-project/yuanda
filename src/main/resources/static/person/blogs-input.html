@@ -216,7 +216,6 @@
                         contentType: "application/json;charset=UTF-8",
                         //请求地址
                         url : "http://localhost:8080/yuanda/articles/info/" + this.article.id,
-                        //数据，json字符串
                         success: function (result) {
                             this.article = result.data;
                             $("#title").attr("value",this.article.articleTitle);

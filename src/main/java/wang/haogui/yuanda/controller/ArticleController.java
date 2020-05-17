@@ -52,7 +52,7 @@ public class ArticleController {
 
 
 
-    @RequestMapping("/admin/articleList")
+    @RequestMapping(value = {"/admin/articleList","/article/articleHot"})
     @ResponseBody
     public APIResult articleList(@RequestParam Map<String,Object> map){
         if(map == null){
