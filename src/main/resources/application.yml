@@ -93,18 +93,15 @@ redis:
       authCode: 300 # 验证码超期时间
 
 # OSS相关配置信息
-#aliyun:
-#  oss:
-#    endpoint: oss-cn-beijing.aliyuncs.com    # oss对外服务的访问域名
-#    accessKeyId: LTAI4FmuB13XASQCCkPsypc1 # 访问身份验证中用到用户标识
-#    accessKeySecret: vOTVGkfVnLOx0ATiFDXEQ41HsjNw78 # 用户用于加密签名字符串和oss用来验证签名字符串的密钥
-#    bucketName: whg-yuanda    # oss的存储空间
-#    policy:
-#      expire: 300 # 签名有效期(S)
-#    maxSize: 10 # 上传文件大小(M)
-#    callback: http://28c263f897.wicp.vip/yuanda/aliyun/oss/callback # 文件上传成功后的回调地址
-#    dir:
-#      prefix: yuanda/images/ # 上传文件夹路径前缀
+aliyun:
+  oss:
+    bucketName: whg-yuanda    # oss的存储空间
+    policy:
+      expire: 300 # 签名有效期(S)
+    maxSize: 10 # 上传文件大小(M)
+    callback: http://28c263f897.wicp.vip/yuanda/aliyun/oss/callback # 文件上传成功后的回调地址
+    dir:
+      prefix: yuanda/images/ # 上传文件夹路径前缀
 
 elasticsearch:
   cluster:
